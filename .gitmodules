@@ -1,0 +1,3 @@
+[submodule "fried-egg"]
+	path = fried-egg
+	url = git@github.com:Certora/fried-egg.git

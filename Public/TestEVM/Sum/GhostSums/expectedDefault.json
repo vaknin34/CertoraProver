@@ -1,0 +1,35 @@
+{
+	"assertMessages": {
+		"basic": "true - C.spec line 28",
+		"havocSumBasic": "(sum address a. ghostAddrToInt256[a]) !=... - C.spec line 69",
+		"havocSumNestedMapping": "(sum bytes4 b, address a. ghostNestedMap... - C.spec line 79",
+		"havocUsumBasic": "(sum address a. unsignedGhost[a]) != ini... - C.spec line 150",
+		"nestedMapping": "true - C.spec line 53",
+		"unsignedBasic": "true - C.spec line 117",
+		"unsignedNestedMapping": "true - C.spec line 142",
+		"updateViaHook": "true - C.spec line 63"
+	},
+	"rules": {
+		"basic": "SUCCESS",
+		"envfreeFuncsStaticCheck": {
+			"FAIL": [],
+			"SANITY_FAIL": [],
+			"SUCCESS": [
+				"ghostUpdater(address,int256)",
+				"ghostUpdaterReverts(address,int256)"
+			],
+			"TIMEOUT": [],
+			"UNKNOWN": []
+		},
+		"havocSumBasic": "SUCCESS",
+		"havocSumNestedMapping": "SUCCESS",
+		"havocUsumBasic": "SUCCESS",
+		"nestedMapping": "SUCCESS",
+		"restoreStateAfterRevert": "SUCCESS",
+		"sumInQuant": "SUCCESS",
+		"unsignedBasic": "SUCCESS",
+		"unsignedNestedMapping": "SUCCESS",
+		"updateViaHook": "SUCCESS",
+		"usumInQuant": "SUCCESS"
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"assertMessages": {
+		"revertInCVLSummaryInHook": "Multiple assertions violated. there should be a reverting path - hook.spec line 83 there should be a non-reverting path - hook.spec line 84",
+		"revertInHook": "Multiple assertions violated. there should be a reverting path - hook.spec line 35 there should be a non-reverting path - hook.spec line 36"
+	},
+	"rules": {
+		"envfreeFuncsStaticCheck": {
+			"FAIL": [],
+			"SANITY_FAIL": [],
+			"SUCCESS": [
+				"callCanRevertInTryCatch(bool)",
+				"callSummarized(bool)",
+				"canRevert(bool)",
+				"cannotRevert(bool)"
+			],
+			"TIMEOUT": [],
+			"UNKNOWN": []
+		},
+		"revertInCVLSummaryInHook": "SUCCESS",
+		"revertInHook": "SUCCESS",
+		"revertInHookInTryCatch": "SUCCESS",
+		"revertInHookWithRevert": "SUCCESS"
+	}
+}

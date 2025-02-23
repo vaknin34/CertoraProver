@@ -1,0 +1,931 @@
+<?xml version="1.0" encoding="UTF-8"?><SmellBaseline>
+    <CurrentIssues>
+        <ID>BracesOnIfStatements:AccumulatingTACExprTransformer.kt$QuantDefaultTACExprTransformer$else</ID>
+        <ID>BracesOnIfStatements:AccumulatingTACExprTransformer.kt$QuantDefaultTACExprTransformer$if</ID>
+        <ID>BracesOnIfStatements:AxiomatizedFunctionSymbol.kt$AxiomatizedFunctionSymbol$if</ID>
+        <ID>BracesOnIfStatements:BitwiseAxiomGenerator.kt$BitwiseAxiomGenerator$else</ID>
+        <ID>BracesOnIfStatements:BitwiseAxiomGenerator.kt$BitwiseAxiomGenerator$if</ID>
+        <ID>BracesOnIfStatements:CVLCompiler.kt$CVLCompiler$else</ID>
+        <ID>BracesOnIfStatements:CVLCompiler.kt$CVLCompiler$if</ID>
+        <ID>BracesOnIfStatements:CVLExpToTACExpr.kt$CVLExpToTACExpr$if</ID>
+        <ID>BracesOnIfStatements:CVLExpressionCompiler.kt$CVLExpressionCompiler$else</ID>
+        <ID>BracesOnIfStatements:CVLExpressionCompiler.kt$CVLExpressionCompiler$if</ID>
+        <ID>BracesOnIfStatements:CacheManager.kt$CacheManager$if</ID>
+        <ID>BracesOnIfStatements:CachingContractLoader.kt$else</ID>
+        <ID>BracesOnIfStatements:CachingContractLoader.kt$if</ID>
+        <ID>BracesOnIfStatements:CalledContractResolver.kt$CalledContractResolver.Worker$if</ID>
+        <ID>BracesOnIfStatements:CanonicalSum.kt$CanonicalSum$if</ID>
+        <ID>BracesOnIfStatements:CodeAsHTML.kt$DumpGraphHTML$else</ID>
+        <ID>BracesOnIfStatements:CodeAsHTML.kt$DumpGraphHTML$if</ID>
+        <ID>BracesOnIfStatements:CodeMap.kt$CodeMap$else</ID>
+        <ID>BracesOnIfStatements:CodeMap.kt$CodeMap$if</ID>
+        <ID>BracesOnIfStatements:CollectDefinitionsTACExpr.kt$CollectDefinitionsTACExpr$if</ID>
+        <ID>BracesOnIfStatements:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$else</ID>
+        <ID>BracesOnIfStatements:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$if</ID>
+        <ID>BracesOnIfStatements:ComputeTACSummaryTransFormula.kt$ComputeTACSummaryTransFormula$else</ID>
+        <ID>BracesOnIfStatements:ComputeTACSummaryTransFormula.kt$ComputeTACSummaryTransFormula$if</ID>
+        <ID>BracesOnIfStatements:ConsoleReporter.kt$ConsoleReporter$else</ID>
+        <ID>BracesOnIfStatements:ConstantComputer.kt$BasicConstantComputer$else</ID>
+        <ID>BracesOnIfStatements:ConstantComputer.kt$BasicConstantComputer$if</ID>
+        <ID>BracesOnIfStatements:ContractCreation.kt$ContractCreation$else</ID>
+        <ID>BracesOnIfStatements:CounterExampleDiversifier.kt$CounterExampleDiversifier$if</ID>
+        <ID>BracesOnIfStatements:DecoderAnalysis.kt$DecoderAnalysis.State$else</ID>
+        <ID>BracesOnIfStatements:EncoderAnalysis.kt$EncoderAnalysis$else</ID>
+        <ID>BracesOnIfStatements:EncoderAnalysis.kt$EncoderAnalysis.&lt;no name provided&gt;$if</ID>
+        <ID>BracesOnIfStatements:EntryPoint.kt$else</ID>
+        <ID>BracesOnIfStatements:EntryPoint.kt$if</ID>
+        <ID>BracesOnIfStatements:EventSerializationUtil.kt$EventSerializationUtil$else</ID>
+        <ID>BracesOnIfStatements:EventSerializationUtil.kt$EventSerializationUtil$if</ID>
+        <ID>BracesOnIfStatements:ExecutableGenerator.kt$BVExecutableGenerator$if</ID>
+        <ID>BracesOnIfStatements:ExecutableGenerator.kt$LIAExecutableGenerator$if</ID>
+        <ID>BracesOnIfStatements:ExecutableGenerator.kt$NIAExecutableGenerator$if</ID>
+        <ID>BracesOnIfStatements:GraphToRegex.kt$GraphToRegex$else</ID>
+        <ID>BracesOnIfStatements:GraphToRegex.kt$GraphToRegex$if</ID>
+        <ID>BracesOnIfStatements:GraphToRegex.kt$else</ID>
+        <ID>BracesOnIfStatements:GraphToRegex.kt$if</ID>
+        <ID>BracesOnIfStatements:HTMLReporter.kt$HTMLReporter$else</ID>
+        <ID>BracesOnIfStatements:HTMLReporter.kt$HTMLReporter$if</ID>
+        <ID>BracesOnIfStatements:IndexTracking.kt$IndexTracking$else</ID>
+        <ID>BracesOnIfStatements:IndexTracking.kt$IndexTracking$if</ID>
+        <ID>BracesOnIfStatements:IntValue.kt$IntValue$else</ID>
+        <ID>BracesOnIfStatements:IntValue.kt$IntValue$if</ID>
+        <ID>BracesOnIfStatements:InterContractCallResolver.kt$InterContractCallResolver.CallGraphNode.CallNode$else</ID>
+        <ID>BracesOnIfStatements:JSONReporter.kt$JSONReporter$else</ID>
+        <ID>BracesOnIfStatements:JSONReporter.kt$JSONReporter$if</ID>
+        <ID>BracesOnIfStatements:LExpVCStatsLogger.kt$LExpVCStatsLogger$else</ID>
+        <ID>BracesOnIfStatements:LExpVCStatsLogger.kt$LExpVCStatsLogger$if</ID>
+        <ID>BracesOnIfStatements:LExpVcChecker.kt$LExpVcChecker$else</ID>
+        <ID>BracesOnIfStatements:LExpVcChecker.kt$LExpVcChecker$if</ID>
+        <ID>BracesOnIfStatements:LExpVcChecker.kt$LExpVcChecker.Companion$if</ID>
+        <ID>BracesOnIfStatements:LinearEquality.kt$LinearEquality$else</ID>
+        <ID>BracesOnIfStatements:LinearEquality.kt$LinearEquality$if</ID>
+        <ID>BracesOnIfStatements:LogicExpression.kt$CollectDefinitionsLExp$if</ID>
+        <ID>BracesOnIfStatements:LoopSummarization.kt$LoopSummarization$else</ID>
+        <ID>BracesOnIfStatements:MUSMapSolver.kt$MUSMapSolver$else</ID>
+        <ID>BracesOnIfStatements:MUSMapSolver.kt$MUSMapSolver$if</ID>
+        <ID>BracesOnIfStatements:NumericAnalysis.kt$NumericAnalysis$if</ID>
+        <ID>BracesOnIfStatements:NumericAnalysis.kt$NumericAnalysis.&lt;no name provided&gt;$else</ID>
+        <ID>BracesOnIfStatements:ReachabilityFailureSourceFinder.kt$ReachabilityFailureSourceFinder.LeafReachabilityChecker$else</ID>
+        <ID>BracesOnIfStatements:ReachabilityFailureSourceFinder.kt$ReachabilityFailureSourceFinder.LeafReachabilityChecker$if</ID>
+        <ID>BracesOnIfStatements:RedundantStorageReadOptimizer.kt$RedundantStorageReadOptimizer$if</ID>
+        <ID>BracesOnIfStatements:RegexToNFA.kt$RegexToNFA$else</ID>
+        <ID>BracesOnIfStatements:RegexToNFA.kt$RegexToNFA$if</ID>
+        <ID>BracesOnIfStatements:RuleCheckResult.kt$RuleCheckResult.Multi$else</ID>
+        <ID>BracesOnIfStatements:RustBlaster.kt$RustBlasterPool.RustWorker$else</ID>
+        <ID>BracesOnIfStatements:RustBlaster.kt$RustBlasterPool.RustWorker$if</ID>
+        <ID>BracesOnIfStatements:SVGTools.kt$else</ID>
+        <ID>BracesOnIfStatements:SVGTools.kt$if</ID>
+        <ID>BracesOnIfStatements:SaturateSubstitution.kt$SaturateSubstitution$else</ID>
+        <ID>BracesOnIfStatements:SaturateSubstitution.kt$SaturateSubstitution$if</ID>
+        <ID>BracesOnIfStatements:Simplifier.kt$if</ID>
+        <ID>BracesOnIfStatements:SmtTheory.kt$SmtTheoryFeature$else</ID>
+        <ID>BracesOnIfStatements:SmtTheory.kt$SmtTheoryFeature$if</ID>
+        <ID>BracesOnIfStatements:SplitDebugger.kt$SplitDebugger$else</ID>
+        <ID>BracesOnIfStatements:SplitDebugger.kt$SplitDebugger$if</ID>
+        <ID>BracesOnIfStatements:SplitFinder.kt$SplitFinder$else</ID>
+        <ID>BracesOnIfStatements:SplitFinder.kt$SplitFinder$if</ID>
+        <ID>BracesOnIfStatements:SplitRewriter.kt$SplitRewriter$if</ID>
+        <ID>BracesOnIfStatements:StaticContractSource.kt$StaticContractSource.&lt;no name provided&gt;$else</ID>
+        <ID>BracesOnIfStatements:StaticContractSource.kt$StaticContractSource.&lt;no name provided&gt;$if</ID>
+        <ID>BracesOnIfStatements:Stride.kt$Stride.SumOfTerms$if</ID>
+        <ID>BracesOnIfStatements:StridingQualifier.kt$StridingQualifier.Companion$else</ID>
+        <ID>BracesOnIfStatements:SummarizeProgram.kt$SummarizeProgram$else</ID>
+        <ID>BracesOnIfStatements:SummarizeProgram.kt$SummarizeProgram$if</ID>
+        <ID>BracesOnIfStatements:TACCmdMapper.kt$DefaultTACCmdMapper.&lt;no name provided&gt;$else</ID>
+        <ID>BracesOnIfStatements:TACCmdMapper.kt$DefaultTACCmdMapper.&lt;no name provided&gt;$if</ID>
+        <ID>BracesOnIfStatements:TACCommandGraph.kt$ExpPointer$if</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr$else</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr$if</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.BinBoolOp.LAnd$else</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.BinBoolOp.LAnd$if</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.BinBoolOp.LOr$else</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.BinBoolOp.LOr$if</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.BinExp$else</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.BinExp$if</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.QuantifiedFormula$else</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.QuantifiedFormula$if</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.Select$else</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.Select$if</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.Store$else</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.Store$if</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.TernaryExp.Ite$else</ID>
+        <ID>BracesOnIfStatements:TACExpr.kt$TACExpr.TernaryExp.Ite$if</ID>
+        <ID>BracesOnIfStatements:TACExprFactory.kt$TACExprFactBasicSimp$if</ID>
+        <ID>BracesOnIfStatements:TACExprUtils.kt$TACExprUtils$else</ID>
+        <ID>BracesOnIfStatements:TACExprUtils.kt$TACExprUtils$if</ID>
+        <ID>BracesOnIfStatements:TACPrinterUtils.kt$else</ID>
+        <ID>BracesOnIfStatements:TACPrinterUtils.kt$if</ID>
+        <ID>BracesOnIfStatements:TACSymbol.kt$TACSymbol.Const.Companion$else</ID>
+        <ID>BracesOnIfStatements:TACSymbol.kt$TACSymbol.Const.Companion$if</ID>
+        <ID>BracesOnIfStatements:TACSymbol.kt$TACSymbol.Var$if</ID>
+        <ID>BracesOnIfStatements:TACSymbolTable.kt$TACSymbolTable$if</ID>
+        <ID>BracesOnIfStatements:Ternary.kt$Ternary$else</ID>
+        <ID>BracesOnIfStatements:Ternary.kt$Ternary$if</ID>
+        <ID>BracesOnIfStatements:Ternary.kt$Ternary.Companion$else</ID>
+        <ID>BracesOnIfStatements:Ternary.kt$Ternary.Companion$if</ID>
+        <ID>BracesOnIfStatements:Ternary.kt$Ternary.NonConstant$else</ID>
+        <ID>BracesOnIfStatements:Ternary.kt$Ternary.NonConstant$if</ID>
+        <ID>BracesOnIfStatements:TernaryCalculator.kt$TernaryCalculator$else</ID>
+        <ID>BracesOnIfStatements:TernaryCalculator.kt$TernaryCalculator$if</ID>
+        <ID>BracesOnIfStatements:TransFormula.kt$LExpTransFormula$if</ID>
+        <ID>BracesOnIfStatements:TransFormula.kt$TACTransFormula$if</ID>
+        <ID>BracesOnIfStatements:TransFormula.kt$TransFormula.Companion$if</ID>
+        <ID>BracesOnIfStatements:TransFormula.kt$TransFormula.Companion.DefinitionInliningSeqCompAccumulator$else</ID>
+        <ID>BracesOnIfStatements:TransFormula.kt$TransFormula.Companion.DefinitionInliningSeqCompAccumulator$if</ID>
+        <ID>BracesOnIfStatements:TransFormula.kt$TransFormula.Substitutor$if</ID>
+        <ID>BracesOnIfStatements:TypeBoundsGenerator.kt$TypeBoundsGenerator.Companion$else</ID>
+        <ID>BracesOnIfStatements:TypeBoundsGenerator.kt$TypeBoundsGenerator.Companion$if</ID>
+        <ID>BracesOnIfStatements:UninterpretedSymbolManager.kt$UninterpretedSymbolManager$if</ID>
+        <ID>BracesOnIfStatements:UniqueSuccessorRemover.kt$UniqueSuccessorRemover$if</ID>
+        <ID>BracesOnIfStatements:WidthConstraints.kt$LoadInfo.Companion$else</ID>
+        <ID>BracesOnIfStatements:WidthConstraints.kt$LoadInfo.Companion$if</ID>
+        <ID>BracesOnIfStatements:WidthConstraints.kt$StoreInfo.Companion$else</ID>
+        <ID>BracesOnIfStatements:WidthConstraints.kt$StoreInfo.Companion$if</ID>
+        <ID>BracesOnIfStatements:Z3BlasterPool.kt$Z3BlasterPool.Z3BlasterWorker$else</ID>
+        <ID>BracesOnIfStatements:Z3BlasterPool.kt$Z3BlasterPool.Z3BlasterWorker$if</ID>
+        <ID>DataClassShouldBeImmutable:CodeMap.kt$CodeMap$var toolTipCacheId = 0</ID>
+        <ID>DataClassShouldBeImmutable:HTMLReporter.kt$HTMLReporter.Row$var cell = "td"</ID>
+        <ID>DataClassShouldBeImmutable:LinearEquality.kt$LinearEquality$private lateinit var canon : LinearEquality</ID>
+        <ID>DataClassShouldBeImmutable:ObjectPath.kt$ObjectPathGen.ArrayElem$lateinit var parentCache: T</ID>
+        <ID>DataClassShouldBeImmutable:ObjectPath.kt$ObjectPathGen.ArrayLength$lateinit var parentCache: T</ID>
+        <ID>DataClassShouldBeImmutable:ObjectPath.kt$ObjectPathGen.Field$lateinit var parentCache: T</ID>
+        <ID>DataClassShouldBeImmutable:ObjectPath.kt$ObjectPathGen.StaticArrayField$lateinit var parentCache: T</ID>
+        <ID>DataClassShouldBeImmutable:Rational.kt$Rational$private lateinit var canon : Rational</ID>
+        <ID>DataClassShouldBeImmutable:SMTCounterexampleModel.kt$SMTCounterexampleModel$var reachableBadNBIds: Set&lt;NBId&gt; = emptySet()</ID>
+        <ID>ForEachOnRange:CallConvention.kt$1 until numWords</ID>
+        <ID>ForEachOnRange:SimpleMemoryOptimizer.kt$SimpleMemoryOptimizer$0..(str.length / 32)</ID>
+        <ID>ForEachOnRange:StorageHashAxiomGeneratorLegacy.kt$StorageHashAxiomGeneratorLegacy$0 until arity</ID>
+        <ID>ForEachOnRange:StorageHashAxiomGeneratorPlainInjectivity.kt$StorageHashAxiomGeneratorPlainInjectivity$0 until arity</ID>
+        <ID>ForbiddenComment:ABICallConvention.kt$ABICallConvention$* In some cases we read from calldata, but do so intentionally reading past the end of the array to fill * an array with zeroes. Find these patterns and mark them as fine (in which case the default initialization * of calldata _should_ be sufficient) * * FIXME(jtoman): make sure that the above is actually true???</ID>
+        <ID>ForbiddenComment:AccumulatingTACExprTransformer.kt$QuantDefaultTACExprTransformer.Companion$// TODO: are we sure we don't change the type with this transformation?</ID>
+        <ID>ForbiddenComment:AllocationAnalysis.kt$AllocationAnalysis.Alloc.ConstantArrayAlloc$// TODO(jtoman): refactor constarrayalloc and dynamic block into a common (sealed) class</ID>
+        <ID>ForbiddenComment:ArrayLoopSummarization.kt$ArrayLoopSummarization$/* zero is handld with a special loop role for annoying reasons fixme(jtoman): it probably shouldn't be */</ID>
+        <ID>ForbiddenComment:AxiomatizedFunctionSymbol.kt$AxiomatizedFunctionSymbol$* Function symbols that we introduce (and have to declare in the smt script) and provide with a meaning through axioms. * * Note that [ArraySelectFunctionSymbol.OneDim] fits the description of an [AxiomatizedFunctionSymbol] but we manage them separately. * * TODO: there are remainders of the multi-override pattern here; [AxiomatizedFunctionSymbol] should not override [name] * and [signature], but instead there should be a subclass grouping its direct descendants that then overrides those * fields.</ID>
+        <ID>ForbiddenComment:AxiomatizedFunctionSymbol.kt$AxiomatizedFunctionSymbol.SKeyDt.SKeySelector$// TODO not really userdefined, this one ..</ID>
+        <ID>ForbiddenComment:BMC.kt$BMCRunner$// TODO: Can this really happen? If so - add a test please</ID>
+        <ID>ForbiddenComment:BasicMathAxiomsDefs.kt$BasicMathAxiomsDefs$// TODO: add basic multiplication table?</ID>
+        <ID>ForbiddenComment:BasicMathAxiomsDefs.kt$BasicMathAxiomsDefs$// TODO: associativity</ID>
+        <ID>ForbiddenComment:BasicMathAxiomsDefs.kt$BasicMathAxiomsDefs$// TODO: should we add: a*2 = a+a?</ID>
+        <ID>ForbiddenComment:BitwiseAxiomsDefs.kt$BitwiseAxiomsDefs$//TODO: Xor</ID>
+        <ID>ForbiddenComment:BlockMerger.kt$BlockMerger$// don't add current if it has more predecessors, or if it's a new callee id (readability? TODO)</ID>
+        <ID>ForbiddenComment:CEGARCoordinator.kt$CEGARCoordinator$// TODO: collect the complete statistics from ress.mapNotNull { it.res.resultStats }</ID>
+        <ID>ForbiddenComment:CEGARCoordinator.kt$CEGARCoordinator$// TODO: for all cases</ID>
+        <ID>ForbiddenComment:CEGARCoordinator.kt$CEGARCoordinator$// Todo: pass stats as part of `e`?</ID>
+        <ID>ForbiddenComment:CEGARWorker.kt$CEGARWorker.LIAWorker$// TODO: Can the learned clauses be used?</ID>
+        <ID>ForbiddenComment:CEGARWorker.kt$CEGARWorker.NIAWorker$// TODO: Problem is already solved, right?</ID>
+        <ID>ForbiddenComment:CVLCompiler.kt$CVLCompiler$// TODO(jtoman): function literals perhaps? this is fine for now probably</ID>
+        <ID>ForbiddenComment:CVLCompiler.kt$CVLCompiler$// TODO(jtoman): maybe stuff the allocated tac in here?</ID>
+        <ID>ForbiddenComment:CVLCompiler.kt$CVLCompiler$// TODO: figure out how to use type checked factory</ID>
+        <ID>ForbiddenComment:CVLCompiler.kt$CVLCompiler$// TODO: see if we can avoid modifying [this.symbolTable] and instead keep this typescope local to this branch of compilation</ID>
+        <ID>ForbiddenComment:CVLCompiler.kt$CVLCompiler$// no constraint needed todo really?</ID>
+        <ID>ForbiddenComment:CVLCompiler.kt$CVLCompiler$//TODO remove this when a better source mapping solution is implemented</ID>
+        <ID>ForbiddenComment:CVLExpToTACExpr.kt$CVLExpToTACExpr$// TODO what about the TACExpr.IntGe .. etc methods -- when to use them?</ID>
+        <ID>ForbiddenComment:CVLExpToTACExpr.kt$CVLExpToTACExpr$// TODO: I think I would like to guarantee these types are Pure CVL Types</ID>
+        <ID>ForbiddenComment:CVLExpToTACExpr.kt$CVLExpToTACExpr$// TODO: if there's any way to get rid of this... I don't like modifying the global symbol</ID>
+        <ID>ForbiddenComment:CVLExpressionCompiler.kt$CVLExpressionCompiler$/* TODO MOVE THIS */</ID>
+        <ID>ForbiddenComment:CVLExpressionCompiler.kt$CVLExpressionCompiler$/*check( expType is CVLType.PureCVLType.Primitive || expType is CVLType.PureCVLType.Enum || expType is CVLType.PureCVLType.Ghost.Mapping // TODO: how is this a simple type? ) { "Expression $exp must have a simple type (got $expType)" }*/</ID>
+        <ID>ForbiddenComment:CVLExpressionCompiler.kt$CVLExpressionCompiler$// TODO(jtoman): use new assigning hash command</ID>
+        <ID>ForbiddenComment:CVLInvocationCompiler.kt$CVLInvocationCompiler.CalldataBinder$* TODO(jtoman): calldatasize lower bound</ID>
+        <ID>ForbiddenComment:CVLInvocationCompiler.kt$CVLInvocationCompiler.CalldataBinder$// CVLTODO: Do we need to support larger calldatasize for ABIEncoderV1? how?</ID>
+        <ID>ForbiddenComment:CVLInvocationCompiler.kt$CVLInvocationCompiler.ComplexEnvironmentAdder$// TODO: Handle store</ID>
+        <ID>ForbiddenComment:CVLInvocationCompiler.kt$CVLInvocationCompiler.ComplexEnvironmentAdder$// TODO: RESET REVERT</ID>
+        <ID>ForbiddenComment:CVLInvocationCompiler.kt$CVLInvocationCompiler.ComplexEnvironmentAdder$// perform actual transfer TODO: Update the address</ID>
+        <ID>ForbiddenComment:CVLToSimpleCompiler.kt$CVLToSimpleCompiler$// TODO: write a CVLCmdMapper so we can write a CVLTACProgram type annotator</ID>
+        <ID>ForbiddenComment:CallGraphBuilder.kt$CallGraphBuilder.ABIState$// TODO(jtoman): implement better join</ID>
+        <ID>ForbiddenComment:CallGraphBuilder.kt$CallGraphBuilder.EncodingPayload.CopyFrom$* The node (likely the scratch pointer) was copied at [where] from [node], that node should be consulted for the * encoded contents. * * FIXME(jtoman): why not just copy the abstract state?</ID>
+        <ID>ForbiddenComment:CallGraphBuilder.kt$CallGraphBuilder.EncodingPayload.Instrument$* We only know the type and shapes of the encoded values. Instrumentation will be required to resolve their precise * identities. This can occur when an abstract location can be allocated multiple times, e.g., an abi.encode * call within a loop * * Q) What if [where] is different for the different possible encodings? * A) These are all attached to a single PTA node, wich maps one to one to an allocation site; thus in-memory * encoded buffer will have exactly one point of allocation (and thus, one point of encoding), ensure * [where] is singleton for each PTA node * * TODO(jtoman): this instrumentation isn't actually done yet, if we hit a call that has Instrument for its * encoded buffer, we give up</ID>
+        <ID>ForbiddenComment:CallResolutionTable.kt$CallResolutionTable.Factory$//todo: detect cases where the external version of a public function jumps to the</ID>
+        <ID>ForbiddenComment:CallResolutionTableReportView.kt$CallResolutionTableRowReportView$// TODO - pass real location</ID>
+        <ID>ForbiddenComment:CallTrace.kt$CallTraceGenerator$//TODO propagate the type from Solidity AST</ID>
+        <ID>ForbiddenComment:CalledContractResolver.kt$CalledContractResolver.Worker$// TODO: Return null if the storage slot in question was modified</ID>
+        <ID>ForbiddenComment:CalledContractResolver.kt$CalledContractResolver.Worker$// non storage case - maybe it's just our address, hard-coded, or an immutable (TODO)</ID>
+        <ID>ForbiddenComment:Callee.kt$Callee$// TODO - pass real location</ID>
+        <ID>ForbiddenComment:CodeAsHTML.kt$DumpGraphHTML$/* TODO: Add classes to save space can load svgs dynamically, see e.g. view-source:https://ariutta.github.io/svg-pan-zoom/demo/dynamic-load.html */</ID>
+        <ID>ForbiddenComment:CodeMap.kt$CodeMap$// TODO: Better explain. this is set in CALL,CALLCODE,DELEGATECALL,STATICCALL?</ID>
+        <ID>ForbiddenComment:CodeMap.kt$CodeMap$// TODO: Better!</ID>
+        <ID>ForbiddenComment:CodeMap.kt$CodeMap$// TODO: Else, and link to blocks</ID>
+        <ID>ForbiddenComment:CodeMap.kt$CodeMap$// TODO: Link to blocks. perhaps use info from blockgraph, should be passed here. or fix the code first.</ID>
+        <ID>ForbiddenComment:CodeMap.kt$CodeMap$// TODO: Presentation may change to block.changeid? Solc haven't decided yet</ID>
+        <ID>ForbiddenComment:CodeMap.kt$CodeMap$// TODO: discern between failures and don't cares.</ID>
+        <ID>ForbiddenComment:CodeTransformers.kt$ChainedCoreTransformers$// TODO: fold this into transformMethod too because there's duplication</ID>
+        <ID>ForbiddenComment:CoinbaseFeatures.kt$CoinbaseFeatures$// TODO: Rename this simply to "Features"</ID>
+        <ID>ForbiddenComment:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter$/* * Terminology: * - Unary feature: A feature that has exactly one method parameter. * - Binary feature: A feature that has two method parameters. * * NOTE: We assume that binary features only depend on unary features. * TODO: Generalize so we can have any dependencies * */</ID>
+        <ID>ForbiddenComment:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$* For now probably: ignore control flow blocks (assume statements) * * Prunes branches that revert (assumes they are unreachable). * Projects to values that are returned (effectively does cone-of-influence reduction wrt. them, albeit not a smart one, * in that it does not know about arrays) * * TODO: note that the control flow is not part of the "code" of the program (TACProgram.code) --&gt; take that into account for summaries! * * @param projectedVars the variables whose values at the [sinks]</ID>
+        <ID>ForbiddenComment:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$// TODO: ultimately eliminate this, perhaps? -- we just ignore those commands..</ID>
+        <ID>ForbiddenComment:ConstantComputationInliner.kt$ConstantComputationInliner$* credit: jtoman * (todo Please explain how it is different from the regular constant propagation)</ID>
+        <ID>ForbiddenComment:ConstantComputer.kt$BasicConstantComputer$// TODO : actually equality can be propagated into some expressions, like and, or, etc. But not sure it gives anything</ID>
+        <ID>ForbiddenComment:ConstantComputer.kt$BasicConstantComputer$// TODO: Regarding uninterpreted functions, we want to be careful as to not erase axioms we create, So we</ID>
+        <ID>ForbiddenComment:ConstantComputer.kt$BasicConstantComputer$// TODO: all the commented lines are generally correct, yet our axioms are ruined by them. Basically axioms should</ID>
+        <ID>ForbiddenComment:ConstantComputer.kt$BasicConstantComputer$// TODO: remove quantifier if expression lost quantified variables</ID>
+        <ID>ForbiddenComment:ConstantComputer.kt$ConstantComputerWithHashSimplifications$// TODO: Compare hash and addition</ID>
+        <ID>ForbiddenComment:ConstantComputer.kt$ConstantComputerWithHashSimplifications$// TODO: This assumption is prevailing here - h1(x)+z could be equal to h2(y,x) for some y,z. But can't have slot x in both h1 and h2.</ID>
+        <ID>ForbiddenComment:ConstantComputer.kt$ConstantComputerWithHashSimplifications$// TODO: all of this is pretty brittle -- e.g. might lead to very hard to find unsoundness because we miss some simplification...</ID>
+        <ID>ForbiddenComment:ConstantComputer.kt$ConstantComputerWithHashSimplifications$// two hashes with different number of arguments are different (since can't be called with same slot by EVM) // TODO: Risk?</ID>
+        <ID>ForbiddenComment:DecoderAnalysis.kt$DecoderAnalysis$// TODO: we retired having OffsetFrom array elements, so this is dead code???</ID>
+        <ID>ForbiddenComment:DecoderAnalysis.kt$DecoderAnalysis.&lt;no name provided&gt;.&lt;no name provided&gt;$/* * TODO(jtoman): this logic is redundant w.r.t. [getBufferPath] */</ID>
+        <ID>ForbiddenComment:DecoderAnalysis.kt$DecoderAnalysis.&lt;no name provided&gt;.&lt;no name provided&gt;$/* If we have any calldata qualifiers, record that fact in our domaoin TODO(jtoman): why not just inject the qualifiers directly into the Qualified object...? */</ID>
+        <ID>ForbiddenComment:DecoderAnalysis.kt$DecoderAnalysis.&lt;no name provided&gt;.&lt;no name provided&gt;$/* This check is slightly imprecise: ideally we would check that the mask being applied is: a. clearing out upper bits, and b b. the right length for the type being decoded absent type information, b. is impossible to get, so we just don't even bother TODO(jtoman): bother? */</ID>
+        <ID>ForbiddenComment:DecoderAnalysis.kt$DecoderAnalysis.&lt;no name provided&gt;.&lt;no name provided&gt;$// TODO(jtoman): should we check arrayFor information for soundness here?</ID>
+        <ID>ForbiddenComment:DecoderAnalysis.kt$DecoderAnalysis.&lt;no name provided&gt;.&lt;no name provided&gt;$// TODO(jtoman): why aren't we checking buffer variables here???</ID>
+        <ID>ForbiddenComment:DecomposedCallInputArg.kt$DecomposedCallInputArg$//TODO: Add mapping type arguments</ID>
+        <ID>ForbiddenComment:Decomposer.kt$// TODO: The bug here is that need to run until no empty blocks exist</ID>
+        <ID>ForbiddenComment:DefType.kt$DefType$// TODO: nothing is done with the comment. Should really propagate down to the smt file.</ID>
+        <ID>ForbiddenComment:EncoderAnalysis.kt$EncoderAnalysis$* It is possible to pass calldata encoded objects directly into an encoded object. *Usually* we can get away by just * using information computed by the decoder analysis (i.e., using its map from buffer access paths to object paths * and the readfrom qualifiers). However, for arrays solidity will use bytelongcopy directly from calldata. So we have * to detect that. * * TODO(jtoman): in some other (not terribly well studied or understood yet) circumstances, solidity will use bytelongcopy * to copy other objects.</ID>
+        <ID>ForbiddenComment:EncoderAnalysis.kt$EncoderAnalysis$// cleaned value is not salient here TODO(jtoman): make an interface?</ID>
+        <ID>ForbiddenComment:EncoderAnalysis.kt$EncoderAnalysis.&lt;no name provided&gt;$/* Lazily find and qualify array pointers that we "missed" due to lazy detection of encoding. TODO(jtoman): this looks pretty eager???? */</ID>
+        <ID>ForbiddenComment:EncoderAnalysis.kt$EncoderAnalysis.&lt;no name provided&gt;$/* apply this coefficient to k and see if it matches the expected format for computing the end of the array. TODO(jtoman): isn't this equivalent to doing propagateConst(k, 0).implies { !lhs `=` !dynStart.addBase }??? */</ID>
+        <ID>ForbiddenComment:EncoderAnalysis.kt$EncoderAnalysis.&lt;no name provided&gt;$// TODO(jtoman): bounds checking something something</ID>
+        <ID>ForbiddenComment:EncoderAnalysis.kt$EncoderAnalysis.ElementFinder$/* TODO(jtoman): this is redundant now given the eager detection of rootfields??? */</ID>
+        <ID>ForbiddenComment:EncoderAnalysis.kt$EncoderAnalysis.EncodingState$/* TODO: do we need indices here? */</ID>
+        <ID>ForbiddenComment:EncoderAnalysis.kt$EncoderAnalysis.EncodingState.Companion$* As described (TODO: elsewhere), it is possible that a root field * is "promoted" to a dynamic start based on inferred dynamic paths. In that case, * we may get a domain mismatch, i.e., at the top of a loop, where at entrance we assumed * that a variable held a root field, but within the loop we deduced it was actually a start. * * In this case, we check to see whether the constant values recorded at constant indices * within the buffer in the state where we have a [analysis.pta.abi.EncoderAnalysis.ValueQualifier.RootQualifier.RootFieldPointer] * are consistent with the deduced placement of the DynamicStart. If so, we keep our * [analysis.pta.abi.EncoderAnalysis.ValueQualifier.OffsetQualifier.EncodedFieldPointer], * or promote to a [analysis.pta.abi.EncoderAnalysis.ValueQualifier.OffsetQualifier.DynamicStridePointer] * as explained below.</ID>
+        <ID>ForbiddenComment:EncoderAnalysis.kt$EncoderAnalysis.RootOffsetWrite$* Tracks root writes: as described (TODO: ELSEWHERE), in some cases solidity may write an offset * into a field, and then add that offset to the dynamic start object containing the field, yielding the * dynamic start of a child object. * * We have to handle this case for the root as well: for example, we may write variable x to index 36 in the root, * and then add x to z, where z is a pointer at index 4 within the buffer (i.e., it is the beginning of the encoded * calldata). In that case, we should assume that the x is the offset of a fresh dynamic object whose root is encoded * at index 36.</ID>
+        <ID>ForbiddenComment:EntryPoint.kt$// TODO: This should be changed to check if we're not in cloud, cloud may have $CERTORA defined too?</ID>
+        <ID>ForbiddenComment:Executable.kt$Executable$//TODO: if prepResult is SAT or UNSAT (i.e. the preprocessor solved it) then we might already finish the race here</ID>
+        <ID>ForbiddenComment:FunctionFlowAnnotator.kt$FunctionFlowAnnotator$/* * Compute the *actual* start of the function, i.e., where we expect to see the internal hint annotations. * * At present, this entails skipping over default-initialized memory allocations that are inserted by the compiler * for struct types returned. * * TODO(jtoman): double check that these initializers do not mutate return/stack information */</ID>
+        <ID>ForbiddenComment:FunctionFlowAnnotator.kt$FunctionFlowAnnotator$// TODO(jtoman): how do we know we missed one?</ID>
+        <ID>ForbiddenComment:GraphToRegex.kt$GraphToRegex$//TODO: use a smarter ordering here somehow?? deterministic would be nice, too...</ID>
+        <ID>ForbiddenComment:Havocer.kt$Havocer$// TODO: Make this an option in a summary instead of global magic variable?</ID>
+        <ID>ForbiddenComment:HeuristicalFolding.kt$HeuristicalFolding$* Simple substitutions for arithmetical expressions. * TODO: Replace with better mechanism and put much earlier in the pipeline</ID>
+        <ID>ForbiddenComment:HeuristicalFolding.kt$HeuristicalFolding$// TODO also should have unit tests for this</ID>
+        <ID>ForbiddenComment:HeuristicalFolding.kt$HeuristicalFolding$// this can be done with patterns but ugh DSLs TODO</ID>
+        <ID>ForbiddenComment:HookInliner.kt$HookInliner$// TODO: flatten structs</ID>
+        <ID>ForbiddenComment:HookInliner.kt$HookInliner$// TODO: rather than substituting match expressions for hook variables, use the converters to assign</ID>
+        <ID>ForbiddenComment:Inliner.kt$Inliner.DirectPassing$* An annoying implementation detail: the only real way to set up the bindings to the tacCalldata!nn * arguments is via the (private) implementations within [CalldataEncoding.feedInput]. Unlike all other accesses * of calldata, these scalarized accesses *do* need to be bound, and I am not willing to blindly generate tacCalldata!nn * names and hope for the best. * * The (not great) alternative is to find those ranges that correspond to the primitive abiArg!nn * arguments generated by the matching process, and then "fake" those as the arguments to be bound in * the calldata input that is then passed to feedInput. * * FIXME(jtoman): this *sucks*. I hate faking input arguments to get at implementations that are otherwise unaccessible. * Fix this with refactoring once the argument passing infra has stabilized * * Alternatively: should we just bind tacCalldata!... ourselves using information collecting by the ABIExpected * infra?</ID>
+        <ID>ForbiddenComment:IntegrativeChecker.kt$IntegrativeChecker$// TODO: Run in parallel if we really want...</ID>
+        <ID>ForbiddenComment:IntegrativeChecker.kt$IntegrativeChecker$// TODO: Separate verify and result generation, .verify() to return instead of having side-effects on the class</ID>
+        <ID>ForbiddenComment:IntegrativeChecker.kt$IntegrativeChecker$// adding state links? TODO</ID>
+        <ID>ForbiddenComment:IntegrativeChecker.kt$IntegrativeChecker$//todo: seems like a bug (might affect the way things are reported in the --assert mode)</ID>
+        <ID>ForbiddenComment:InterContractCallResolver.kt$InterContractCallResolver.CallGraphNode.CallNode$// TODO: maybe make this part of the canResolve check...?</ID>
+        <ID>ForbiddenComment:JSONReporter.kt$JSONReporter$// TODO: use rule types for more fine-grained control</ID>
+        <ID>ForbiddenComment:JSONReporter.kt$JSONReporter$// flatten multi results TODO: For multiple levels - currently will inline just one level (there's no case for that yet)</ID>
+        <ID>ForbiddenComment:LExpVCSATResultPrettifier.kt$LExpVCSATResultPrettifier$* Variables whose value minimisation will be prioritized by the model post-processing. * The variables are either chosen by the user via `config.postProcessVariables` or * we collect and prioritise all variables in all assertions in the rule. Note that * there might be more assertions in the rule and in that case it would be probably better to collect just * variables from the violated assertion(s). * //TODO: collect vars just from the violated assert(s). Postponing for now since we plan further * architecture changes. In particular, we want to decouple the rule solving * and cex prettification (i.e. first report the cex to the user via the HTML interface, and then prettify * and improve the cex if possible (and update the HTML)).</ID>
+        <ID>ForbiddenComment:LExpVCStats.kt$CEGARStatistic$// TODO: or enum?</ID>
+        <ID>ForbiddenComment:LExpVcChecker.kt$LExpVcChecker$* Takes a list of pairs, each pair is a [LExpToSmtSetupInfo] and a list of [SolverConfig]. Creates a list * of [Executable]s and runs the race * * Duplicates are removed from the [SolverConfig], and [Executable]s are ordered in a mixed order, according * to solver name. * TODO: create an order according to real statistics (perhaps per project even).</ID>
+        <ID>ForbiddenComment:LExpVcChecker.kt$LExpVcChecker$/* TODO: do some experiments or something to see if this even makes sense, or should be differentiated by VC (e.g. when we're runing both LIA and NIA) or so */</ID>
+        <ID>ForbiddenComment:LExpVcChecker.kt$LExpVcChecker$// TODO: Create a special type of result for this?</ID>
+        <ID>ForbiddenComment:LExpVcChecker.kt$LExpVcChecker$// TODO: check if the VcFeature.OverflowChecks detection is correct; then we could</ID>
+        <ID>ForbiddenComment:LExpVcCheckerConfig.kt$LExpVcCheckerConfig$// TODO: Add a command line parameter</ID>
+        <ID>ForbiddenComment:LinearMathAxiomGenerator.kt$LinearMathAxiomGenerator$// TODO : should be handled at least partially</ID>
+        <ID>ForbiddenComment:LinearMathAxiomGenerator.kt$LinearMathAxiomGenerator$// TODO : should we consider multiplications by constants as well? multiplications created by divison axioms?</ID>
+        <ID>ForbiddenComment:LinearMathAxiomGenerator.kt$LinearMathAxiomGenerator$// TODO: Actually these don't necessarily need to be registered.</ID>
+        <ID>ForbiddenComment:LogicalEquivalence.kt$LogicalEquivalence$// TODO always fail when the rust code is more stable</ID>
+        <ID>ForbiddenComment:LogicalEquivalence.kt$LogicalEquivalence$// TODO: Support assumptions so that we can run egg for more queries</ID>
+        <ID>ForbiddenComment:LoopAnalysis.kt$// TODO: do we want the loop head to be part of the body?, the tail?</ID>
+        <ID>ForbiddenComment:NoMsgValueInLoopInstrumenting.kt$NoMsgValueInLoopInstrumenting$* Add AssertNot(errorVar) before each sink node. * Todo: check that there is no collision with a node which is patched elsewhere.</ID>
+        <ID>ForbiddenComment:NoMsgValueInLoopInstrumenting.kt$NoMsgValueInLoopInstrumenting$// todo: JumpiCmd is ignored here because of the assumption that there is an assignExpCmd with</ID>
+        <ID>ForbiddenComment:NoMsgValueInLoopInstrumenting.kt$NoMsgValueInLoopInstrumenting$// todo: we need envVar only if have to support env.msg.value that appear in the tac.</ID>
+        <ID>ForbiddenComment:NoMsgValueInLoopInstrumenting.kt$NoMsgValueInLoopInstrumenting.NoMsgValueResult$* In case there is no reference to msg.value in the function the result is the original patching. * todo: avoid calling smt on such functions. Requires redesign of the builtin generator/checker.</ID>
+        <ID>ForbiddenComment:NonSMTInterpretedFunctionSymbol.kt$NonSMTInterpretedFunctionSymbol.Binary.AssignEq$ TODO, see [LExpression.BinaryExp.AssignEqExp], should probably get rid of this case </ID>
+        <ID>ForbiddenComment:NumericAnalysis.kt$NumericAnalysis$/* this is very much an adhoc workaround, so we can detect free pointer overflows (and then later delete them) * * TODO(jtoman) Ideally we would have an optional "all pointer" semantics that could be used in arithSemantics */</ID>
+        <ID>ForbiddenComment:NumericAnalysis.kt$NumericAnalysis$// FIXME(jtoman): duplicated now in the qualifier interpreter</ID>
+        <ID>ForbiddenComment:NumericEVMTypeBasedRepresentation.kt$NumericEVMTypeBasedRepresentation$/* TODO: comment in this check after fixing the bugs of the regtest that fails here. check(input &gt;= BigInteger.ZERO &amp;&amp; input &lt;= SignUtilities.maxUnsignedValueOfBitwidth(n)) { "Display input $input is out of bounds of 0 to 2^n, n=$n"}*/</ID>
+        <ID>ForbiddenComment:NumericEVMTypeBasedRepresentation.kt$NumericEVMTypeBasedRepresentation$/* TODO: comment in this check after fixing the bugs of the regtest that fails here. check(input &gt;= SignUtilities.minSignedValueOfBitwidth(n) &amp;&amp; input &lt;= SignUtilities.maxSignedValueOfBitwidth(n)) { "Display input $input is out of bounds of -2^(n-1) to 2^(n-1) - 1, n=$n"}*/</ID>
+        <ID>ForbiddenComment:PatternMatcher.kt$PatternDSL.FunctionContinuation$* An intermediate step of embedded an arbitrary predicate over [vc.data.TACCmd.Simple.AssigningCmd] * into the DSL. This object means that we have logic to match a command, extract an operand of interest, and perform * further matching on that operand, but do not yet know what to do with the result of that match. This logic * is specified by calling one of the [withAction] functions, which return a full fledged [PatternBuilder] object. * * FIXME(jtoman): this doesn't implement [Buildable], should it?</ID>
+        <ID>ForbiddenComment:PointsToQuery.kt$DecodeSeedFinder$* As elsewhere, find loop summaries that initialize these arrays * Q) aren't these included in the initialization write code now? * A) .... uhhhh, maybe??? But this includes more commands (maybe the initialization write * finder should include more...) * * FIXME(jtoman): this probably can (and should?) be removed</ID>
+        <ID>ForbiddenComment:PointsToQuery.kt$RevertConditionalAnalysis.Companion$* Why "reduced"? In general the decoder and int domain don't shared information bidirectionally: the * qualified int domain doesn't try to become more precise based off of the information * in the decoder analysis. However, if we know something is an offset into a calldata array (via * the decoder analysis) or an addition to one such value, then we can provide an upper bound that is * the max evm signed int. * * Why do we know that this upper bound is valid? I.... forget TODO(jtoman): remember</ID>
+        <ID>ForbiddenComment:PointsToQuery.kt$SerializationCodeFinder$/* We only try to remove loops if the code inside is part of just one SerDe process (i.e., all commands included in P have a singleton set as their marked seeds). FIXME(jtoman): Post loop removal, it probably can't (won't?) happen that a command within the loop is *later* marked as part of different SerDe process. It is unclear what we should do if that happens. */</ID>
+        <ID>ForbiddenComment:QuantiferRewriter.kt$QuantifierRewriter$* Does two things: * * 1. Removes all exists quantifiers by replacing them with skolem constants. This also works with forall quantifiers * which appear in negative polarity. At the end of this stage there are only forall quantifiers in the formula, and * they are all of positive polarity. * 2. Pulls out nested forall quantifiers to be one outer forall on the accumulated variables. This is necessary for our * grounding algorithm. * * We currently give up on quantified expressions (and on general on grounding) when they are in double polarity. * It's a TODO.</ID>
+        <ID>ForbiddenComment:QuantiferRewriter.kt$QuantifierRewriter$* Returns the skolemized LExpression and true if the expression can be groundable. * we can't do stuff if there is an outer forall and within it an exists. An outer exists is not a problem. * * TODO: handle it using an uninterpreted function that acts as the skolem variable of the inner exists.</ID>
+        <ID>ForbiddenComment:QuantiferRewriter.kt$QuantifierRewriter$* Rewrites [original] with nested quantifiers pulled out to the outer most quantification. * * TODO: Currently we will exit with an error on cases such as this one: * `forall x. [ forall y. y &lt; 0 /\ forall y. y &gt;= 0 ]` * Because pulling y out will change semantics. * However, this is solvable with simple renaming.</ID>
+        <ID>ForbiddenComment:ReachabilityFailureSourceFinder.kt$ReachabilityFailureSourceFinder.LeafReachabilityChecker$// TODO: how could we reach here?</ID>
+        <ID>ForbiddenComment:ReachabilityFailureSourceFinder.kt$ReachabilityFailureSourceFinder.LeafReachabilityChecker$// todo reachable?</ID>
+        <ID>ForbiddenComment:RedundantStorageReadOptimizer.kt$RedundantStorageReadOptimizer$/* TODO(jtoman): The storage unpacker will break if we do this; sharing storage accesses between an unpacked write and unpacked read breaks a pretty fundamental invariant of the storage unpacker. */</ID>
+        <ID>ForbiddenComment:RevertStringsOptimizer.kt$RevertStringsOptimizer$// not the root because we're not that brave (TODO although why not?)</ID>
+        <ID>ForbiddenComment:RuleCheckResult.kt$RuleCheckResult.Single.RuleCheckInfo.Companion$// TODO: move this function out of HTMLReporter</ID>
+        <ID>ForbiddenComment:RuleCheckResult.kt$RuleCheckResult.Single.RuleCheckInfo.WithExamplesData.CounterExample$//TODO: enforce this by design</ID>
+        <ID>ForbiddenComment:RuleChecker.kt$RuleChecker$// TODO: should be a spec mismatch error, not assertion error</ID>
+        <ID>ForbiddenComment:SMTCounterexampleModel.kt$SMTCounterexampleModel$// TODO probably could replace functionality by SatResult.SAT or something adjacent, nb reachable bad blocks may need some thought, calldata stuff, too</ID>
+        <ID>ForbiddenComment:SQSEventStream.kt$SQSStream$/* TODO: This is a "versionStr" for the "Version" attribute of the messages sent by this SQSStream. This attribute is meant for future use, in case we need backwards compatibility, and want to have some version control. */</ID>
+        <ID>ForbiddenComment:SVGTools.kt$// TODO: Not here?</ID>
+        <ID>ForbiddenComment:SanityResultsView.kt$SanityResultsView.FunctionDependent$/* TODO if we have more than one result in each value in the grouped map,\ how should we aggregate the results? is it also by using forall/exists depending\ on the severity of the check, or is it always exists? */</ID>
+        <ID>ForbiddenComment:ScratchPointerAnalysis.kt$ScratchPointerAnalysis.ScratchAnalysisWorker$/* TODO(jtoman): This is very unsound, because this write could be a fake alloc, in which case we still have some scratch pointers floating around. For the moment, YOLO, but we should introduce a notion of read-only scratch pointers which can persist past allocations, and rw, which cannot. */</ID>
+        <ID>ForbiddenComment:Simplifier.kt$EthereumVariables$// TODO: Note that to correctly model failure, we should havoc it again and require it to be either 0 or the new address (otherwise we transfer some amount to 0)</ID>
+        <ID>ForbiddenComment:Simplifier.kt$EthereumVariables$// self destruct is transfer of current balance to target, [TODO: reset extcodedata and extcodedatasize] and STOP</ID>
+        <ID>ForbiddenComment:SmtBackendConfig.kt$// /** TODO .. implemented like this it's a rather dumb strategy -&gt; shouldn't wait for NIA, if LIA says 'unsat' */</ID>
+        <ID>ForbiddenComment:SmtExpScriptBuilder.kt$SmtExpScriptBuilder$// if (script is SmtScript) // TODO: is there a good place to have a sort check? -- this isn't it because sometimes this class is used for partial queries</ID>
+        <ID>ForbiddenComment:SmtTheory.kt$SmtTheory.ALL$// TODO use Any, once it exists</ID>
+        <ID>ForbiddenComment:SolidityVerifier.kt$SolidityVerifier$// TODO: Hot updates</ID>
+        <ID>ForbiddenComment:SolidityVerifier.kt$SolidityVerifier$//todo: do not hot-update data we have already hot-updated (using aggregation)</ID>
+        <ID>ForbiddenComment:StackMapping.kt$ParseData.Companion$//TODO: add more</ID>
+        <ID>ForbiddenComment:StatusReporter.kt$StatusReporter$// should throw exception? TODO</ID>
+        <ID>ForbiddenComment:StorageHashAxiomGeneratorDataTypes.kt$StorageHashAxiomGeneratorDataTypes$// TODO: this is especially bad due to the string construction here; the define-fun infrastructure probably</ID>
+        <ID>ForbiddenComment:SummarizeProgram.kt$SummarizeProgram$// TODO: is index -1 a good solution here??</ID>
+        <ID>ForbiddenComment:SummarizeProgram.kt$SummarizeProgram$// TODO: not a good criterion</ID>
+        <ID>ForbiddenComment:TACBuiltInFunction.kt$TACBuiltInFunction.TwosComplement.Unwrap$// TODO: smt test</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd$* As the name says, returns all free variables on the right hand side of the given command. * TODO: what about commands that don't have a "right hand side"?? * * Not to be confused with the similar method [getRhs].</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd$// TODO: isn't this.base part of rhs as well??</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd$//TODO: change to TACExprConstCollector.getConstantsAndVars(this.cond) if this.cond becomes TACExpr</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.CVL.SetArrayLength$// TODO(jtoman): init checks</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.CVL.WriteElement$// TODO: check value tag, we should really have real type checking here</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.EVM.AssignCalldatasizeCmd$// TODO:</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.EVM.CalldatacopyCmd$// TODO: Check if need to change</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.EVM.CodecopyCmd$// TODO: Check if need to change</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.EVM.ExtcodecopyCmd$// TODO: CHECK IF NEED TO CHANGE</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.Simple$// TODO: do we want to treat expressions tooq?</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.Simple.AssigningCmd$* All commands that, assign, i.e., give a fresh value to a variable, i.e., have a left-hand-side, i.e., * introduce a fresh variable in SSA, should inherit from this class. * * Note that the [getLhs] method depends on which classes inherit from this -- can lead to subtle bugs if not * done right. (e.g. see git SHA 33cd2371b7967176c61daf7cf3647d269eeee9bb for such a bug fix) * * TODO: question: should the *Store commands also inherit from this?</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.Simple.AssigningCmd.AssignSha3Cmd$// TODO: Remove all default values for parameters!</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.Simple.AssumeCmd$//TODO: change cond type to TACExpr</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.Simple.AssumeNotCmd$//TODO: remove this subclass (can be encoded via AssumeCmd)</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.Simple.LogCmd$// TODO</ID>
+        <ID>ForbiddenComment:TACCmd.kt$TACCmd.Simple.WordStore$//tacS (store without overlapping) //TODO: Check if Simple(meta) should be replaced with AssigningCmd(base, meta) ?</ID>
+        <ID>ForbiddenComment:TACCmdMapper.kt$AbstractDefaultTACCmdMapper$// TODO: transform ghost</ID>
+        <ID>ForbiddenComment:TACCommandGraph.kt$LTACCmd$// TODO Merge: Should also have : HasTACSimpleCmd</ID>
+        <ID>ForbiddenComment:TACExpr.kt$TACExpr.MapDefinition$// todo: avoid the defParams being declared in the smt script ?</ID>
+        <ID>ForbiddenComment:TACExpr.kt$TACExpr.StructAccess$* TODO: not sure how well this works in the current state, probably only as a RHS (right-hand-side ... of an * assignment) -- for LHSs we need more substantial changes to [TACCmd]s * @param struct - Sym/Sym.Var/StructConstant/StructAccess. * @param tag - field's tag. Should be non-null after type checking.</ID>
+        <ID>ForbiddenComment:TACExprFactory.kt$TACExprFactBasicSimp$// TODO: Tag?</ID>
+        <ID>ForbiddenComment:TACExprUtils.kt$TACExprUtils$//TODO: check function is completely "anti-pattern": we should remove it completely. Instead, the meta data of the TACCmd should maintain which kind of expression is in the rhs</ID>
+        <ID>ForbiddenComment:TACExprUtils.kt$TACExprUtils.SubstitutorVar$// TODO: this should be replaced with an equiv relation over TACExpr (i.e. we need an equivalence relation</ID>
+        <ID>ForbiddenComment:TACHook.kt$TACHookPattern.StorageHook$// TODO: what to do with offset :[]</ID>
+        <ID>ForbiddenComment:TACKeyword.kt$TACKeyword.Companion$// these should never have incarn != 0 and should not accept different values in different calls (TODO: enforce)</ID>
+        <ID>ForbiddenComment:TACProgram.kt$CVLTACProgram$* TODO: Pretty much anywhere this is called as of this commit should probably get some attention.</ID>
+        <ID>ForbiddenComment:TACProgram.kt$CVLTACProgram$// todo deal with warnings after we figure out if need remappings here</ID>
+        <ID>ForbiddenComment:TACProgram.kt$CoreTACProgram$// TODO: If we move all legacy stuff to patching this can actually be after the returns as the function was named originally: addAfterReturns</ID>
+        <ID>ForbiddenComment:TACProgram.kt$CoreTACProgram$// TODO: REMOVE THIS AFTER REMOVING IRTOTACCONVERTER</ID>
+        <ID>ForbiddenComment:TACProgram.kt$CoreTACProgram$// TODO: Use TransientVarsRenamer instead, need to update it with Jump handling from here</ID>
+        <ID>ForbiddenComment:TACProgram.kt$CoreTACProgram.Companion$// TODO: REMOVE THIS AFTER REMOVING IRTOTACCONVERTER</ID>
+        <ID>ForbiddenComment:TACProgram.kt$TACProgram$// TODO: Config.getNoOutput should not be enabled together with isUseCache</ID>
+        <ID>ForbiddenComment:TACProgramCombiners.kt$// TODO: Check that no intersection of block IDs</ID>
+        <ID>ForbiddenComment:TACProgramCombiners.kt$// TODO: Exception if not equal?</ID>
+        <ID>ForbiddenComment:TACSymbol.kt$TACSymbol.Var$// TODO: use getter instead (preferable make a separate PR for this, prob., since it's called a lot)</ID>
+        <ID>ForbiddenComment:TACUtils.kt$TACUtils$// TODO: can we update getFreeVarsOfRhs?</ID>
+        <ID>ForbiddenComment:TACValue.kt$TACValue.SKey.Companion$/* todo: check for +-1 errors in arity computation..*/</ID>
+        <ID>ForbiddenComment:TACValue.kt$TACValue.Uninitialized$// TODO: review: should this be serializable (or is it an error if it gets serialized)?</ID>
+        <ID>ForbiddenComment:TernaryCalculator.kt$TernaryCalculator$// TODO: Signed comparisons</ID>
+        <ID>ForbiddenComment:TernaryCalculator.kt$TernaryCalculator$// TODO: collect constants?</ID>
+        <ID>ForbiddenComment:TernaryCalculator.kt$TernaryCalculator$// TODO: support it if we ever encounter it.</ID>
+        <ID>ForbiddenComment:TypeBoundsGenerator.kt$TypeBoundsGenerator.Companion$// TODO: This expression should actually be given to `visit` of linear math axiom generator</ID>
+        <ID>ForbiddenComment:UninterpretedSymbolManager.kt$UninterpretedSymbolManager$// TODO freezing mechanism is duplicated with [LExpressionFactory]..</ID>
+        <ID>ForbiddenComment:VariableCheckpoint.kt$CheckpointType$* Define chceckpoint types. * TODO: we may prefer to move to sealed data classes for [VariableCheckpoint].</ID>
+        <ID>ForbiddenMethodCall:CallGraphBuilder.kt$CallGraphBuilder$Regex("[A-Za-z0-9_]+")</ID>
+        <ID>ForbiddenMethodCall:CallResolutionTable.kt$CallResolutionTable.Factory$startsWith("function ")</ID>
+        <ID>ForbiddenMethodCall:CodeAsHTML.kt$DumpGraphHTML$Regex("${TACKeyword.ORIGINAL_STORAGE.getName()}_[1-9][0-9]*")</ID>
+        <ID>ForbiddenMethodCall:CodeAsHTML.kt$DumpGraphHTML$Regex("${TACKeyword.STORAGE.getName()}_[1-9][0-9]*")</ID>
+        <ID>ForbiddenMethodCall:CodeAsHTML.kt$DumpGraphHTML$startsWith("L")</ID>
+        <ID>ForbiddenMethodCall:CodeAsHTML.kt$DumpGraphHTML$startsWith("boundaryCalldata")</ID>
+        <ID>ForbiddenMethodCall:CodeAsHTML.kt$DumpGraphHTML$startsWith("sizeCalldata")</ID>
+        <ID>ForbiddenMethodCall:CodeAsHTML.kt$DumpGraphHTML$startsWith("tmpSizeCalldataLimitCheck")</ID>
+        <ID>ForbiddenMethodCall:CodeAsHTML.kt$DumpGraphHTML$startsWith(CVLReservedVariables.certoraInput.name)</ID>
+        <ID>ForbiddenMethodCall:CodeAsHTML.kt$DumpGraphHTML$startsWith(TACKeyword.MEMORY.getName())</ID>
+        <ID>ForbiddenMethodCall:ConstraintChooser.kt$startsWith(it)</ID>
+        <ID>ForbiddenMethodCall:EntryPoint.kt$split("\n")</ID>
+        <ID>ForbiddenMethodCall:EnvFreeMethodAnalysis.kt$EnvFreeMethodAnalysis$contains(".")</ID>
+        <ID>ForbiddenMethodCall:GraphDrawer.kt$startsWith("&lt;svg")</ID>
+        <ID>ForbiddenMethodCall:JSONReporter.kt$JSONReporter$Regex("(?&lt;!\\\\)\"")</ID>
+        <ID>ForbiddenMethodCall:SVGTools.kt$Regex("&lt;svg ")</ID>
+        <ID>ForbiddenMethodCall:SVGTools.kt$Regex(pattern)</ID>
+        <ID>ForbiddenMethodCall:SVGTools.kt$Regex(patternCalls)</ID>
+        <ID>ForbiddenMethodCall:StackMapping.kt$ParseData.Companion$Regex("""\s+""")</ID>
+        <ID>ForbiddenMethodCall:StackMapping.kt$ParseData.Companion$Regex("[a-zA-Z_][a-zA-Z0-9_]*")</ID>
+        <ID>ForbiddenMethodCall:StackMapping.kt$ParseData.Companion$splitToSequence(whitespace)</ID>
+        <ID>ForbiddenMethodCall:StackMapping.kt$ParseData.Companion$startsWith(it)</ID>
+        <ID>ForbiddenMethodCall:SysenvConstructorOracle.kt$SysenvConstructorOracle$split(":", ignoreCase = false, limit = 2)</ID>
+        <ID>ForbiddenMethodCall:TACCommandGraph.kt$GenericTACCommandGraph$println("(${bid}, ${i}): ${b} (pred: ${pred(CmdPointer(bid, i))})")</ID>
+        <ID>ForbiddenMethodCall:TACCommandGraph.kt$GenericTACCommandGraph$println("&lt;&lt;")</ID>
+        <ID>ForbiddenMethodCall:TACCommandGraph.kt$GenericTACCommandGraph$println("Block ${bid}")</ID>
+        <ID>ForbiddenMethodCall:TACValue.kt$TACValue.SKey.Companion$startsWith(AxiomatizedFunctionSymbol.SKeyDt.SkeyNode.namePrefix)</ID>
+        <ID>IgnoredReturnValue:SplitStorageVarsHoister.kt$SplitStorageVarsHoister$map { lcmd -&gt; val reads = getSplitStorageReads(lcmd.cmd) val readsToReplacements = reads.associateWith { TACKeyword.TMP(it.tag, "replacement").toUnique().also { p.addVarDecl(it) } } val new = readsToReplacements.map { (read, replacement) -&gt; TACCmd.Simple.AssigningCmd.AssignExpCmd( replacement, read, meta = MetaMap(TACMeta.STORAGE_PRINTER to StoragePathAnnotation.StoragePathPrinter) ) } + cmdTransformer(readsToReplacements).map(lcmd.cmd) p.replaceCommand( lcmd.ptr, new ) }</ID>
+        <ID>ImportStdCollections:ABICallConvention.kt$ABICallConvention$filterValues</ID>
+        <ID>ImportStdCollections:ABICallConvention.kt$ABICallConvention$listOf</ID>
+        <ID>ImportStdCollections:ABICallConvention.kt$ABICallConvention$mutableMapOf</ID>
+        <ID>ImportStdCollections:ABICallConvention.kt$ABICallConvention$mutableSetOf</ID>
+        <ID>ImportStdCollections:ABICallConvention.kt$ABICallConvention.ArgNodeManager$mutableMapOf</ID>
+        <ID>ImportStdCollections:ABICallConvention.kt$ABICallConvention.ObjectTraversal.ArrayElem$listOf</ID>
+        <ID>ImportStdCollections:ABICallConvention.kt$ABICallConvention.ObjectTraversal.ArrayElem$setOfNotNull</ID>
+        <ID>ImportStdCollections:ABICallConvention.kt$ABICallConvention.ObjectTraversal.StructField$listOf</ID>
+        <ID>ImportStdCollections:ABICallConvention.kt$ABICallConvention.ObjectTraversalConstructor.ArrayElem$setOf</ID>
+        <ID>ImportStdCollections:ABIDecodeComplete.kt$ABIDecodeComplete$+</ID>
+        <ID>ImportStdCollections:ABIDecodeComplete.kt$ABIDecodeComplete$toSet</ID>
+        <ID>ImportStdCollections:ABIDirectRead.kt$ABIDirectRead$+</ID>
+        <ID>ImportStdCollections:AbstractSmtExpTermBuilder.kt$AbstractSmtExpTermBuilder$toList</ID>
+        <ID>ImportStdCollections:AccumulatingTACExprTransformer.kt$DefaultAccumulatingTACExprTransformer$mutableMapOf</ID>
+        <ID>ImportStdCollections:AccumulatingTACExprTransformer.kt$QuantDefaultTACExprTransformer$toList</ID>
+        <ID>ImportStdCollections:AccumulatingTACExprTransformer.kt$QuantDefaultTACExprTransformer.Companion$toList</ID>
+        <ID>ImportStdCollections:AccumulatingTACExprTransformer.kt$QuantDefaultTACExprTransformer.Companion$toMap</ID>
+        <ID>ImportStdCollections:AccumulatingTACExprTransformer.kt$QuantDefaultTACExprTransformer.QuantVars$+</ID>
+        <ID>ImportStdCollections:AccumulatingTACExprTransformer.kt$QuantDefaultTACExprTransformer.QuantVars.Companion$listOf</ID>
+        <ID>ImportStdCollections:AccumulatingTACExprTransformer.kt$QuantDefaultTACExprTransformerWithPointer$toList</ID>
+        <ID>ImportStdCollections:ArrayLoopSummarization.kt$ArrayLoopSummarization$+</ID>
+        <ID>ImportStdCollections:ArrayLoopSummarization.kt$ArrayLoopSummarization$-</ID>
+        <ID>ImportStdCollections:ArrayLoopSummarization.kt$ArrayLoopSummarization$listOf</ID>
+        <ID>ImportStdCollections:ArrayLoopSummarization.kt$ArrayLoopSummarization$mapOf</ID>
+        <ID>ImportStdCollections:ArrayLoopSummarization.kt$ArrayLoopSummarization$mutableMapOf</ID>
+        <ID>ImportStdCollections:ArrayLoopSummarization.kt$ArrayLoopSummarization$toList</ID>
+        <ID>ImportStdCollections:AxiomInstance.kt$AxiomSet$mutableSetOf</ID>
+        <ID>ImportStdCollections:AxiomInstance.kt$AxiomSet$toList</ID>
+        <ID>ImportStdCollections:BMC.kt$BMCRunner$forEach</ID>
+        <ID>ImportStdCollections:BitBlaster.kt$BitBlaster$+</ID>
+        <ID>ImportStdCollections:BitBlaster.kt$BitBlaster$mapOf</ID>
+        <ID>ImportStdCollections:BitBlaster.kt$BitBlaster$toMutableMap</ID>
+        <ID>ImportStdCollections:BitBlaster.kt$BitBlaster$toSet</ID>
+        <ID>ImportStdCollections:BitwiseAxiomGenerator.kt$BitwiseAxiomGenerator$forEach</ID>
+        <ID>ImportStdCollections:BitwiseAxiomGenerator.kt$BitwiseAxiomGenerator$listOf</ID>
+        <ID>ImportStdCollections:BitwiseAxiomsDefs.kt$BitwiseAxiomsDefs$listOf</ID>
+        <ID>ImportStdCollections:BitwiseAxiomsDefs.kt$BitwiseAxiomsDefs$mutableMapOf</ID>
+        <ID>ImportStdCollections:BitwiseOpOptimizations.kt$BitwiseOptimizer$listOf</ID>
+        <ID>ImportStdCollections:BitwiseOpOptimizations.kt$BitwiseOptimizer$singleOrNull</ID>
+        <ID>ImportStdCollections:BlockBody.kt$BlockBody$+</ID>
+        <ID>ImportStdCollections:BoolComparisonFixer.kt$BoolComparisonFixer$listOf</ID>
+        <ID>ImportStdCollections:BoolComparisonFixer.kt$BoolComparisonFixer$singleOrNull</ID>
+        <ID>ImportStdCollections:BoundedQIntPropagationSemantics.kt$BoundedQIntPropagationSemantics$+</ID>
+        <ID>ImportStdCollections:BytecodeContractSource.kt$BytecodeContractSource$listOf</ID>
+        <ID>ImportStdCollections:BytecodeContractSource.kt$BytecodeContractSource$mapOf</ID>
+        <ID>ImportStdCollections:BytecodeContractSource.kt$BytecodeContractSource$setOf</ID>
+        <ID>ImportStdCollections:CVLCompiler.kt$CVLCompiler$forEach</ID>
+        <ID>ImportStdCollections:CVLUtils.kt$CVLTestGenerator.Companion$+</ID>
+        <ID>ImportStdCollections:CVLUtils.kt$CVLTestGenerator.Companion$mutableSetOf</ID>
+        <ID>ImportStdCollections:CVLUtils.kt$CVLTestGenerator.Companion$toSet</ID>
+        <ID>ImportStdCollections:CallGraphBuilder.kt$CallGraphBuilder.Worker$forEach</ID>
+        <ID>ImportStdCollections:CalledContractResolver.kt$CalledContractResolver$mapValues</ID>
+        <ID>ImportStdCollections:CalledContractResolver.kt$CalledContractResolver.Worker$mutableMapOf</ID>
+        <ID>ImportStdCollections:CalledContractResolver.kt$CalledContractResolver.Worker$singleOrNull</ID>
+        <ID>ImportStdCollections:CalledContractResolver.kt$CalledContractResolver.Worker$toSet</ID>
+        <ID>ImportStdCollections:CalleeResolution.kt$CalleeResolution.Companion$mapOf</ID>
+        <ID>ImportStdCollections:CanonicalSum.kt$CanonicalSum$+</ID>
+        <ID>ImportStdCollections:CanonicalSum.kt$CanonicalSum$listOf</ID>
+        <ID>ImportStdCollections:ClonedContractClass.kt$ClonedContractClass$mapValues</ID>
+        <ID>ImportStdCollections:CmdPointerSet.kt$CmdPointerSet.CSet$union</ID>
+        <ID>ImportStdCollections:CmdPointerSet.kt$CmdPointerSet.Companion$setOf</ID>
+        <ID>ImportStdCollections:CodeMap.kt$forEach</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter$forEach</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter$listOf</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter$mutableMapOf</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter$toList</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter$toMap</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter.BinaryFunctionFeatureResults$filter</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter.BinaryFunctionFeatureResults$forEach</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter.BinaryFunctionFeatureResults$mutableMapOf</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter.UnaryFunctionFeatureResults$forEach</ID>
+        <ID>ImportStdCollections:CoinbaseFeaturesReporter.kt$CoinbaseFeaturesReporter.UnaryFunctionFeatureResults$mutableMapOf</ID>
+        <ID>ImportStdCollections:CollectDefinitionsTACExpr.kt$CollectDefinitionsTACExpr$mutableMapOf</ID>
+        <ID>ImportStdCollections:CollectDefinitionsTACExpr.kt$CollectDefinitionsTACExpr.Companion$filter</ID>
+        <ID>ImportStdCollections:CollectDefinitionsTACExpr.kt$CollectDefinitionsTACExpr.Companion$mapValues</ID>
+        <ID>ImportStdCollections:CollectDefinitionsTACExpr.kt$CollectDefinitionsTACExpr.Companion$setOf</ID>
+        <ID>ImportStdCollections:CollectDefinitionsTACExpr.kt$CollectDefinitionsTACExpr.Companion$toSet</ID>
+        <ID>ImportStdCollections:CombinedPostWriteFixupSummarization.kt$CombinedPostWriteFixupSummarization$setOf</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$+</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$CommandWithRequiredDecls$emptyList</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$CommandWithRequiredDecls$listOf</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$CommandWithRequiredDecls$plus</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$CommandWithRequiredDecls$setOf</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$CommandWithRequiredDecls$toSet</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$CommandWithRequiredDecls.Companion$mutableSetOf</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$CommandWithRequiredDecls.Companion$toSet</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$MutableCommandWithRequiredDecls$mutableSetOf</ID>
+        <ID>ImportStdCollections:CommandWithRequiredDecls.kt$plus</ID>
+        <ID>ImportStdCollections:CommonBranchingFixupReasoning.kt$CommonBranchingFixupReasoning$+</ID>
+        <ID>ImportStdCollections:CommonBranchingFixupReasoning.kt$CommonBranchingFixupReasoning$mutableMapOf</ID>
+        <ID>ImportStdCollections:CommonBranchingFixupReasoning.kt$CommonBranchingFixupReasoning$setOf</ID>
+        <ID>ImportStdCollections:CommonBranchingFixupReasoning.kt$CommonBranchingFixupReasoning$toMutableMap</ID>
+        <ID>ImportStdCollections:CommonBranchingFixupReasoning.kt$CommonBranchingFixupReasoning$toSet</ID>
+        <ID>ImportStdCollections:CommonFixupReasoning.kt$CommonFixupReasoning$-</ID>
+        <ID>ImportStdCollections:CommonFixupReasoning.kt$CommonFixupReasoning$listOf</ID>
+        <ID>ImportStdCollections:CommonFixupReasoning.kt$CommonFixupReasoning$mutableMapOf</ID>
+        <ID>ImportStdCollections:CommonFixupReasoning.kt$CommonFixupReasoning$mutableSetOf</ID>
+        <ID>ImportStdCollections:CommonFixupReasoning.kt$CommonFixupReasoning$singleOrNull</ID>
+        <ID>ImportStdCollections:CommonFixupReasoning.kt$CommonFixupReasoning$toSet</ID>
+        <ID>ImportStdCollections:CommonFixupReasoning.kt$Generator$+</ID>
+        <ID>ImportStdCollections:CommonUnconditionalFixupReasoning.kt$CommonUnconditionalFixupReasoning$mutableMapOf</ID>
+        <ID>ImportStdCollections:ComputeTACSummary.kt$TACSummaryVar.Companion$mutableSetOf</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$+</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$-</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$listOf</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$mapValues</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$mutableSetOf</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$setOf</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune$toSet</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryProjectAndPrune.kt$ComputeTACSummaryProjectAndPrune.AbsorberUnreachSummary$setOf</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryTransFormula.kt$ComputeTACSummaryTransFormula$+</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryTransFormula.kt$ComputeTACSummaryTransFormula$filter</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryTransFormula.kt$ComputeTACSummaryTransFormula$setOf</ID>
+        <ID>ImportStdCollections:ComputeTACSummaryTransFormula.kt$ComputeTACSummaryTransFormula$toMap</ID>
+        <ID>ImportStdCollections:ConcreteTACState.kt$ConcreteTACState$filter</ID>
+        <ID>ImportStdCollections:ConcreteTACState.kt$ConcreteTACState$filterKeys</ID>
+        <ID>ImportStdCollections:ConcreteTACState.kt$ConcreteTACState$forEach</ID>
+        <ID>ImportStdCollections:ConcreteTACState.kt$ConcreteTACState$mapKeys</ID>
+        <ID>ImportStdCollections:ConcreteTACState.kt$ConcreteTACState$minus</ID>
+        <ID>ImportStdCollections:ConcreteTACState.kt$ConcreteTACState$mutableMapOf</ID>
+        <ID>ImportStdCollections:ConcreteTACState.kt$ConcreteTACState$plus</ID>
+        <ID>ImportStdCollections:ConcreteTACState.kt$ConcreteTACState$toSet</ID>
+        <ID>ImportStdCollections:ConcreteTACStateSerializer.kt$ConcreteTACStateSerializer$filterValues</ID>
+        <ID>ImportStdCollections:ConcreteTACStateSerializer.kt$ConcreteTACStateSerializer$mapKeys</ID>
+        <ID>ImportStdCollections:ConcreteTACStateSerializer.kt$ConcreteTACStateSerializer$toMutableMap</ID>
+        <ID>ImportStdCollections:ConsoleReporter.kt$ConsoleReporter$listOf</ID>
+        <ID>ImportStdCollections:ConsoleReporter.kt$ConsoleReporter$mutableSetOf</ID>
+        <ID>ImportStdCollections:ConsoleReporter.kt$ConsoleReporter$toList</ID>
+        <ID>ImportStdCollections:ConstSet.kt$ConstSet.C$intersect</ID>
+        <ID>ImportStdCollections:ConstSet.kt$ConstSet.C$mapTo</ID>
+        <ID>ImportStdCollections:ConstSet.kt$ConstSet.C$mutableSetOf</ID>
+        <ID>ImportStdCollections:ConstSet.kt$ConstSet.C$toSet</ID>
+        <ID>ImportStdCollections:ConstSet.kt$ConstSet.C$union</ID>
+        <ID>ImportStdCollections:ConstSet.kt$ConstSet.Companion$setOf</ID>
+        <ID>ImportStdCollections:ConstantStringAlloc.kt$ConstantStringAlloc$+</ID>
+        <ID>ImportStdCollections:ConstantStringAlloc.kt$ConstantStringAlloc.ConstantStringAllocWorker$mutableMapOf</ID>
+        <ID>ImportStdCollections:ConstantStringAlloc.kt$ConstantStringAlloc.ShortConstantStringAllocWorker$mutableMapOf</ID>
+        <ID>ImportStdCollections:ConstraintChooser.kt$SmtConstraintsGen$listOf</ID>
+        <ID>ImportStdCollections:ConstraintChooser.kt$SmtConstraintsGen$mutableSetOf</ID>
+        <ID>ImportStdCollections:ContractCreation.kt$ContractCreation$listOf</ID>
+        <ID>ImportStdCollections:ContractCreation.kt$ContractCreation$mutableMapOf</ID>
+        <ID>ImportStdCollections:ContractCreation.kt$ContractCreation$mutableSetOf</ID>
+        <ID>ImportStdCollections:ContractCreation.kt$ContractCreation$setOf</ID>
+        <ID>ImportStdCollections:ContractCreation.kt$ContractCreation$setOfNotNull</ID>
+        <ID>ImportStdCollections:ContractStorageResolver.kt$ContractStorageResolver$listOf</ID>
+        <ID>ImportStdCollections:ContractStorageResolver.kt$ContractStorageResolver$mapValues</ID>
+        <ID>ImportStdCollections:ContractStorageResolver.kt$ContractStorageResolver$singleOrNull</ID>
+        <ID>ImportStdCollections:CounterExampleDiversifier.kt$CounterExampleDiversifier$forEach</ID>
+        <ID>ImportStdCollections:CreateSummary.kt$CreateSummary$setOfNotNull</ID>
+        <ID>ImportStdCollections:DSAToSSA.kt$DSAToSSA$forEach</ID>
+        <ID>ImportStdCollections:Decomposer.kt$forEach</ID>
+        <ID>ImportStdCollections:DefaultTACCmdMapperWithPointer.kt$DefaultTACCmdMapperWithPointer$listOf</ID>
+        <ID>ImportStdCollections:DefaultTACCmdMapperWithPointer.kt$DefaultTACCmdMapperWithPointer$mutableSetOf</ID>
+        <ID>ImportStdCollections:DefaultTACCmdMapperWithPointer.kt$IndexingDefaultTACCmdMapperWithPointer$listOf</ID>
+        <ID>ImportStdCollections:DefaultTACCmdMapperWithPointer.kt$IndexingDefaultTACCmdMapperWithPointer$mutableSetOf</ID>
+        <ID>ImportStdCollections:DegenerateContractSource.kt$DegenerateContractSource$listOf</ID>
+        <ID>ImportStdCollections:DependenciesGenerator.kt$SanityRulesDependencies$mutableSetOf</ID>
+        <ID>ImportStdCollections:DynamicBitVectorUniverse.kt$DynamicBitVectorUniverse$mutableMapOf</ID>
+        <ID>ImportStdCollections:DynamicSlicer.kt$DynamicSlicer.DefSubstitutor$emptyList</ID>
+        <ID>ImportStdCollections:DynamicSlicer.kt$DynamicSlicer.DefSubstitutor$listOf</ID>
+        <ID>ImportStdCollections:EVMInternalMemoryEncoder.kt$EVMInternalMemoryEncoder$listOf</ID>
+        <ID>ImportStdCollections:EVMInternalMemoryEncoder.kt$WritableEVMInternalMemoryEncoder$listOf</ID>
+        <ID>ImportStdCollections:EVMSnippet.kt$EVMSnippetCmd.StorageSnippet$+</ID>
+        <ID>ImportStdCollections:EVMSnippet.kt$EVMSnippetCmd.StorageSnippet$setOf</ID>
+        <ID>ImportStdCollections:EggTAC.kt$EggBinary.Companion$mapOf</ID>
+        <ID>ImportStdCollections:EggTAC.kt$EggUnary.Companion$mapOf</ID>
+        <ID>ImportStdCollections:EncoderAnalysis.kt$EncoderAnalysis$forEach</ID>
+        <ID>ImportStdCollections:EntryPoint.kt$listOf</ID>
+        <ID>ImportStdCollections:EntryPoint.kt$toList</ID>
+        <ID>ImportStdCollections:EnumPackingNormalizer.kt$EnumPackingNormalizer$listOf</ID>
+        <ID>ImportStdCollections:EnumPackingNormalizer.kt$EnumPackingNormalizer$mapOf</ID>
+        <ID>ImportStdCollections:EnvironmentFixer.kt$EnvironmentFixer$listOf</ID>
+        <ID>ImportStdCollections:EnvironmentFixer.kt$EnvironmentFixer$setOf</ID>
+        <ID>ImportStdCollections:EqualityCheckNormalizer.kt$EqualityCheckNormalizer$listOf</ID>
+        <ID>ImportStdCollections:ExpNormalizer.kt$ExpNormalizer$listOf</ID>
+        <ID>ImportStdCollections:ExtCallSummarization.kt$ExtCallSummarization$forEach</ID>
+        <ID>ImportStdCollections:ExternalMapGetterSummarization.kt$ExternalMapGetterSummarization$+</ID>
+        <ID>ImportStdCollections:ExternalMapGetterSummarization.kt$ExternalMapGetterSummarization$listOf</ID>
+        <ID>ImportStdCollections:ExternalMapGetterSummarization.kt$ExternalMapGetterSummarization$mutableSetOf</ID>
+        <ID>ImportStdCollections:ExternalMapGetterSummarization.kt$ExternalMapGetterSummarization$plus</ID>
+        <ID>ImportStdCollections:ExternalMapGetterSummarization.kt$ExternalMapGetterSummarization.ExternalGetterHash$setOf</ID>
+        <ID>ImportStdCollections:ExternalMapGetterSummarization.kt$ExternalMapGetterSummarization.ExternalGetterHash$setOfNotNull</ID>
+        <ID>ImportStdCollections:FlowPointsToSet.kt$IndexableSet$single</ID>
+        <ID>ImportStdCollections:ForkedContractClass.kt$ForkedContractClass$mutableMapOf</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$ByteAllocDF.EMPTY$setOf</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$ByteAllocDF.S$intersect</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$ByteAllocDF.S$minus</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$ByteAllocDF.S$plus</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$ByteAllocDF.S$union</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$FreePointerAnalysis$mapOf</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$FreePointerAnalysis$mapValues</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$FreePointerAnalysis$mutableMapOf</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$FreePointerAnalysis$toSet</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$FreePointerAnalysis.&lt;no name provided&gt;$setOf</ID>
+        <ID>ImportStdCollections:FreePointerAnalysis.kt$FreePointerAnalysis.Companion$listOf</ID>
+        <ID>ImportStdCollections:FreePointerReadFixer.kt$FreePointerReadFixer$listOf</ID>
+        <ID>ImportStdCollections:FreePointerReadFixer.kt$FreePointerReadFixer$mutableMapOf</ID>
+        <ID>ImportStdCollections:FreePointerReadFixer.kt$FreePointerReadFixer$singleOrNull</ID>
+        <ID>ImportStdCollections:FreePointerReadFixer.kt$FreePointerReadFixer.Holder$mutableMapOf</ID>
+        <ID>ImportStdCollections:FunctionFlowAnnotator.kt$FunctionFlowAnnotator$forEach</ID>
+        <ID>ImportStdCollections:GraphDrawer.kt$forEach</ID>
+        <ID>ImportStdCollections:GraphToRegex.kt$GraphToRegex$+</ID>
+        <ID>ImportStdCollections:GraphToRegex.kt$GraphToRegex$toMap</ID>
+        <ID>ImportStdCollections:GraphToRegex.kt$Regex.Plus.Companion$listOf</ID>
+        <ID>ImportStdCollections:GraphToRegex.kt$Regex.Times.Companion$listOf</ID>
+        <ID>ImportStdCollections:GraphToRegex.kt$listOf</ID>
+        <ID>ImportStdCollections:HTMLReporter.kt$HTMLReporter$+</ID>
+        <ID>ImportStdCollections:HTMLReporter.kt$HTMLReporter$listOf</ID>
+        <ID>ImportStdCollections:HTMLReporter.kt$HTMLReporter$mapValues</ID>
+        <ID>ImportStdCollections:HTMLReporter.kt$HTMLReporter$mutableSetOf</ID>
+        <ID>ImportStdCollections:HashOptimizations.kt$&lt;no name provided&gt;$listOf</ID>
+        <ID>ImportStdCollections:HashOptimizations.kt$&lt;no name provided&gt;$mutableSetOf</ID>
+        <ID>ImportStdCollections:Havocer.kt$Havocer$emptyList</ID>
+        <ID>ImportStdCollections:Havocer.kt$Havocer$listOf</ID>
+        <ID>ImportStdCollections:Havocer.kt$Havocer$mutableSetOf</ID>
+        <ID>ImportStdCollections:IContractSourceFull.kt$IContractSourceFull$toSet</ID>
+        <ID>ImportStdCollections:IDynamicScene.kt$IDynamicScene$mapTo</ID>
+        <ID>ImportStdCollections:IDynamicScene.kt$IDynamicScene$mutableMapOf</ID>
+        <ID>ImportStdCollections:IDynamicScene.kt$IDynamicScene$mutableSetOf</ID>
+        <ID>ImportStdCollections:IDynamicScene.kt$IDynamicScene.RemapperState$mutableMapOf</ID>
+        <ID>ImportStdCollections:IMustEqualsAnalysis.kt$IMustEqualsAnalysis.ScopeDefinition$minus</ID>
+        <ID>ImportStdCollections:IMustEqualsAnalysis.kt$IMustEqualsAnalysis.ScopeDefinition$setOf</ID>
+        <ID>ImportStdCollections:ImmutableInstrumenter.kt$ImmutableInstrumenter$forEach</ID>
+        <ID>ImportStdCollections:InitAnnotation.kt$InitAnnotation$listOf</ID>
+        <ID>ImportStdCollections:InitAnnotation.kt$InitAnnotation.ExpectBoundedWrite$setOf</ID>
+        <ID>ImportStdCollections:InitAnnotation.kt$InitAnnotation.FourByteWriteSummary$setOf</ID>
+        <ID>ImportStdCollections:InitializationPointerShift.kt$InitializationPointerShift$+</ID>
+        <ID>ImportStdCollections:InitializationPointerShift.kt$InitializationPointerShift$listOf</ID>
+        <ID>ImportStdCollections:Inliner.kt$Inliner.DirectPassing$forEach</ID>
+        <ID>ImportStdCollections:InsertMapDefinitions.kt$InsertMapDefinitions$listOf</ID>
+        <ID>ImportStdCollections:InsertMapDefinitions.kt$InsertMapDefinitions$mutableMapOf</ID>
+        <ID>ImportStdCollections:IntQualifier.kt$IntQualifier.CalldataPayloadSize$listOf</ID>
+        <ID>ImportStdCollections:IntQualifier.kt$IntQualifier.CalldataSize$listOf</ID>
+        <ID>ImportStdCollections:IntQualifier.kt$IntQualifier.EmptyDataSegment$listOf</ID>
+        <ID>ImportStdCollections:IntQualifier.kt$IntQualifier.MultipleOf$listOf</ID>
+        <ID>ImportStdCollections:InterContractCallResolver.kt$InterContractCallResolver$forEach</ID>
+        <ID>ImportStdCollections:InternalSummarizer.kt$InternalSummarizer$forEach</ID>
+        <ID>ImportStdCollections:JSONReporter.kt$JSONReporter$listOf</ID>
+        <ID>ImportStdCollections:JSONReporter.kt$JSONReporter$mutableSetOf</ID>
+        <ID>ImportStdCollections:JumpConditionNormalizer.kt$JumpConditionNormalizer$listOf</ID>
+        <ID>ImportStdCollections:JumpConditionNormalizer.kt$JumpConditionNormalizer$setOf</ID>
+        <ID>ImportStdCollections:KleeneSolver.kt$KleeneSolver$mutableMapOf</ID>
+        <ID>ImportStdCollections:LExpVCStatsLogger.kt$LExpVCStatsLogger$forEach</ID>
+        <ID>ImportStdCollections:LVar.kt$LVar$listOf</ID>
+        <ID>ImportStdCollections:LinearAtom.kt$+</ID>
+        <ID>ImportStdCollections:LinearAtom.kt$listOf</ID>
+        <ID>ImportStdCollections:LinearMathAxiomGenerator.kt$LinearMathAxiomGenerator$forEach</ID>
+        <ID>ImportStdCollections:LinearTerm.kt$LinearTerm$+</ID>
+        <ID>ImportStdCollections:LinearTerm.kt$LinearTerm.Companion$listOf</ID>
+        <ID>ImportStdCollections:LogicalEquivalence.kt$LogicalEquivalence$listOf</ID>
+        <ID>ImportStdCollections:LogicalEquivalence.kt$LogicalEquivalence$mutableSetOf</ID>
+        <ID>ImportStdCollections:LoopAnalysis.kt$mutableSetOf</ID>
+        <ID>ImportStdCollections:LoopAnalysis.kt$toSet</ID>
+        <ID>ImportStdCollections:LoopInterpolation.kt$LoopInterpolation$filter</ID>
+        <ID>ImportStdCollections:LoopInterpolation.kt$LoopInterpolation$listOf</ID>
+        <ID>ImportStdCollections:LoopInterpolation.kt$LoopInterpolation$mutableMapOf</ID>
+        <ID>ImportStdCollections:LoopInterpolation.kt$LoopInterpolation$mutableSetOf</ID>
+        <ID>ImportStdCollections:LoopInterpolation.kt$LoopInterpolation$toMap</ID>
+        <ID>ImportStdCollections:LoopSummarization.kt$LoopSummarization$forEach</ID>
+        <ID>ImportStdCollections:LoopValueSummaryInterpreter.kt$LoopValueSummaryInterpreter$+</ID>
+        <ID>ImportStdCollections:MapBackedContractClass.kt$MapBackedContractClass$forEach</ID>
+        <ID>ImportStdCollections:MayReachabilityAnalysis.kt$MayReachabilityAnalysis.&lt;no name provided&gt;$+</ID>
+        <ID>ImportStdCollections:MayReachabilityAnalysis.kt$MayReachabilityAnalysis.&lt;no name provided&gt;$setOf</ID>
+        <ID>ImportStdCollections:MayReachabilityAnalysis.kt$MayReachabilityAnalysis.&lt;no name provided&gt;$union</ID>
+        <ID>ImportStdCollections:MemoryPartition.kt$MemoryPartition$listOf</ID>
+        <ID>ImportStdCollections:MemoryPartition.kt$MemoryPartition$mapValues</ID>
+        <ID>ImportStdCollections:MemoryPartition.kt$MemoryPartition$mutableMapOf</ID>
+        <ID>ImportStdCollections:MethodParameterInstantiation.kt$MethodParameterInstantiation$+</ID>
+        <ID>ImportStdCollections:MethodParameterInstantiation.kt$MethodParameterInstantiation$intersect</ID>
+        <ID>ImportStdCollections:MethodParameterInstantiation.kt$MethodParameterInstantiation.Companion$mapOf</ID>
+        <ID>ImportStdCollections:MultiBytecodeSource.kt$MultiBytecodeSource$listOf</ID>
+        <ID>ImportStdCollections:MultiBytecodeSource.kt$MultiBytecodeSource$mapOf</ID>
+        <ID>ImportStdCollections:MultiBytecodeSource.kt$MultiBytecodeSource$setOf</ID>
+        <ID>ImportStdCollections:MultiBytecodeSource.kt$MultiBytecodeSource$toMap</ID>
+        <ID>ImportStdCollections:MustEqualsAnalysis.kt$MustEqualsAnalysis$intersect</ID>
+        <ID>ImportStdCollections:MustEqualsAnalysis.kt$MustEqualsAnalysis$mapOf</ID>
+        <ID>ImportStdCollections:MustEqualsAnalysis.kt$MustEqualsAnalysis$minus</ID>
+        <ID>ImportStdCollections:MustEqualsAnalysis.kt$MustEqualsAnalysis$plus</ID>
+        <ID>ImportStdCollections:MustEqualsAnalysis.kt$MustEqualsAnalysis$setOf</ID>
+        <ID>ImportStdCollections:MustEqualsAnalysis.kt$MustEqualsAnalysis$toMap</ID>
+        <ID>ImportStdCollections:MustEqualsAnalysis.kt$MustEqualsAnalysis$toMutableMap</ID>
+        <ID>ImportStdCollections:MustEqualsAnalysis.kt$MustEqualsAnalysis.&lt;no name provided&gt;$setOf</ID>
+        <ID>ImportStdCollections:MustPathInclusionAnalysis.kt$MustPathInclusionAnalysis$mutableMapOf</ID>
+        <ID>ImportStdCollections:MustPathInclusionAnalysis.kt$MustPathInclusionAnalysis$mutableSetOf</ID>
+        <ID>ImportStdCollections:MustReachabilityAnalysis.kt$MustReachabilityAnalysis.&lt;no name provided&gt;$+</ID>
+        <ID>ImportStdCollections:MustReachabilityAnalysis.kt$MustReachabilityAnalysis.&lt;no name provided&gt;$intersect</ID>
+        <ID>ImportStdCollections:MustReachabilityAnalysis.kt$MustReachabilityAnalysis.&lt;no name provided&gt;$setOf</ID>
+        <ID>ImportStdCollections:ParametricInstantiation.kt$ParametricInstantiation.Companion$+</ID>
+        <ID>ImportStdCollections:ParametricInstantiation.kt$ParametricInstantiation.Companion$listOf</ID>
+        <ID>ImportStdCollections:ParametricMethodInstantiatedCode.kt$ParametricMethodInstantiatedCode$listOf</ID>
+        <ID>ImportStdCollections:ParametricMethodInstantiatedCode.kt$toSet</ID>
+        <ID>ImportStdCollections:PatchingTACProgram.kt$PatchingTACProgram$forEach</ID>
+        <ID>ImportStdCollections:PatchingTACProgram.kt$forEach</ID>
+        <ID>ImportStdCollections:PathApplication.kt$PathApplication$+</ID>
+        <ID>ImportStdCollections:QualifiedUIntApproxValueInterpreter.kt$QualifiedUIntApproxValueInterpreter.&lt;no name provided&gt;$listOf</ID>
+        <ID>ImportStdCollections:QualifiedUIntApproxValueInterpreter.kt$QualifiedUIntApproxValueInterpreter.&lt;no name provided&gt;$singleOrNull</ID>
+        <ID>ImportStdCollections:QualifiedUIntApproxValueInterpreter.kt$QualifiedUIntApproxValueInterpreter.&lt;no name provided&gt;.&lt;no name provided&gt;$listOf</ID>
+        <ID>ImportStdCollections:QualifiedUIntApproxValueInterpreter.kt$QualifiedUIntApproxValueInterpreter.&lt;no name provided&gt;.&lt;no name provided&gt;$singleOrNull</ID>
+        <ID>ImportStdCollections:Qualifier.kt$setOf</ID>
+        <ID>ImportStdCollections:QualifierManager.kt$QualifierManager$+</ID>
+        <ID>ImportStdCollections:QualifierManager.kt$QualifierManager$-</ID>
+        <ID>ImportStdCollections:QualifierManager.kt$QualifierManager$emptyList</ID>
+        <ID>ImportStdCollections:QualifierManager.kt$QualifierManager$listOf</ID>
+        <ID>ImportStdCollections:QualifierManager.kt$QualifierManager$mutableSetOf</ID>
+        <ID>ImportStdCollections:QualifierManager.kt$QualifierManager$setOf</ID>
+        <ID>ImportStdCollections:QualifierPropagationComputation.kt$QualifierPropagationComputation$mutableMapOf</ID>
+        <ID>ImportStdCollections:RawHashToSimpleHashConverter.kt$RawHashToSimpleHashConverter$listOf</ID>
+        <ID>ImportStdCollections:RawHashToSimpleHashConverter.kt$RawHashToSimpleHashConverter$toSet</ID>
+        <ID>ImportStdCollections:ReachabilityFailureSourceFinder.kt$ReachabilityFailureSourceFinder.LeafReachabilityChecker$mutableMapOf</ID>
+        <ID>ImportStdCollections:ReachabilityFailureSourceFinder.kt$ReachabilityFailureSourceFinder.LeafReachabilityChecker$toMutableMap</ID>
+        <ID>ImportStdCollections:RecycledVarsRemover.kt$RecycledVarsRemover$listOf</ID>
+        <ID>ImportStdCollections:RecycledVarsRemover.kt$RecycledVarsRemover$mutableMapOf</ID>
+        <ID>ImportStdCollections:ReorderObjectInitialization.kt$ReorderObjectInitialization$listOf</ID>
+        <ID>ImportStdCollections:ReorderObjectInitialization.kt$ReorderObjectInitialization$mutableMapOf</ID>
+        <ID>ImportStdCollections:ReorderObjectInitialization.kt$ReorderObjectInitialization$singleOrNull</ID>
+        <ID>ImportStdCollections:ReturnBufferRewriter.kt$ReturnSizeCalculationSimplifer$listOf</ID>
+        <ID>ImportStdCollections:ReturnsInstrumentation.kt$listOf</ID>
+        <ID>ImportStdCollections:RevertBlockAnalysis.kt$RevertBlockAnalysis$listOf</ID>
+        <ID>ImportStdCollections:RevertBlockAnalysis.kt$RevertBlockAnalysis.&lt;no name provided&gt;$emptyList</ID>
+        <ID>ImportStdCollections:RevertBlockAnalysis.kt$RevertBlockAnalysis.&lt;no name provided&gt;$listOf</ID>
+        <ID>ImportStdCollections:RevertBlockAnalysis.kt$RevertBlockAnalysis.&lt;no name provided&gt;$setOf</ID>
+        <ID>ImportStdCollections:RunID.kt$EnabledRunID$listOf</ID>
+        <ID>ImportStdCollections:RunID.kt$EnabledRunID$mutableSetOf</ID>
+        <ID>ImportStdCollections:RunID.kt$EnabledRunID$union</ID>
+        <ID>ImportStdCollections:RustBlaster.kt$RustBlasterPool.RustWorker$listOf</ID>
+        <ID>ImportStdCollections:SDCollector.kt$EnabledSDCollector$mapTo</ID>
+        <ID>ImportStdCollections:SDCollector.kt$EnabledSDCollector$mutableMapOf</ID>
+        <ID>ImportStdCollections:SDCollector.kt$EnabledSDCollector.Companion$+</ID>
+        <ID>ImportStdCollections:SDCollector.kt$EnabledSDCollector.Companion$-</ID>
+        <ID>ImportStdCollections:SDCollector.kt$EnabledSDCollector.Companion$intersect</ID>
+        <ID>ImportStdCollections:SDCollector.kt$EnabledSDCollector.Companion$listOf</ID>
+        <ID>ImportStdCollections:SDCollector.kt$EnabledSDCollector.Companion$plus</ID>
+        <ID>ImportStdCollections:SDCollector.kt$EnabledSDCollector.Companion$toList</ID>
+        <ID>ImportStdCollections:SafeMathRewriting.kt$SafeMathRewriting$listOf</ID>
+        <ID>ImportStdCollections:SanityResultsView.kt$SanityResultsView$emptyList</ID>
+        <ID>ImportStdCollections:SanityResultsView.kt$SanityResultsView$mapValues</ID>
+        <ID>ImportStdCollections:SanityResultsView.kt$SanityResultsView.FunctionDependent$mapValues</ID>
+        <ID>ImportStdCollections:SanityResultsView.kt$SanityResultsView.FunctionDependent.Companion$mutableMapOf</ID>
+        <ID>ImportStdCollections:SaturateSubstitution.kt$SaturateSubstitution$listOf</ID>
+        <ID>ImportStdCollections:SaturateSubstitution.kt$SaturateSubstitutionTACExpr$mapTo</ID>
+        <ID>ImportStdCollections:SaturateSubstitution.kt$SaturateSubstitutionTACExpr$mutableSetOf</ID>
+        <ID>ImportStdCollections:SceneConstructorOracle.kt$SceneConstructorOracle$mapValues</ID>
+        <ID>ImportStdCollections:ScratchPointerAnalysis.kt$ScratchPointerAnalysis.ScratchAnalysisWorker$forEach</ID>
+        <ID>ImportStdCollections:ScratchPointerAnalysis.kt$ScratchPointerAnalysis.ScratchAnalysisWorker$listOf</ID>
+        <ID>ImportStdCollections:ScratchPointerAnalysis.kt$ScratchPointerAnalysis.ScratchAnalysisWorker$mapTo</ID>
+        <ID>ImportStdCollections:ScratchPointerAnalysis.kt$ScratchPointerAnalysis.ScratchAnalysisWorker$mutableMapOf</ID>
+        <ID>ImportStdCollections:ScratchPointerAnalysis.kt$ScratchPointerAnalysis.ScratchAnalysisWorker$mutableSetOf</ID>
+        <ID>ImportStdCollections:ScratchPointerAnalysis.kt$ScratchPointerAnalysis.ScratchAnalysisWorker$toMap</ID>
+        <ID>ImportStdCollections:ScratchPointerAnalysis.kt$ScratchPointerAnalysis.ScratchAnalysisWorker$toMutableMap</ID>
+        <ID>ImportStdCollections:ScratchPointerAnalysis.kt$ScratchPointerAnalysis.ScratchAnalysisWorker.&lt;no name provided&gt;.&lt;no name provided&gt;.&lt;no name provided&gt;$listOf</ID>
+        <ID>ImportStdCollections:SigResolution.kt$SigResolution.Companion$mapOf</ID>
+        <ID>ImportStdCollections:SimpleLoopSummarization.kt$SimpleLoopSummarization$mutableSetOf</ID>
+        <ID>ImportStdCollections:SimpleLoopSummarization.kt$SimpleLoopSummarization$toMap</ID>
+        <ID>ImportStdCollections:SinkOptimizer.kt$SinkOptimizer$+</ID>
+        <ID>ImportStdCollections:SinkOptimizer.kt$SinkOptimizer$mutableMapOf</ID>
+        <ID>ImportStdCollections:SinkOptimizer.kt$SinkOptimizer$toSet</ID>
+        <ID>ImportStdCollections:SmtExpScriptBuilder.kt$SmtExpScriptBuilder$listOf</ID>
+        <ID>ImportStdCollections:SmtExpScriptBuilder.kt$SmtExpScriptBuilder.Companion$listOf</ID>
+        <ID>ImportStdCollections:SmtTheory.kt$setOf</ID>
+        <ID>ImportStdCollections:SolidityContractSource.kt$SolidityContractSource.&lt;no name provided&gt;$listOf</ID>
+        <ID>ImportStdCollections:SolidityVerifier.kt$SolidityVerifier$forEach</ID>
+        <ID>ImportStdCollections:Split.kt$Split$+</ID>
+        <ID>ImportStdCollections:Split.kt$Split.Companion$emptyList</ID>
+        <ID>ImportStdCollections:SplitContext.kt$SplitContext$mutableMapOf</ID>
+        <ID>ImportStdCollections:SplitContext.kt$SplitContext$mutableSetOf</ID>
+        <ID>ImportStdCollections:SplitContext.kt$SplitContext.Companion$+</ID>
+        <ID>ImportStdCollections:SplitContext.kt$SplitContext.Companion$setOf</ID>
+        <ID>ImportStdCollections:SplitContext.kt$SplitContext.Companion$toSet</ID>
+        <ID>ImportStdCollections:SplitDebugger.kt$SplitDebugger$mutableMapOf</ID>
+        <ID>ImportStdCollections:SplitStorageVarsHoister.kt$SplitStorageVarsHoister$+</ID>
+        <ID>ImportStdCollections:StackMapping.kt$ParseData.Companion$listOf</ID>
+        <ID>ImportStdCollections:StackMapping.kt$StackMapping$listOf</ID>
+        <ID>ImportStdCollections:StaticBitVectorUniverse.kt$StaticBitVectorUniverse$mutableMapOf</ID>
+        <ID>ImportStdCollections:StaticBitVectorUniverse.kt$StaticBitVectorUniverse$toList</ID>
+        <ID>ImportStdCollections:StatusReporter.kt$StatusReporter$mutableMapOf</ID>
+        <ID>ImportStdCollections:StatusReporter.kt$StatusReporter$mutableSetOf</ID>
+        <ID>ImportStdCollections:StorageAnalysisResult.kt$StorageAnalysisResult.AccessPaths$toSet</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.StorageLengthReadSummary$mutableSetOf</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.StorageLengthReadSummary$setOf</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.Worker$+</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.Worker$listOf</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.Worker$mapOf</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.Worker$mutableSetOf</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.Worker$setOf</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.Worker$single</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.Worker$singleOrNull</ID>
+        <ID>ImportStdCollections:StoragePackedLengthSummarizer.kt$StoragePackedLengthSummarizer.Worker$toSet</ID>
+        <ID>ImportStdCollections:StridePath.kt$StridePath$+</ID>
+        <ID>ImportStdCollections:StridingQualifier.kt$StridingQualifier.Companion$intersect</ID>
+        <ID>ImportStdCollections:StridingQualifier.kt$StridingQualifier.Companion$listOf</ID>
+        <ID>ImportStdCollections:StructStateAnalysis.kt$StructStateAnalysis$forEach</ID>
+        <ID>ImportStdCollections:SubListAdaptingObjectOutput.kt$SubListAdaptingObjectOutput$toList</ID>
+        <ID>ImportStdCollections:SubtractionSemantics.kt$SubtractionSemantics$union</ID>
+        <ID>ImportStdCollections:SummarizeProgram.kt$SummarizeProgram$mutableMapOf</ID>
+        <ID>ImportStdCollections:SummarizeProgram.kt$SummarizeProgram$mutableSetOf</ID>
+        <ID>ImportStdCollections:SummarizeProgram.kt$SummarizeProgram$toList</ID>
+        <ID>ImportStdCollections:SysenvConstructorOracle.kt$SysenvConstructorOracle$singleOrNull</ID>
+        <ID>ImportStdCollections:TACCommandGraph.kt$GenericTACCommandGraph$forEach</ID>
+        <ID>ImportStdCollections:TACExprFactory.kt$TACExprFactBasicSimp$+</ID>
+        <ID>ImportStdCollections:TACExprFactory.kt$TACExprFactory$listOf</ID>
+        <ID>ImportStdCollections:TACExprFactory.kt$TACExprFactory$toMap</ID>
+        <ID>ImportStdCollections:TACExprTransformer.kt$DefaultTACExprTransformer$mapValues</ID>
+        <ID>ImportStdCollections:TACMockLanguage.kt$TACMockLanguage$mutableMapOf</ID>
+        <ID>ImportStdCollections:TACMockLanguage.kt$TACMockLanguage$mutableSetOf</ID>
+        <ID>ImportStdCollections:TACMockLanguage.kt$TACMockLanguage.StmtBuilderScope$+</ID>
+        <ID>ImportStdCollections:TACMockLanguage.kt$TACMockLanguage.StmtBuilderScope$listOf</ID>
+        <ID>ImportStdCollections:TACMockLanguage.kt$TACMockLanguage.StmtBuilderScope$mutableSetOf</ID>
+        <ID>ImportStdCollections:TACMockLanguage.kt$TACMockLanguage.StmtBuilderScope$toList</ID>
+        <ID>ImportStdCollections:TACProgram.kt$CoreTACProgram$forEach</ID>
+        <ID>ImportStdCollections:TACUtils.kt$TACUtils$forEach</ID>
+        <ID>ImportStdCollections:TernaryCalculator.kt$TernaryCalculator$mutableMapOf</ID>
+        <ID>ImportStdCollections:TernarySimplifier.kt$TernarySimplifier$listOf</ID>
+        <ID>ImportStdCollections:TernarySimplifier.kt$TernarySimplifier$setOf</ID>
+        <ID>ImportStdCollections:TimeStatistics.kt$ElapsedTimeStats$+</ID>
+        <ID>ImportStdCollections:TimeStatistics.kt$ElapsedTimeStats$listOf</ID>
+        <ID>ImportStdCollections:TimeStatistics.kt$ElapsedTimeStats$mutableMapOf</ID>
+        <ID>ImportStdCollections:TimeStatistics.kt$TimeStampStats$listOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$LExpTransFormula.Companion$setOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$LExpTransFormula.Companion$toList</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TACReadOverWriteAtSamePositionEliminator$filter</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TACReadOverWriteAtSamePositionEliminator$toSet</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TACTransFormula$mapTo</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TACTransFormula$mutableSetOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TACTransFormula$setOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TACTransFormula.Companion$setOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TACTransFormula.Companion$toList</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula$+</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula$toSet</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$+</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$-</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$filter</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$forEach</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$intersect</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$listOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$mapOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$mutableMapOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$mutableSetOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$setOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion$toMap</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion.DefinitionInliningSeqCompAccumulator$forEach</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion.DefinitionInliningSeqCompAccumulator$listOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion.DefinitionInliningSeqCompAccumulator$mutableMapOf</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion.DefinitionInliningSeqCompAccumulator$toMap</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Companion.DefinitionInliningSeqCompAccumulator$toSet</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Substitutor$filter</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Substitutor$mapValues</ID>
+        <ID>ImportStdCollections:TransFormula.kt$TransFormula.Substitutor$mutableSetOf</ID>
+        <ID>ImportStdCollections:TransformableVarsEntity.kt$TransformableSymAndVarEntityWithSupport$+</ID>
+        <ID>ImportStdCollections:TransformableVarsEntity.kt$TransformableSymEntityWithRlxSupport$mutableSetOf</ID>
+        <ID>ImportStdCollections:TreeViewReporter.kt$TreeViewReporter.ContractsTable.ContractEntry$forEach</ID>
+        <ID>ImportStdCollections:TrivialBlockClassifier.kt$TrivialBlockClassifier$singleOrNull</ID>
+        <ID>ImportStdCollections:TrivialPointsToInformation.kt$TrivialPointsToInformation.&lt;no name provided&gt;$setOf</ID>
+        <ID>ImportStdCollections:TypeRewriter.kt$TypeRewriter$listOf</ID>
+        <ID>ImportStdCollections:TypeRewriter.kt$TypeRewriter$mutableSetOf</ID>
+        <ID>ImportStdCollections:TypeRewriter.kt$TypeRewriter$singleOrNull</ID>
+        <ID>ImportStdCollections:TypeVariableManager.kt$TypeVariableManager$mutableMapOf</ID>
+        <ID>ImportStdCollections:UfAxioms.kt$UfAxioms$plus</ID>
+        <ID>ImportStdCollections:UfAxioms.kt$UfAxioms.Companion$mapOf</ID>
+        <ID>ImportStdCollections:UniqueCache.kt$UniqueCache$mutableMapOf</ID>
+        <ID>ImportStdCollections:UnoptimizeFreeMem.kt$UnoptimizeFreeMem$listOf</ID>
+        <ID>ImportStdCollections:UnreachableUnpackingCodeFinder.kt$UnreachableUnpackingCodeFinder$listOf</ID>
+        <ID>ImportStdCollections:VarSubstitutor.kt$VarSubstitutor$toMap</ID>
+        <ID>ImportStdCollections:VariableLookupComputation.kt$VariableLookupComputation$mutableSetOf</ID>
+        <ID>ImportStdCollections:Z3BlasterPool.kt$Z3BlasterPool.Z3BlasterWorker$listOf</ID>
+        <ID>MandatoryBracesLoops:BufferedEventStream.kt$BufferedEventStream$eventsBuffer.addLast(Pair(evt, timeStamper.getCurrentTime()))</ID>
+        <ID>NoTabs:AbstractTACParserCmd.kt$AbstractTACParserCmd$ </ID>
+        <ID>NoTabs:printCmd.kt$ </ID>
+        <ID>NoTabs:printExpr.kt$ </ID>
+        <ID>SuspendFunSwallowedCancellation:SQSEventStream.kt$SQSStream$runCatching</ID>
+        <ID>SwallowedException:SpecSource.kt$CVLSpecSource$e: Exception</ID>
+        <ID>SwallowedException:TACProgram.kt$TACProgram$e: Exception</ID>
+        <ID>ThrowingExceptionFromFinally:CEGARUtils.kt$throw dummyE!!</ID>
+        <ID>ThrowingExceptionsWithoutMessageOrCause:EncoderAnalysis.kt$EncoderAnalysis.Companion$IllegalArgumentException()</ID>
+        <ID>TooGenericExceptionCaught:CEGARCoordinator.kt$CEGARCoordinator$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:CEGARUtils.kt$closeE: Throwable</ID>
+        <ID>TooGenericExceptionCaught:CEGARUtils.kt$e: Throwable</ID>
+        <ID>TooGenericExceptionCaught:CEGARWorker.kt$CEGARWorker$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:CVLExpToTACExpr.kt$CVLExpToTACExpr$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:CacheManager.kt$CacheManager$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:CallGraphBuilder.kt$CallGraphBuilder$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:CallTrace.kt$CallTraceGenerator$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:CodeTransformers.kt$ChainedCoreTransformers$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:ConcreteTACStateSerializer.kt$ConcreteTACStateSerializer$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:ContractUtils.kt$ContractUtils$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:EntryPoint.kt$t: Exception</ID>
+        <ID>TooGenericExceptionCaught:EventStreams.kt$FileEventStream$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:EventStreams.kt$StdOutEventStream$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:ExactNIAWorker.kt$ExactNIAWorker$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:Executable.kt$Executable$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:GraphDrawer.kt$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:GraphDrawer.kt$interrupt: Exception</ID>
+        <ID>TooGenericExceptionCaught:HTMLReporter.kt$HTMLReporter$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:InitAnnotation.kt$InitAnnotation$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:LExpVCSATResultPrettifier.kt$LExpVCSATResultPrettifier$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:LogicalEquivalence.kt$LogicalEquivalence$x: Exception</ID>
+        <ID>TooGenericExceptionCaught:OutputReporter.kt$OutputReporter$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:OutputReporter.kt$ReporterContainer$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:ReachabilityFailureSourceFinder.kt$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:RustBlaster.kt$RustBlasterPool.RustWorker$e : Exception</ID>
+        <ID>TooGenericExceptionCaught:SolidityVerifier.kt$SolidityVerifier$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:SpecSource.kt$CVLSpecSource$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:StorageAnalysis.kt$StorageAnalysis$x: Throwable</ID>
+        <ID>TooGenericExceptionCaught:TACProgram.kt$CoreTACProgram$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:TACProgram.kt$CoreTACProgram.Companion$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:TACProgram.kt$EVMTACProgram$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:TACProgram.kt$TACProgram$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:ValueRangeOptimization.kt$ValueRangeOptimization$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:Z3BlasterPool.kt$Z3BlasterPool.Z3BlasterWorker$e: Exception</ID>
+        <ID>TooGenericExceptionThrown:BlockMerger.kt$BlockMerger$throw Exception("Current chain node $b from $chain not in code")</ID>
+        <ID>TooGenericExceptionThrown:BlockMerger.kt$BlockMerger$throw Exception("Start node $current is not in graph $newGraph")</ID>
+        <ID>TooGenericExceptionThrown:BuiltInRuleCustomChecker.kt$BuiltInRuleCustomChecker.HasDelegateCallsChecker$throw Exception("Expected the compiled builtin rule ${rule.declarationId} to contain one method parameter, but got $currMethodInst")</ID>
+        <ID>TooGenericExceptionThrown:CodeMap.kt$throw Exception("Unexpected code $ast")</ID>
+        <ID>TooGenericExceptionThrown:GraphDrawer.kt$throw Exception("dot command failed with code $exitcode for $name")</ID>
+        <ID>TooGenericExceptionThrown:IntegrativeChecker.kt$IntegrativeChecker$throw Exception( "Did not process contract $contract out of ${scene.getContracts().map { it.name }}" )</ID>
+        <ID>TooGenericExceptionThrown:IntegrativeChecker.kt$IntegrativeChecker$throw Exception("No contract $contract in ${contractNames}")</ID>
+        <ID>TooGenericExceptionThrown:ParametricInstantiation.kt$ParametricInstantiation$throw Exception("Can't get as simple $this with size ${withMethodParamInsts.size}")</ID>
+        <ID>TooGenericExceptionThrown:Simplifier.kt$EthereumVariables$throw Exception("Must not simplify a list to an empty list")</ID>
+        <ID>TooGenericExceptionThrown:TACMockLanguage.kt$TACMockLanguage.StmtBuilderScope.StackVarDelegate$throw RuntimeException("TYPE ERROR $value")</ID>
+        <ID>TooGenericExceptionThrown:TACProgram.kt$CoreTACProgram$throw Exception("Node $n does not appear in graph")</ID>
+        <ID>TooGenericExceptionThrown:TACProgram.kt$EVMTACProgram$throw Exception("Node $g does not appear in graph $g")</ID>
+        <ID>TooGenericExceptionThrown:TACProgram.kt$TACProgram$throw Exception("Node $g does not appear in graph $g")</ID>
+        <ID>TooGenericExceptionThrown:TACSymbol.kt$TACSymbol.Const$throw RuntimeException("Illegal boolean-tagged tac symbol $value")</ID>
+        <ID>TooGenericExceptionThrown:TransformableVarsEntity.kt$throw RuntimeException( "the transformable entity ($v) failed to return the right type when applying a " + "TransformableEntity transformation: should have that $k ${k.typ} is an instance of $ret (${ret.javaClass.name})" )</ID>
+        <ID>UseOrEmpty:BMC.kt$BMCRunner$MetaSourceFinder.extractSource(it.cmd.annot.k, it.cmd.annot.v)?.let { sequenceOf(it) } ?: sequenceOf()</ID>
+        <ID>UseOrEmpty:BMC.kt$BMCRunner$MetaSourceFinder.extractSource(null, it.cmd.summ)?.let { sequenceOf(it) } ?: sequenceOf&lt;Pair&lt;Allocator.Id, Int&gt;&gt;()</ID>
+        <ID>UseOrEmpty:CallSummary.kt$CallSummary$callTarget.callee?.let { "($it)" } ?: ""</ID>
+        <ID>UseOrEmpty:EVMSnippet.kt$EVMSnippetCmd.StorageSnippet$(value as? TACSymbol.Var)?.let { setOf(it) } ?: emptySet()</ID>
+        <ID>UseOrEmpty:EncoderAnalysis.kt$EncoderAnalysis$elementFinder?.elementWithIndex(BigInteger.ZERO) ?: emptySet()</ID>
+        <ID>UseOrEmpty:HTMLReporter.kt$HTMLReporter$tables.find { it.name == tableName }?.rows ?: listOf()</ID>
+        <ID>UseOrEmpty:IMustEqualsAnalysis.kt$IMustEqualsAnalysis.ScopeDefinition$f(this)?.minus(v) ?: setOf()</ID>
+        <ID>UseOrEmpty:LExpVCStatsLogger.kt$LExpVCStatsLogger$cmd?.joinToString(" ") ?: ""</ID>
+        <ID>UseOrEmpty:OnDemandUseAnalysis.kt$SingleUseAnalysis$usesInBlock.takeIf { it.size == 1 } ?: emptySet()</ID>
+        <ID>UseOrEmpty:QualifierManager.kt$QualifierManager$newQual ?: emptyList()</ID>
+        <ID>UseOrEmpty:ReachabilityFailureSourceFinder.kt$FullProgramReachabilityResult.ReachabilityProblems$tacProgram.code[block]?.get(pos) ?.let { cmd -&gt; cmd.metaSrcInfo?.getSourceCode()?.let { cmd to it } } ?.let { (cmd, offendingSourceCode) -&gt; ": '$cmd' Source: $offendingSourceCode" } ?: ""</ID>
+        <ID>UseOrEmpty:RevertBlockAnalysis.kt$RevertBlockAnalysis.&lt;no name provided&gt;$graph.blockSucc[it] ?: emptySet()</ID>
+        <ID>UseOrEmpty:SplitDebugger.kt$SplitDebugger$cx.mentionedVars[method] ?: emptySet()</ID>
+        <ID>UseOrEmpty:SplitDebugger.kt$SplitDebugger$varSplits[v]?.red ?: ""</ID>
+        <ID>UseOrEmpty:SplitFinder.kt$SplitFinder$methodToNodes[method]?.associate { n -&gt; n.v to n.split } ?: emptyMap()</ID>
+        <ID>UseOrEmpty:StackMapping.kt$StackMapping.StackSlotData.Variable$parsed.data.name?.let { "(named: $it)" } ?: parsed.data.typ?.let { "(type: $it)" } ?: ""</ID>
+        <ID>UseOrEmpty:StaticScene.kt$this?.let { "returns ($it)" } ?: ""</ID>
+        <ID>UseOrEmpty:StorageAnalysis.kt$BytesKeyHash$summarizedBlocks.monadicMap(f)?.toSet() ?: emptySet()</ID>
+        <ID>UseOrEmpty:StorageCopyLoopSummary.kt$StorageCopyLoopSummary$summarizedBlocks.monadicMap(f)?.toSet() ?: emptySet()</ID>
+        <ID>UseOrEmpty:TACCmd.kt$TACCmd$metaSrcInfo?.toString() ?: ""</ID>
+    </CurrentIssues>
+</SmellBaseline>

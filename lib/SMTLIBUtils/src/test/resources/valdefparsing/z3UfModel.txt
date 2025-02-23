@@ -1,0 +1,4 @@
+(
+  (foo (store ((as const Array) 0) 37 1))
+  (bar ((as const Array) 0))
+)

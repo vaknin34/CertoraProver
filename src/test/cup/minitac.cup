@@ -1,0 +1,107 @@
+package vc.data.minitac;
+
+/*
+ *     The Certora Prover
+ *     Copyright (C) 2025  Certora Ltd.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, version 3 of the License.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import java_cup.runtime.*;
+import vc.data.minitac.*;
+import vc.data.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.math.BigInteger;
+import tac.*;
+
+
+parser code {:
+    public Tag.Bits bit256 = Tag.Bit256.INSTANCE;
+
+    private TACSymbol.Var newVar(String ident) {
+        return TACSymbol.Var.Companion.invokeFromJava(ident, bit256, 0);
+    }
+
+    private TACExpr newConst(int k) {
+        return new TACExpr.Sym.Const(
+            new TACSymbol.Const(BigInteger.valueOf(k), bit256)
+        );
+    }:}
+
+terminal String IDENT;
+terminal String NUMBER_LIT;
+terminal MARKER, EMBED, GOTO;
+terminal String OPAQUE;
+terminal String STRING;
+terminal SC, LB, RB, RP, LP, EQ, STAR, COLON, WHILE, IF, COMMA, ELSE;
+
+nonterminal TACExpr exp;
+nonterminal MiniTACCmd cmd;
+nonterminal List<MiniTACCmd> cmd_list, cmd_list_maybe_empty;
+nonterminal List<MiniTACCmd> program;
+
+start with program;
+
+program ::= cmd_list:c {: RESULT = c; :};
+
+exp ::= IDENT:s {: RESULT = new TACExpr.Sym.Var(newVar(s)); :}
+     | STAR {: RESULT = new TACExpr.Unconstrained(bit256); :}
+     | IDENT:bif LP exp:e1 COMMA exp:e2 RP {:
+         if(bif.equals("Add")) {
+            RESULT = TACExpr.Vec.Add.Companion.invoke(e1, e2, bit256);
+         } else if(bif.equals("Lt")) {
+            RESULT = new TACExpr.TernaryExp.Ite(new TACExpr.BinRel.Lt(e1, e2, Tag.Bool.INSTANCE), newConst(1), newConst(0), bit256);
+         } else {
+            RESULT = null;
+            report_fatal_error("unrecognized bif", bif);
+         }
+     :}
+     | NUMBER_LIT:k {: RESULT = newConst(Integer.valueOf(k)); :};
+
+cmd ::= IDENT:lhs EQ exp:e SC {:
+  RESULT = new MiniTACCmd.Assign(newVar(lhs), e);
+:}
+     | IF LP exp:e RP LB cmd_list:c RB {:
+         RESULT = new MiniTACCmd.Conditional(e, c, null);
+     :}
+     | IF LP exp:e RP LB cmd_list:t_list RB ELSE LB cmd_list:e_list RB {:
+        RESULT = new MiniTACCmd.Conditional(e, t_list, e_list);
+        :}
+     | WHILE LP exp:e RP LB cmd_list:body RB {: RESULT = new MiniTACCmd.While(e, body); :}
+     | MARKER LP STRING:s RP SC {:
+        RESULT = new MiniTACCmd.Marker(s);
+      :}
+     | IDENT:l COLON {:
+        RESULT = new MiniTACCmd.LabelCmd(l);
+     :}
+     | GOTO IDENT:l SC {:
+        RESULT = new MiniTACCmd.GotoCmd(l);
+     :}
+     | EMBED OPAQUE:o STRING:label SC {:
+        RESULT = new MiniTACCmd.Opaque(label, o);
+     :};
+
+cmd_list ::= cmd:c cmd_list_maybe_empty:rest {:
+   ArrayList<MiniTACCmd> toRet = new ArrayList<>();
+   toRet.add(c);
+   toRet.addAll(rest);
+   RESULT = toRet;
+:};
+
+cmd_list_maybe_empty ::= cmd:c cmd_list_maybe_empty:rest {:
+   ArrayList<MiniTACCmd> toRet = new ArrayList<>();
+   toRet.add(c);
+   toRet.addAll(rest);
+   RESULT = toRet;
+:} | {: RESULT = new ArrayList<>(); :};

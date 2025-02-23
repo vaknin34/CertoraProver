@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+      "certora.evmspec-lsp",
+      "vscjava.vscode-java-pack",
+      "richardwillis.vscode-gradle-extension-pack",
+      "mathiasfrohlich.kotlin",
+      "ms-python.python",
+      "ms-python.vscode-pylance",
+      "juanblanco.solidity",
+      "editorconfig.editorconfig"
+    ]
+}

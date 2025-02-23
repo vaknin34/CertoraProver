@@ -1,0 +1,68 @@
+[{
+        "featureName": "pausing",
+        "dualFeature": "pausable",
+        "yesResult": "SAT",
+        "depFeatures": [{
+                "id": "delegateCalls",
+                "expectedResult": "NO"
+            }, {
+                "id": "not_changing_balance",
+                "expectedResult": "YES"
+            }
+        ]
+    }, {
+        "featureName": "hasDelegateCalls",
+        "dualFeature": null,
+        "yesResult": "SAT",
+        "depFeatures": []
+    }, {
+        "featureName": "not_changing_balance",
+        "dualFeature": null,
+        "yesResult": "UNSAT",
+        "depFeatures": []
+    }, {
+        "featureName": "blacklist",
+        "dualFeature": "blacklistable",
+        "yesResult": "SAT",
+        "depFeatures": [{
+                "id": "delegateCalls",
+                "expectedResult": "NO"
+            }, {
+                "id": "not_changing_balance",
+                "expectedResult": "YES"
+            }
+        ]
+    }, {
+        "featureName": "unlock",
+        "dualFeature": "unlockable",
+        "yesResult": "SAT",
+        "depFeatures": [{
+                "id": "delegateCalls",
+                "expectedResult": "NO"
+            }, {
+                "id": "not_changing_balance",
+                "expectedResult": "YES"
+            }
+        ]
+    }, {
+        "featureName": "minting",
+        "dualFeature": null,
+        "yesResult": "SAT",
+        "depFeatures": []
+    }, {
+        "featureName": "confiscating",
+        "dualFeature": null,
+        "yesResult": "SAT",
+        "depFeatures": []
+    }, {
+        "featureName": "super_user",
+        "dualFeature": null,
+        "yesResult": "UNSAT",
+        "depFeatures": []
+    }, {
+        "featureName": "always_reverts",
+        "dualFeature": null,
+        "yesResult": "UNSAT",
+        "depFeatures": []
+    }
+]

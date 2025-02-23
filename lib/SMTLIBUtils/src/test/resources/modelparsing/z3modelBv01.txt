@@ -1,0 +1,50 @@
+(model
+  (define-fun tacS!1!0!0_0 () (_ BitVec 256)
+    #x0000000000000000000000000000000000000000000000010000000000000000)
+  (define-fun tacS!1!0!64_0 () (_ BitVec 256)
+    #x0000000000000000000000000000000000000000000000000000000000000000)
+  (define-fun p_0 () (_ BitVec 256)
+    #xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff76)
+  (define-fun certoraTmp2_1 () Bool
+    false)
+  (define-fun certoraTmp_1 () Bool
+    true)
+  (define-fun certoraTmp_2 () Bool
+    true)
+  (define-fun certoraTmp_3 () Bool
+    true)
+  (define-fun certoraTmp2_2 () Bool
+    true)
+  (define-fun certoraTmp_4 () Bool
+    true)
+  (define-fun certoraTmp_5 () Bool
+    true)
+  (define-fun certoraTmp_6 () Bool
+    true)
+  (define-fun OK_0_0_0_0_0_0_0_0 () Bool
+    false)
+  (define-fun certoraAssert_1_1 () Bool
+    false)
+  (define-fun ReachabilityCertora0_0_0_0_0_0_0_0_0 () Bool
+    true)
+  (define-fun slct_tacS!0_0 ((x!0 (_ BitVec 256))) (_ BitVec 256)
+    #x0000000000000000000000000000000000000000000000000000000000000000)
+  (define-fun slct_tacBalance_0 ((x!0 (_ BitVec 256))) (_ BitVec 256)
+    #x0000000000000000000000000000000000000000000000000000000000000000)
+  (define-fun slct_tacS!1_0 ((x!0 (_ BitVec 256))) (_ BitVec 256)
+    #x0000000000000000000000000000000000000000000000000000000000000000)
+)
+(:eliminated-applications 2
+ :eliminated-vars         442
+ :max-memory              1.13
+ :memory                  1.03
+ :mk-bool-var             1
+ :num-allocs              32264
+ :rlimit-count            5868
+ :sat-decisions           19
+ :sat-mk-clause-2ary      84
+ :sat-mk-clause-nary      2
+ :sat-mk-var              84
+ :sat-propagations-2ary   65
+ :time                    0.01
+ :total-time              0.02)

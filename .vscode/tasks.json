@@ -1,0 +1,49 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "type": "gradle",
+        "id": "assembleCertoraProver",
+        "script": "copy-assets",
+        "description": "Assembles the outputs of this project.",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "project": "CertoraProver",
+        "buildFile": "${workspaceFolder}/build.gradle.kts",
+        "rootProject": "CertoraProver",
+        "projectFolder": "${workspaceFolder}",
+        "workspaceFolder": "${workspaceFolder}",
+        "args": "",
+        "javaDebug": false,
+        "problemMatcher": [
+          "$gradle"
+        ],
+        "label": "gradle: copy-assets"
+      },
+      {
+        "type": "gradle",
+        "id": "testCertoraProver",
+        "script": "test",
+        "description": "Runs the unit tests.",
+        "group": {
+          "kind": "test",
+          "isDefault": true
+        },
+        "project": "CertoraProver",
+        "buildFile": "${workspaceFolder}/build.gradle.kts",
+        "rootProject": "CertoraProver",
+        "projectFolder": "${workspaceFolder}",
+        "workspaceFolder": "${workspaceFolder}",
+        "args": "",
+        "javaDebug": false,
+        "problemMatcher": [
+          "$gradle"
+        ],
+        "label": "gradle: test"
+      }
+    ]
+}

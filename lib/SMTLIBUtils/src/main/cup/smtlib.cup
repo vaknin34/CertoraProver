@@ -1,0 +1,239 @@
+package com.certora.smtlibutils.smtlib;
+
+/*
+ *     The Certora Prover
+ *     Copyright (C) 2025  Certora Ltd.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, version 3 of the License.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import java_cup.runtime.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import smtlibutils.data.FactorySmtScript;
+import smtlibutils.data.Cmd.*;
+import smtlibutils.data.SmtExp.*;
+import smtlibutils.data.*;
+import smtlibutils.data.Sort.*;
+import kotlin.Pair;
+//import smtlibutils.data.Line;
+
+parser code {:
+
+    ISmtScript script = null;
+
+    public void setSmtScript(ISmtScript _script) {
+        script = _script;
+    }
+:}
+
+/* Terminals (tokens returned by the scanner). */
+//terminal String NEWLINE;
+terminal String NUMBER;
+terminal String HEX;
+terminal String BINARY;
+terminal String DEC;
+terminal String SYM;
+terminal String INDEX;
+terminal String STAT_SYM;
+// terminal String COMMENT;
+terminal TRUE, FALSE;
+terminal DECLAREFUN, DECLARECONST, DECLARESORT, DEFINEFUN, DECLAREDATATYPES;
+terminal AS, UNDERSCORE, LP, RP, LAMBDA, LET, MAP_TO_EVM_BV256;
+terminal MODEL, SET_OPTION, SET_LOGIC, ASSERT, CHECK_SAT, GET_MODEL, GET_INFO, GET_UNSAT_CORE;
+terminal GOALS, GOAL;
+terminal FORALL, EXISTS;
+terminal PUSH, POP, RESET_ASSERTIONS, RESET;
+terminal EXCLAMATION_MARK;
+
+non terminal List<Cmd> smt;
+non terminal List<Stat> stats_list;
+non terminal Stat stat;
+//non terminal Line line;
+//non terminal List<Line> line_list;
+non terminal Cmd cmd;
+non terminal List<Cmd> cmd_list;
+non terminal List<Cmd> model_cmd_list;
+non terminal List<ValDef> def_list;
+non terminal ValDef def;
+non terminal SmtExp expr;
+non terminal List<SmtExp> expr_list;
+non terminal Sort sort;
+non terminal List<Sort> sort_list;
+non terminal List<Sort> sort_list_opt;
+non terminal SortedVar sorted_var;
+non terminal SortDec sort_dec;
+non terminal List<SortDec> sort_dec_list;
+non terminal List<SortedVar> sorted_vars;
+non terminal List<SortedVar> sorted_vars_opt;
+non terminal DatatypeConstructorDec datatype_constructor_dec;
+non terminal List<DatatypeConstructorDec> datatype_constructor_dec_list;
+non terminal List<List<DatatypeConstructorDec>> datatype_constructor_dec_list_list;
+non terminal VarBinding var_binding;
+non terminal List<VarBinding> var_binding_list;
+non terminal Identifier identifier;
+non terminal String index;
+non terminal List<String> index_list;
+non terminal QualIdentifier qual_identifier;
+non terminal Pair<String, Object> option;
+non terminal SmtExp b_value;
+
+smt     ::= /* empty */ {: RESULT = new ArrayList<Cmd>(); :}
+        //| line_list:ll {: RESULT = ll; :}
+         | cmd_list:cl {: RESULT = cl; :}
+        ;
+
+model_cmd_list ::=
+    cmd:c {: List<Cmd> cl = new ArrayList<Cmd>(); cl.add(c); RESULT = cl; :}
+  | model_cmd_list:cl cmd:c {: cl.add(c); RESULT = cl; :}
+  | model_cmd_list:cl LP FORALL LP sorted_vars:bv RP expr:e RP {: RESULT = cl; :}  // hack to handle Z3 noncompliance when printing cardinality constraint
+  ;
+
+cmd_list  ::= cmd:c {: List<Cmd> cl = new ArrayList<Cmd>(); cl.add(c); RESULT = cl; :}
+             | cmd_list:cl cmd:c {: cl.add(c); RESULT = cl; :}
+             ;
+
+def ::= LP expr:e expr:v RP {: RESULT = new ValDef(e, v); :} ;
+
+def_list  ::= def:d {: List<ValDef> dl = new ArrayList<ValDef>(); dl.add(d); RESULT = dl; :}
+             | def_list:dl def:d {: dl.add(d); RESULT = dl; :}
+             ;
+
+cmd     ::=   LP GOALS LP GOAL expr_list:el STAT_SYM SYM STAT_SYM NUMBER RP RP {: RESULT = new Goal(el); :} // this is quite ad-hoc, aimed at quick 'n' dirty cnf parsing
+            | LP MODEL model_cmd_list:cl RP {: RESULT = new Model(cl); :}
+            | LP def_list:dl RP {: RESULT = new ValDefList(dl); :}
+            | LP DEFINEFUN SYM:name LP sorted_vars_opt:params RP sort:res expr:def RP {: RESULT = script.defineFun(name, params, res, def); :}
+            | LP stats_list:sl RP {: RESULT = script.stats(sl); :}
+            | LP SET_OPTION option:opt RP {: RESULT = script.setOption(opt.getFirst(),opt.getSecond().toString()); :} // TODO: ugly -- alternative would be to introduce an smt object for "option"
+            | LP SET_LOGIC SYM:value RP {: RESULT = script.setLogic(value); :}
+            | LP DECLAREFUN SYM:name LP sort_list_opt:param_sorts RP sort:result_sort RP {: RESULT = script.declareFun(name, param_sorts, result_sort); :}
+            | LP DECLARECONST SYM:name sort:sort RP {: RESULT = script.declareConst(name, sort); :}
+            | LP DECLARESORT sort_dec:sd RP {: RESULT = script.declareSort(sd); :}
+            // see http://cvc4.cs.stanford.edu/wiki/Datatypes for documentation (as this is not on http://smtlib.cs.uiowa.edu)
+            | LP DECLAREDATATYPES LP sort_dec_list:sdl RP LP datatype_constructor_dec_list_list:dcdll RP RP {: RESULT = script.declareDatatypes(sdl, dcdll); :}
+            | LP ASSERT expr:e RP {: RESULT = script.assertCmd(e); :}
+            | LP CHECK_SAT RP {: RESULT = script.checkSat(); :}
+            | LP GET_MODEL RP {: RESULT = script.getModel(); :}
+            | LP GET_UNSAT_CORE RP {: RESULT = script.getUnsatCore(); :}
+            | LP GET_INFO STAT_SYM:s RP {: RESULT = script.getInfo(s); :}
+            | LP PUSH NUMBER:n RP {: RESULT = script.push(Integer.parseInt(n)); :}
+            | LP POP NUMBER:n RP {: RESULT = script.pop(Integer.parseInt(n)); :}
+            | LP RESET RP {: RESULT = script.reset(); :}
+            | LP RESET_ASSERTIONS RP {: RESULT = script.resetAssertions(); :}
+        ;
+
+
+
+stats_list  ::= /* empty */ {: RESULT = new ArrayList<Stat>(); :}
+                | stats_list:sl stat:s {: sl.add(s); RESULT = sl; :}
+        ;
+
+stat    ::= STAT_SYM:name SYM:value {: RESULT = script.stat(name,value); :}
+            | STAT_SYM:name NUMBER:value {: RESULT = script.stat(name,value); :}
+            | STAT_SYM:name DEC:value {: RESULT = script.stat(name,value); :}
+        ;
+
+expr_list ::= expr:e {: List el = new ArrayList<SmtExp>(); el.add(e); RESULT = el; :}
+            | expr_list:el expr:e {: el.add(e); RESULT = el; :}
+            ;
+
+expr    ::= NUMBER:n    {: RESULT = script.number(n); :}
+         |  HEX:h       {: RESULT = script.hex(h); :}
+         |  BINARY:h       {: RESULT = script.binary(h); :}
+         |  DEC:d       {: RESULT = script.decimal(d); :}
+         |  b_value:v {: RESULT = v; :}
+         |  LP LAMBDA LP sorted_vars:vars RP expr:body RP {: RESULT = script.lambda(vars, body); :}
+         |  LP LET LP var_binding_list:defs RP expr:inexpr RP {: RESULT = script.letExpr(defs,inexpr); :}
+         |  LP FORALL LP sorted_vars:bv RP expr:e RP {: RESULT = script.forAll(bv,e); :}
+         |  LP EXISTS LP sorted_vars:bv RP expr:e RP {: RESULT = script.exists(bv,e); :}
+         |  LP EXCLAMATION_MARK expr:e STAT_SYM:att SYM:val RP {: RESULT = script.annotatedExp(e, new SmtAnnotation.NamedAnnotation(val)); :} // not quite full SMT syntax, but enough for `:named something`...
+         |  LP qual_identifier:qid expr_list:args RP {: RESULT = script.apply(qid, args); :}
+         |  qual_identifier:qid {: RESULT = qid; :}
+         ;
+
+sort_list_opt ::= /* empty */ {: RESULT = new ArrayList<Sort>(); :}
+             | sort_list_opt:sl sort:s {: sl.add(s); RESULT = sl; :}
+             ;
+
+sort_list   ::= sort:s {: List<Sort> l = new ArrayList<Sort>(); l.add(s); RESULT = l; :}
+            | sort_list:sl sort:s {: sl.add(s); RESULT = sl; :}
+            ;
+
+sort    ::= identifier:i {: RESULT = script.simpleSort(i); :}
+           | LP identifier:i sort_list:sl RP {: RESULT = script.constructSort(i, sl); :}
+        ;
+
+sort_dec_list ::= LP sort_dec:sd RP {: List<SortDec> l = new ArrayList<>(); l.add(sd); RESULT = l; :}
+            | sort_dec_list:sdl LP sort_dec:sd RP {: sdl.add(sd); RESULT = sdl; :}
+            ;
+
+sort_dec ::= SYM:name NUMBER:arity {: RESULT = new SortDec(name, Integer.parseInt(arity)); :}
+            ;
+
+datatype_constructor_dec_list_list ::=
+              LP datatype_constructor_dec_list:item RP {: List<List<DatatypeConstructorDec>> l = new ArrayList<>(); l.add(item); RESULT = l; :}
+            | datatype_constructor_dec_list_list:list LP datatype_constructor_dec_list:item RP {: list.add(item); RESULT = list; :}
+            ;
+
+// TODO: a feature that the common datatype declaration has but that is missing is that it's possible to specify a type
+//   parameter (like the `T` in `(declare-datatypes ((S 1) (...) ...)  ((constructor (T) (selector T) ...)))`)
+//   we don't need this yet, but if we need it, it should probably be added here or in datatype_constructor_dec ...
+datatype_constructor_dec_list ::=
+              datatype_constructor_dec:item {: List<DatatypeConstructorDec> l = new ArrayList<>(); l.add(item); RESULT = l; :}
+            | datatype_constructor_dec_list:list datatype_constructor_dec:item {: list.add(item); RESULT = list; :}
+            ;
+
+datatype_constructor_dec ::= LP SYM:name sorted_vars_opt:selectors RP {: RESULT = new DatatypeConstructorDec(name, selectors); :} ;
+
+sorted_var ::= LP SYM:b sort:s RP {: RESULT = script.sortedVar(b, s); :};
+
+sorted_vars_opt  ::= /* empty */ {: RESULT = new ArrayList<SortedVar>(); :}
+            |   sorted_vars_opt:blist sorted_var:sv {: blist.add(sv); RESULT = blist; :}
+            ;
+
+sorted_vars  ::= sorted_var:sv {: List<SortedVar> l = new ArrayList<SortedVar>(); l.add(sv); RESULT = l; :}
+            |   sorted_vars:blist sorted_var:sv  {: blist.add(sv); RESULT = blist; :}
+            ;
+
+var_binding ::= LP SYM:sym expr:e RP {: RESULT = script.varBinding(sym, e); :};
+
+var_binding_list  ::= var_binding:vb {: List<VarBinding> l = new ArrayList<VarBinding>(); l.add(vb); RESULT = l; :}
+            |   var_binding_list:dlist var_binding:vb  {: dlist.add(vb); RESULT = dlist; :}
+            ;
+
+index ::= NUMBER:n {: RESULT = n; :}
+        | SYM:s {: RESULT = s; :}
+        ;
+
+index_list ::= index:i {: List il = new ArrayList<String>(); il.add(i); RESULT = il; :}
+            | index_list:il index:i {: il.add(i); RESULT = il; :}
+            ;
+
+// SMTLib 2.6: 3.3: Identifiers are used mostly as function and sort symbols.
+// note: it seems that (non-simple) identifers are used of function and sort symbols defined by theores (not by the
+// user e.g. in declare-fun, there only symbols are allowed by the grammar)
+identifier ::= SYM:id {: RESULT = script.simpleIdentifier(id); :}
+            | LP UNDERSCORE SYM:id index_list:il RP {: RESULT = script.indexedIdentifier(id, il); :}
+            ;
+
+qual_identifier ::= identifier:id {: RESULT = script.qualIdentifier(id); :}
+                | LP AS identifier:id sort:sort RP {: RESULT = script.qualIdentifier(id, sort); :}
+                ;
+
+b_value ::= TRUE {: RESULT = script.boolLit(true); :}
+         | FALSE {: RESULT = script.boolLit(false); :}
+          ;
+
+option ::= STAT_SYM:o b_value:v {: RESULT = new Pair<String, Object>(o, v); :}
+           ;

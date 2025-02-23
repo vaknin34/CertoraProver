@@ -1,0 +1,13 @@
+[package]
+name = "Gimli-DWARF-JSONDump"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gimli = "0.31.0"
+serde = { version = "1.0.209", features = ["derive"] }
+serde_json = "1.0.127"
+object = { version = "0.36.7", features = ["wasm", "write"] }
+getopts = "0.2"
+memmap2 = "0.9.4"
+rustc-demangle = "0.1"

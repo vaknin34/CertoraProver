@@ -1,0 +1,12 @@
+(module $soroban_token_sdk-3d3741822257750f.wasm
+  (type $t0 (func))
+  (func $_ (type $t0))
+  (table $T0 1 1 funcref)
+  (memory $memory 16)
+  (global $__stack_pointer (mut i32) (i32.const 1048576))
+  (global $__data_end i32 (i32.const 1048576))
+  (global $__heap_base i32 (i32.const 1048576))
+  (export "memory" (memory $memory))
+  (export "_" (func $_))
+  (export "__data_end" (global $__data_end))
+  (export "__heap_base" (global $__heap_base)))

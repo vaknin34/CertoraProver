@@ -1,0 +1,75 @@
+{
+    "ptr": {
+        "block": {
+            "type": "tac.BlockIdentifier",
+            "origStartPc": 0,
+            "stkTop": 0,
+            "decompCopy": 0,
+            "calleeIdx": 0,
+            "topOfStackValue": 0,
+            "freshCopy": 0
+        },
+        "pos": 68
+    },
+    "cmd": {
+        "type": "vc.data.TACCmd.Simple.AnnotationCmd",
+        "annot": {
+            "key": {
+                "name": "snippet.cmd",
+                "type": "vc.data.SnippetCmd",
+                "erasureStrategy": "CallTrace"
+            },
+            "value": {
+                "type": "vc.data.SnippetCmd.CVLSnippetCmd.AssertCast",
+                "cvlExpOutSym": {
+                    "namePrefix": "I12",
+                    "tag": {
+                        "type": "tac.Tag.Int"
+                    },
+                    "callIndex": 0
+                },
+                "assertCond": {
+                    "type": "vc.data.TACSymbol.Var.Full",
+                    "namePrefix": "B13",
+                    "tag": {
+                        "type": "tac.Tag.Bool"
+                    },
+                    "callIndex": 0
+                },
+                "range": {
+                    "type": "spec.cvlast.CVLRange.Range",
+                    "specFile": "Cast.spec",
+                    "start": {
+                        "line": 55,
+                        "charByteOffset": 18
+                    },
+                    "end": {
+                        "line": 55,
+                        "charByteOffset": 32
+                    }
+                }
+            }
+        },
+        "meta": [
+            {
+                "key": {
+                    "name": "cvl.range",
+                    "type": "spec.cvlast.CVLRange",
+                    "erasureStrategy": "CallTrace"
+                },
+                "value": {
+                    "type": "spec.cvlast.CVLRange.Range",
+                    "specFile": "Cast.spec",
+                    "start": {
+                        "line": 55,
+                        "charByteOffset": 4
+                    },
+                    "end": {
+                        "line": 55,
+                        "charByteOffset": 33
+                    }
+                }
+            }
+        ]
+    }
+}

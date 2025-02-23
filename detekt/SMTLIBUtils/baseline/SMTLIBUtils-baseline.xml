@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?><SmellBaseline>
+    <CurrentIssues>
+        <ID>BracesOnIfStatements:AbstractUnification.kt$AbstractUnification$else</ID>
+        <ID>BracesOnIfStatements:AbstractUnification.kt$AbstractUnification$if</ID>
+        <ID>BracesOnIfStatements:Cmd.kt$Cmd$else</ID>
+        <ID>BracesOnIfStatements:Cmd.kt$Cmd$if</ID>
+        <ID>BracesOnIfStatements:CollectStatsCmdProc.kt$CollectStatsCmdProc$if</ID>
+        <ID>BracesOnIfStatements:CollectStatsCmdProc.kt$FsTypes.Slct$if</ID>
+        <ID>BracesOnIfStatements:CongruenceClosure.kt$MutableCongruenceClosure$else</ID>
+        <ID>BracesOnIfStatements:CongruenceClosure.kt$MutableCongruenceClosure$if</ID>
+        <ID>BracesOnIfStatements:EMatching.kt$EMatching$else</ID>
+        <ID>BracesOnIfStatements:EMatching.kt$EMatching$if</ID>
+        <ID>BracesOnIfStatements:EMatching.kt$EMatching.Companion$if</ID>
+        <ID>BracesOnIfStatements:ISmtScript.kt$ISmtScript$else</ID>
+        <ID>BracesOnIfStatements:ISmtScript.kt$ISmtScript$if</ID>
+        <ID>BracesOnIfStatements:IteEliminator.kt$IteEliminator.Companion.&lt;no name provided&gt;$if</ID>
+        <ID>BracesOnIfStatements:Logic.kt$Logic.Companion$if</ID>
+        <ID>BracesOnIfStatements:Logic.kt$Logic.Standard$if</ID>
+        <ID>BracesOnIfStatements:Logic.kt$LogicFeature$else</ID>
+        <ID>BracesOnIfStatements:Logic.kt$LogicFeature$if</ID>
+        <ID>BracesOnIfStatements:Logic.kt$LogicFeature.Companion$if</ID>
+        <ID>BracesOnIfStatements:NNFTransformer.kt$NNFTransformer$else</ID>
+        <ID>BracesOnIfStatements:NNFTransformer.kt$NNFTransformer.Companion$else</ID>
+        <ID>BracesOnIfStatements:NNFTransformer.kt$NNFTransformer.Companion$if</ID>
+        <ID>BracesOnIfStatements:PostProcessModel.kt$PostProcessModel$else</ID>
+        <ID>BracesOnIfStatements:PostProcessModel.kt$PostProcessModel$if</ID>
+        <ID>BracesOnIfStatements:PostProcessModel.kt$PostProcessModel.MakeSmallerWithoutAliasing$if</ID>
+        <ID>BracesOnIfStatements:PrintingCmdProcessor.kt$PrintingCmdProcessor$if</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtFunctionSymbol$else</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtFunctionSymbol$if</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtFunctionSymbol.Companion$if</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.Array.Const.Companion$else</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.Array.Const.Companion$if</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.Array.Select.Companion$else</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.Array.Select.Companion$if</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.Array.Store.Companion$else</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.Array.Store.Companion$if</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.BV.Concat.Companion$else</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.BV.Concat.Companion$if</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.BV.Extract.Companion$else</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.BV.Extract.Companion$if</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$SmtUnintpFunctionSymbol$if</ID>
+        <ID>BracesOnIfStatements:SMTFunctionSymbol.kt$if</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtConjunction.Companion$else</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtConjunction.Companion$if</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtExp.BoolLiteral.Companion$else</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtExp.BoolLiteral.Companion$if</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtExp.DecLiteral$else</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtExp.DecLiteral$if</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtExp.IntLiteral$else</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtExp.IntLiteral$if</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtExp.QualIdentifier$else</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtExp.QualIdentifier$if</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SmtExpWithComment$if</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SortSymbol.Companion$if</ID>
+        <ID>BracesOnIfStatements:SMTLib.kt$SortSymbol.Intp.BitVector.Companion$else</ID>
+        <ID>BracesOnIfStatements:SMTParser.kt$SMTParser.Companion$if</ID>
+        <ID>BracesOnIfStatements:SatResult.kt$SatResult.Companion$else</ID>
+        <ID>BracesOnIfStatements:SatResult.kt$SatResult.Companion$if</ID>
+        <ID>BracesOnIfStatements:SimpleFormulaChecker.kt$SimpleFormulaChecker.Companion$if</ID>
+        <ID>BracesOnIfStatements:SmtFormula.kt$SmtFormula.Companion$else</ID>
+        <ID>BracesOnIfStatements:SmtFormula.kt$SmtFormula.Companion$if</ID>
+        <ID>BracesOnIfStatements:SmtQueryProcessor.kt$SmtQueryProcessor.Companion$else</ID>
+        <ID>BracesOnIfStatements:SmtQueryProcessor.kt$SmtQueryProcessor.Companion$if</ID>
+        <ID>BracesOnIfStatements:SmtSymbolQuoter.kt$SmtSymbolQuoter$else</ID>
+        <ID>BracesOnIfStatements:SmtSymbolQuoter.kt$SmtSymbolQuoter$if</ID>
+        <ID>BracesOnIfStatements:Sorter.kt$BasicNormalizations$if</ID>
+        <ID>BracesOnIfStatements:Substitution.kt$SmtExpSubstitution$else</ID>
+        <ID>BracesOnIfStatements:Substitution.kt$SmtExpSubstitution$if</ID>
+        <ID>BracesOnIfStatements:TraverseSmt.kt$CollectDefinitionsSmt$if</ID>
+        <ID>ForbiddenComment:IteEliminator.kt$IteEliminator$// TODO review</ID>
+        <ID>ForbiddenComment:IteEliminator.kt$IteEliminator.Context$//TODO .. or would "insideLiteral" be better, in order to preserve NNF?</ID>
+        <ID>ForbiddenComment:Logic.kt$LogicFeature.Companion$// TODO: use the sorts of [fs] in addition?</ID>
+        <ID>ForbiddenComment:NNFTransformer.kt$NNFTransformer.Companion$// TODO: if this occurs, implement inlining of define-funs on [SMT] level</ID>
+        <ID>ForbiddenComment:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.Core$// TODO: maybe have a non-strict mode?</ID>
+        <ID>ForbiddenComment:SMTFunctionSymbol.kt$SmtIntpFunctionSymbol.DT$// TODO (potential): check that paramSort[0] matches the result type of the data type constructor</ID>
+        <ID>ForbiddenComment:SMTLib.kt$SmtConjunction$ View on an apply expression as a conjunction. * TODO: unclear how useful this is; how do I hide that constructor in an inline class??</ID>
+        <ID>ForbiddenComment:SmtFormulaCheckerQuery.kt$SmtFormulaCheckerQuery$* TODO: unify with [CmdProcessor.assertCmds] (?)</ID>
+        <ID>ForbiddenComment:SmtScript.kt$SharingSmtScript$// TODO lambda, let, quantifiers, ...?, override equals methods in all the AST classes (only object identity)</ID>
+        <ID>ForbiddenComment:SmtScript.kt$SharingSmtScript$// TODO unify the identifiers here???</ID>
+        <ID>ForbiddenComment:SmtScript.kt$SmtScript$// TODO: do a proper lookup</ID>
+        <ID>ForbiddenComment:SmtScript.kt$SmtSymbolTable$* Returns all functions/constants that are declared in the current scope (via declare-fun or declare-const * commands). * TODO: status of defined-funs is a bit unclear for these purposes, we might introduce an internal flag to separate * those; right now a define-fun induces a declare-fun, in this class..</ID>
+        <ID>ForbiddenComment:TransformSmt.kt$Substitutor$* Substitute expressions in a formula according to the mapping [substitution]. * * NB: Currently this class does not account for variables bindings (like quantification), thus it does not implement * standard substitution e.g. for predicate logic. * For example `x &lt; 1 \/ forall x. P(x, 5) [x -&gt; 3]` will result in `3 &lt; 1 \/ forall x. P(3, 5)`, which is not what you * want in typical logical applications, as standard substitution would yield `3 &lt; 1 \/ forall x. P(x, 5)`. * ==&gt; TODO handle quantified formulas correctly!</ID>
+        <ID>ForbiddenComment:TransformSmt.kt$TransformSmt$// TODO: implement these field-by-field methods for the expressions that don't have it...</ID>
+        <ID>ForbiddenComment:TransformSmt.kt$TransformSmtWithResult$//TODO should be NoopScript</ID>
+        <ID>ForbiddenMethodCall:Cmd.kt$Cmd.Custom$startsWith("(set-logic")</ID>
+        <ID>ForbiddenMethodCall:CollectDifficultyStats.kt$CollectDifficultyStats$print("wrote to ${outputCsvFile.absoluteFile}")</ID>
+        <ID>ForbiddenMethodCall:CollectDifficultyStats.kt$CollectDifficultyStats$print("z3 crashed")</ID>
+        <ID>ForbiddenMethodCall:CollectDifficultyStats.kt$CollectDifficultyStats$println(" $column: ${row[column]}")</ID>
+        <ID>ForbiddenMethodCall:CollectDifficultyStats.kt$CollectDifficultyStats$println("start z3 on $smtFile")</ID>
+        <ID>ForbiddenMethodCall:CollectDifficultyStats.kt$CollectDifficultyStats$println("z3 finished on $smtFile with ${checkRes.satResult}")</ID>
+        <ID>ForbiddenMethodCall:CollectDifficultyStats.kt$CollectDifficultyStats$println()</ID>
+        <ID>ForbiddenMethodCall:CollectDifficultyStats.kt$CollectDifficultyStats$println(row[FILENAME])</ID>
+        <ID>ForbiddenMethodCall:CollectStatsCmdProc.kt$CollectStatsCmdProc$startsWith("OK_")</ID>
+        <ID>ForbiddenMethodCall:CollectStatsCmdProc.kt$FsTypes.Companion$startsWith("slct_")</ID>
+        <ID>ForbiddenMethodCall:Difficulties.kt$ProcessDifficulties$startsWith("OK_")</ID>
+        <ID>ForbiddenMethodCall:InteractingCmdProcessor.kt$InteractingCmdProcessor$contains(";; cardinality constraint:")</ID>
+        <ID>ForbiddenMethodCall:InteractingCmdProcessor.kt$InteractingCmdProcessor$startsWith("(error")</ID>
+        <ID>ForbiddenMethodCall:SMTLib.kt$SmtExp.BitvectorLiteral.Companion$startsWith("bv")</ID>
+        <ID>ForbiddenMethodCall:SMTParser.kt$SMTParser.Companion$startsWith("(")</ID>
+        <ID>ForbiddenMethodCall:SatResult.kt$SatResult.UnknownReason.Companion$endsWith(")")</ID>
+        <ID>ForbiddenMethodCall:SatResult.kt$SatResult.UnknownReason.Companion$startsWith(unknownGetInfoPrefix)</ID>
+        <ID>ForbiddenMethodCall:SatResult.kt$SatResult.UnknownReason.Other$contains("timeout")</ID>
+        <ID>ForbiddenMethodCall:SmtQueryProcessor.kt$SmtQueryProcessor$contains(pat)</ID>
+        <ID>ForbiddenMethodCall:SmtQueryProcessor.kt$SmtQueryProcessor$startsWith(pattern)</ID>
+        <ID>ForbiddenMethodCall:SmtScript.kt$AbstractFactorySmtScript$startsWith("#b")</ID>
+        <ID>ForbiddenMethodCall:SmtScript.kt$AbstractFactorySmtScript$startsWith("#x")</ID>
+        <ID>ImportStdCollections:AbstractUnification.kt$AbstractUnification.Substitution$listOf</ID>
+        <ID>ImportStdCollections:AbstractUnification.kt$AbstractUnification.Substitution.Companion$+</ID>
+        <ID>ImportStdCollections:CollectDifficultyStats.kt$CollectDifficultyStats$mutableSetOf</ID>
+        <ID>ImportStdCollections:CollectDifficultyStats.kt$CollectDifficultyStats$toList</ID>
+        <ID>ImportStdCollections:CollectDifficultyStats.kt$CollectDifficultyStats.SmtFileStats$+</ID>
+        <ID>ImportStdCollections:CollectDifficultyStats.kt$CollectDifficultyStats.SmtFileStats$forEach</ID>
+        <ID>ImportStdCollections:CollectDifficultyStats.kt$CollectDifficultyStats.SmtFileStats$mutableMapOf</ID>
+        <ID>ImportStdCollections:CollectDifficultyStats.kt$CollectDifficultyStats.SmtFileStats$mutableSetOf</ID>
+        <ID>ImportStdCollections:CollectDifficultyStats.kt$CollectDifficultyStats.SmtFileStats$setOf</ID>
+        <ID>ImportStdCollections:CollectStatsCmdProc.kt$CollectStatsCmdProc.Companion$listOf</ID>
+        <ID>ImportStdCollections:CollectStatsCmdProc.kt$CollectStatsCmdProc.Counter$mapKeys</ID>
+        <ID>ImportStdCollections:CollectStatsCmdProc.kt$SignedIntOpTypes.Comp$listOf</ID>
+        <ID>ImportStdCollections:CollectStatsCmdProc.kt$SignedIntOpTypes.MaxSInt$listOf</ID>
+        <ID>ImportStdCollections:CollectStatsCmdProc.kt$SignedIntOpTypes.NegativeSignedDet$listOf</ID>
+        <ID>ImportStdCollections:CollectStatsCmdProc.kt$SignedIntOpTypes.PositiveSignedDet$listOf</ID>
+        <ID>ImportStdCollections:CongruenceClosure.kt$MutableCongruenceClosure$toList</ID>
+        <ID>ImportStdCollections:DNFTransformer.kt$DNFTransformer.DNF$+</ID>
+        <ID>ImportStdCollections:Difficulties.kt$Difficulties.Companion$toMap</ID>
+        <ID>ImportStdCollections:Difficulties.kt$ProcessDifficulties$mapKeys</ID>
+        <ID>ImportStdCollections:EMatching.kt$EMatching$mutableSetOf</ID>
+        <ID>ImportStdCollections:EMatching.kt$EMatching$setOf</ID>
+        <ID>ImportStdCollections:EMatching.kt$EMatching.Companion$-</ID>
+        <ID>ImportStdCollections:EMatching.kt$EMatching.Companion$setOf</ID>
+        <ID>ImportStdCollections:IteEliminator.kt$IteEliminator$listOf</ID>
+        <ID>ImportStdCollections:NNFTransformer.kt$NNFTransformer$listOf</ID>
+        <ID>ImportStdCollections:PostProcessModel.kt$PostProcessModel$+</ID>
+        <ID>ImportStdCollections:PostProcessModel.kt$PostProcessModel$listOf</ID>
+        <ID>ImportStdCollections:PostProcessModel.kt$PostProcessModel$setOf</ID>
+        <ID>ImportStdCollections:PostProcessModel.kt$PostProcessModel.MakeSmallerWithoutAliasing$+</ID>
+        <ID>ImportStdCollections:PostProcessModel.kt$PostProcessModel.MakeSmallerWithoutAliasing$listOf</ID>
+        <ID>ImportStdCollections:SMTParser.kt$SMTParser.Companion$mutableMapOf</ID>
+        <ID>ImportStdCollections:SatResult.kt$SatResult.Companion$setOf</ID>
+        <ID>ImportStdCollections:SatResult.kt$SatResult.UnknownReason.Companion$+</ID>
+        <ID>ImportStdCollections:SatResult.kt$SatResult.UnknownReason.Companion$listOf</ID>
+        <ID>ImportStdCollections:SmtQueryProcessor.kt$SmtQueryProcessor$listOf</ID>
+        <ID>ImportStdCollections:SmtQueryProcessor.kt$SmtQueryProcessor$mapOf</ID>
+        <ID>ImportStdCollections:SmtQueryProcessor.kt$SmtQueryProcessor$single</ID>
+        <ID>ImportStdCollections:SmtQueryProcessor.kt$SmtQueryProcessor.Companion$+</ID>
+        <ID>ImportStdCollections:SmtQueryProcessor.kt$SmtQueryProcessor.Companion$listOf</ID>
+        <ID>ImportStdCollections:SmtScript.kt$SharingSmtScript$mutableMapOf</ID>
+        <ID>ImportStdCollections:SmtScript.kt$SmtScript$listOf</ID>
+        <ID>ImportStdCollections:SmtScript.kt$SmtSymbolTable$listOf</ID>
+        <ID>ImportStdCollections:SmtScript.kt$SmtSymbolTable$toList</ID>
+        <ID>ImportStdCollections:SmtScript.kt$SmtSymbolTable.Companion$mutableMapOf</ID>
+        <ID>ImportStdCollections:SmtScript.kt$SmtSymbolTable.Scope$toMutableMap</ID>
+        <ID>ImportStdCollections:SmtSymbolQuoter.kt$SmtSymbolQuoter$setOf</ID>
+        <ID>ImportStdCollections:Substitution.kt$SmtExpSubstitution$+</ID>
+        <ID>ImportStdCollections:Substitution.kt$SmtExpSubstitution$mapKeys</ID>
+        <ID>ImportStdCollections:Substitution.kt$SmtExpSubstitution$mapValues</ID>
+        <ID>ImportStdCollections:Substitution.kt$SmtExpSubstitution$mutableMapOf</ID>
+        <ID>ImportStdCollections:Substitution.kt$SmtExpSubstitution.Companion$mapOf</ID>
+        <ID>ImportStdCollections:TransformSmt.kt$AndOrFlattener$listOf</ID>
+        <ID>ImportStdCollections:TransformSmt.kt$Substitutor.Scope$+</ID>
+        <ID>ImportStdCollections:TraverseSmt.kt$CollectDefinitionsSmt$mutableMapOf</ID>
+        <ID>ImportStdCollections:TraverseSmt.kt$SmtSetCollector$mutableSetOf</ID>
+        <ID>ImportStdCollections:TraverseSmt.kt$TraverseSmt$listOf</ID>
+        <ID>ImportStdCollections:TraverseSmt.kt$TraverseSmt$toMap</ID>
+        <ID>ImportStdCollections:TwoCmdProcessors.kt$TwoCmdProcessors$listOf</ID>
+        <ID>SwallowedException:SMTParser.kt$SMTParser.Companion$e: Exception</ID>
+        <ID>SwallowedException:SMTParser.kt$SMTParser.Companion$e: SmtParserException</ID>
+        <ID>TooGenericExceptionCaught:CollectDifficultyStats.kt$CollectDifficultyStats$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:InteractingCmdProcessor.kt$InteractingCmdProcessor$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:PostProcessModel.kt$PostProcessModel$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:PrintingCmdProcessor.kt$PrintingCmdProcessor$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:SMTParser.kt$SMTParser$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:SMTParser.kt$SMTParser.Companion$e: Exception</ID>
+        <ID>TooGenericExceptionCaught:SimpleFormulaChecker.kt$SimpleFormulaChecker$e: Exception</ID>
+        <ID>UseOrEmpty:EMatching.kt$EMatching$match(pattern, variables, toMatch, emptySet()) ?: setOf()</ID>
+        <ID>UseOrEmpty:SmtPrettyPrinter.kt$SmtPrettyPrinter.DiffFriendly$cmd.comment?.let { " ; $it" } ?: ""</ID>
+    </CurrentIssues>
+</SmellBaseline>

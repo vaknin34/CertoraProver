@@ -1,0 +1,1463 @@
+package com.certora.certoraprover.cvl;
+
+/*
+ *     The Certora Prover
+ *     Copyright (C) 2025  Certora Ltd.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, version 3 of the License.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import java_cup.runtime.*;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
+import spec.CVLReservedVariables;
+import spec.cvlast.CVLType;
+import spec.cvlast.typechecker.*;
+import spec.cvlast.Visibility;
+import spec.CVLCastFunction;
+import spec.cvlast.CVLRange;
+import utils.CollectingResult;
+import spec.cvlast.typechecker.CVLError;
+import spec.cvlast.CVLRange;
+import utils.SourcePosition;
+import org.jetbrains.annotations.NotNull;
+import kotlin.UInt;
+import com.certora.certoraprover.cvl.CallSummary.*;
+import spec.cvlast.SpecCallSummary;
+/*
+  Handy tip: when debugging parser conflicts and looking at the result of -dump,
+  the documentation here: https://web.stanford.edu/class/cs143/javadoc/java_cup/java_cup/lalr_state.html
+  tells you how to decipher this mess:
+
+  [apply_annotation ::= (*) AMPERSAT WITHREVERT , {LP }]
+*/
+
+parser code {:
+
+    // MAIN PARSER ENTRY POINT /////////////////////////////////////////////////////////////////////////////////////////
+
+    /** Parse a CVL AST, catching and wrapping all errors in a CollectingResult */
+    public static @NotNull CollectingResult<Ast, CVLError> parse_with_errors(Lexer lexer, SymbolFactory factory, String theFilename, boolean isImported) {
+        ParserCVL parser = new ParserCVL(lexer, factory, theFilename, isImported);
+        Ast result = null;
+        try {
+            result = (Ast) parser.parse().value;
+        } catch(CVLCUPParserException e) {
+            if (parser.errors.isEmpty()) {
+                throw new IllegalStateException("CVLCUPParserException should only be thrown after adding an error", e);
+            }
+            // Do nothing; error has already been added to parser.errors
+        } catch(Throwable e) {
+            parser.report_error("Unexpected error during parsing: " + e, e);
+        }
+
+        return parser.errors.isEmpty()
+             ? new CollectingResult.Result<Ast>(result)
+             : new CollectingResult.Error<CVLError>(parser.errors)
+        ;
+    }
+
+    // CUP API IMPLEMENTATION //////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Report a non-fatal error (or warning).
+     * @param info may be a ComplexSymbol, in which case its location is used to format the error message
+     */
+    @Override
+    public void report_error(String message, Object info) {
+        // NOTE: I believe this is dead code; this class overrides all methods from the base class that call it.
+        throw new UnsupportedOperationException("Unexpected error during parsing: "+message+"\nadditional info:"+info);
+    }
+
+    /** Called by CUP when an error has been detected and recovery is about to be invoked */
+    @Override
+    public void syntax_error(Symbol cur_token) {
+        ComplexSymbol token = (ComplexSymbol) cur_token;
+        errors.add(new SyntaxError(symbolRange(token), token));
+    }
+
+    /** Called when recovery has failed and the parser cannot resume. */
+    @Override
+    public void report_fatal_error(String message, Object info) throws Exception {
+        this.done_parsing();
+        throw new CVLCUPParserException();
+    }
+
+    // HELPERS FOR THE PRODUCTIONS /////////////////////////////////////////////////////////////////////////////////////
+
+    /** Report an error if `sc` is `false`. */
+    private void expectSemicolon(Boolean sc, CVL2MissingSemicolon.ExpectedLocation type) {
+        if (!sc) {
+            errors.add(new CVL2MissingSemicolon(symbolRange((ComplexSymbol) stack.peek()), type));
+        }
+    }
+
+    /** Report an error if a `sc` is `true`. */
+    private void expectNoSemicolon(Boolean sc, CVL2IncorrectSemiColonPlacement.ExpectedLocation type) {
+        if (sc) {
+            errors.add(new CVL2IncorrectSemiColonPlacement(symbolRange((ComplexSymbol) stack.peek()), type));
+        }
+    }
+
+    private void expectNoStorage(Boolean s) {
+        if (s) {
+            errors.add(new CVL2RedundantStoragePlacement(symbolRange((ComplexSymbol) stack.peek())));
+        }
+    }
+
+    /** Report an error if `function` is `false`. */
+    private void expectFunction(Boolean hasFunction, Location left, Location right) {
+        if (!hasFunction) {
+            errors.add(new CVL2MissingFunctionKW(range(left,right)));
+        }
+    }
+
+    /** Report an error if using a reserved CVL keyword. */
+    private ErrorExpr reportReservedCastKeywordError(Object c, Location left, Location right) {
+        CVLError result = new ReservedKeywordAsFunction(c.toString(), range(left, right));
+        errors.add(result);
+        return new ErrorExpr(result);
+    }
+
+    /** Report an error for an inappropriate post-return flag. */
+    private void reportInvalidCatchAllFlag(LocatedToken flag) {
+        errors.add(new InvalidCatchAllFlag(flag));
+    }
+
+    /** Report an error for multiple filters on the same method parameter. */
+    private void reportMultipleFiltersSameMethodParam(Object c, Location left, Location right) {
+        errors.add(new MultipleFiltersSameMethodParam(range(left, right), c.toString()));
+    }
+
+    /** Report an error for multiple filters on the same method parameter. */
+    private ErrorExpr reportApplyExpWithAtNewOrAtOldBase(Location left, Location right) {
+        CVLError result = new ApplyExpWithAtNewOrAtOldBase(range(left, right));
+        errors.add(result);
+        return new ErrorExpr(result);
+    }
+
+    /** Report an error for method application on a non-contract. */
+    private ErrorExpr reportDuplicateKey(Object c, Location left, Location right) {
+        CVLError result = new DuplicateKey(range(left, right), c.toString());
+        errors.add(result);
+        return new ErrorExpr(result);
+    }
+
+    /** Report an error for method application on a non-contract. */
+    private ErrorExpr reportOptimisticFlagRequired(Location left, Location right) {
+        CVLError result = new OptimisticFlagRequired(range(left, right));
+        errors.add(result);
+        return new ErrorExpr(result);
+    }
+
+    /** Report an error for method application on a non-contract. */
+    private ErrorExpr reportUnexpectedSummaryFlags(Map<String, Boolean> c, String summaryType, Location left, Location right) {
+        CVLError result = new UnexpectedSummaryFlags(range(left, right), c, summaryType);
+        errors.add(result);
+        return new ErrorExpr(result);
+    }
+
+    private CVLError reportInvalidUsageOfCVLKeyword(Object c, Location left, Location right) {
+        CVLError result = new InvalidUsageOfCVLKeyword(range(left, right), c.toString());
+        errors.add(result);
+        return result;
+    }
+
+    /** Report a syntax error, providing a list of the expected tokens. */
+    private CVLError reportUnexpectedToken(Object c, Location left, Location right, List<String> expected) {
+        CVLError result = new UnexpectedToken(range(left, right), c.toString(), expected);
+        errors.add(result);
+        return result;
+    }
+
+    /** @return a new list containing [element] */
+    private <T> ArrayList<T> singletonList(T element) {
+        ArrayList<T> result = new ArrayList<>();
+        result.add(element);
+        return result;
+    }
+
+    /** @return [list] after appending [element] */
+    private <T> List<T> append(List<T> list, T element) {
+        list.add(element);
+        return list;
+    }
+
+    /** @return a new empty list */
+    private <T> List<T> emptyList() {
+        return new ArrayList<T>();
+    }
+
+    /** @return a new range from [left] to [right] */
+    private CVLRange.Range range(Location left, Location right) {
+        return new CVLRange.Range(left, right);
+    }
+
+    // CONVENIENCE FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////
+
+    private final static String FALLBACK_FUNCTION_NAME = CVLReservedVariables.certorafallback_0.name();
+    private List<CVLError> errors = new ArrayList<CVLError>();
+
+    /** @return A CVLRange from the start to the end of [s] */
+    private CVLRange symbolRange(ComplexSymbol s) {
+        return makeRange(s.xleft, s.xright);
+    }
+
+    /** @return an unspecified CVLRange in the file */
+    private CVLRange fileRange() {
+        SourcePosition start = SourcePosition.zero();
+        SourcePosition end   = SourcePosition.zero();
+        return new CVLRange.Range(theFilename, start, end);
+    }
+
+    private ParserCVL(Lexer lexer, SymbolFactory factory, String theFilename, boolean isImported) {
+        super(lexer, factory);
+        this.theFilename    = theFilename;
+        this.isImportedFile = isImported;
+    }
+
+    private CVLRange makeRange(ComplexSymbolFactory.Location left, ComplexSymbolFactory.Location right) {
+        return new CVLRange.Range(left, right);
+    }
+
+    private static class CVLCUPParserException extends Exception {}
+
+    private String theFilename;
+    private Boolean isImportedFile;
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal String BIF;
+terminal String TRUE;
+terminal String FALSE;
+terminal String ID;
+terminal String SORT;
+terminal String GHOST;
+terminal String MAPPING;
+terminal String DEFINITION;
+terminal String AXIOM;
+terminal String STRING;
+terminal String RELOP;
+terminal String NUMBER;
+terminal String CONST_VAL;
+terminal String KEYWORD;
+terminal String PERSISTENT;
+terminal String PRE_RETURN_QUALIFIER;
+terminal String POST_RETURN_QUALIFIER;
+terminal String ON_TRANSACTION_BOUNDARY;
+terminal String WEAK;
+terminal String STRONG;
+terminal HOOK, SLOAD, SSTORE, CREATE, TLOAD, TSTORE;
+terminal METHODS, HAVOC, ASSUMING,
+    PLUS, MINUS, TIMES, DIV, MOD, EXPONENT, LOR, LAND, IMPLIES, IFF, NOT,
+    BWOR, BWXOR, BWAND, BWLSHIFT, BWRSHIFT, BWRSHIFTWZEROS, BWNOT,
+    IN, AT, RETURNS, EXPECT, SATISFY,
+    REQUIRE, REQUIREINVARIANT, ASSERT, INVARIANT, PRESERVED, REVERT,
+    DESCRIPTION, GOODDESCRIPTION, FILTERED, MAPSTO, RESET_STORAGE, IF, ELSE, ASSIGN, SC, LB, RB, LP, RP,
+    LSQB, RSQB, DOT, COMMA, COLON, QUESTION, FORALL, EXISTS, USING, AS, RETURN, IMPORT, USE, BUILTIN, OVERRIDE, SIG, SUM, USUM;
+terminal AMPERSAT, OLD, NEW, NOREVERT, WITHREVERT, FALLBACK, WITH, VOID;
+terminal RULE, FUNCTION;
+terminal UNRESOLVED_LOWERCASE;
+terminal ALWAYS, CONSTANT, PER_CALLEE_CONSTANT, NONDET, HAVOC_ECF, HAVOC_ALL, AUTO, UNRESOLVED, ALL, DISPATCHER,
+    DISPATCH, DEFAULT, DELETE, ASSERT_FALSE;
+terminal STORAGE; // for error reporting
+
+terminal String LOCATION;
+terminal String OPCODE;
+terminal CVLCastFunction CAST;
+
+/* top-level AST */
+
+non terminal Ast cvl;
+
+non terminal Boolean sc_opt;
+non terminal Boolean storage_opt;
+non terminal /* Nullable */ String comma_opt;
+
+/* imported specification files */
+
+non terminal List<ImportedSpecFile> import_specs;
+non terminal ImportedSpecFile spec_import_decl;
+
+/* declared contracts */
+
+non terminal List<ImportedContract> import_contracts;
+non terminal ImportedContract contract_using;
+
+/* imported methods */
+
+non terminal List<MethodEntry> methods_block;
+non terminal /* Nullable */ CallSummary summary_opt;
+non terminal CallSummary summary;
+non terminal HavocingCallSummary havoc_summary;
+non terminal List<DispatchList.PatternSig> dispatch_pattern_list_or_empty, dispatch_pattern_list;
+non terminal DispatchList unresolved_dynamic_summary;
+non terminal /* Nullable */ List<CVLParam> with_env_opt;
+non terminal ExpectClause expect_opt;
+non terminal /* Nullable */ SpecCallSummary.SummarizationMode resolution;
+non terminal Boolean optimism_flag;
+non terminal List<MethodEntry> method_dec_list;
+non terminal Boolean function_opt;
+non terminal /* Nullable (error) */ MethodEntry method_dec;
+non terminal MethodSig method_signature;
+non terminal MethodSig preserved_signature;
+non terminal DispatchList.PatternSig catch_any_method_signature;
+non terminal List<LocatedToken> pre_return_method_dec_flags;
+non terminal List<LocatedToken> post_return_method_dec_flags;
+non terminal Map<String, Boolean> flag_list;
+
+/* parameter lists */
+
+// TODO: this seems excessive
+non terminal List<NamedVMParam> opt_named_vm_param_list, named_vm_param_list_or_empty, named_vm_param_list;
+non terminal List<VMParam> vm_param_list_or_empty, vm_param_list;
+non terminal List<VMParam> unnamed_vm_param_list_or_empty, unnamed_vm_param_list;
+non terminal List<CVLParam> cvl_param_list_or_empty, opt_cvl_param_list, cvl_param_list;
+
+/* types and parameters */
+
+non terminal TypeOrLhs type_or_lhs, type;
+
+// TODO: this seems excessive
+non terminal VMParam vm_param;
+non terminal VMParam unnamed_vm_param;
+non terminal VMParam unnamed_vm_param_no_loc, unnamed_vm_param_with_loc;
+non terminal NamedVMParam named_vm_param_no_loc, named_vm_param_with_loc;
+non terminal CVLParam cvl_param;
+
+
+/* invariants */
+non terminal String invariantType;
+non terminal Invariant invariant;
+non terminal InvariantProof invariant_proof;
+non terminal List<Preserved> invariant_proof_items;
+non terminal Preserved invariant_proof_item;
+
+/* top-level elements */
+
+non terminal AstBaseBlocks ast_base_blocks;
+
+non terminal CVLFunction cvl_function;
+non terminal MacroDefinition macro_def;
+non terminal UninterpretedSortDecl sort_decl;
+non terminal UseDeclaration use_decl;
+non terminal OverrideDeclaration override_decl;
+non terminal TypeOrLhs tuple_type;
+non terminal List<TypeOrLhs> non_singleton_type_list;
+non terminal TypeOrLhs opt_function_return;
+
+
+/* ghosts */
+
+non terminal List<TypeOrLhs> type_list_opt, type_list;
+non terminal GhostDecl ghost_decl;
+non terminal GhostDecl ghost_decl_no_axioms;
+non terminal /* Nullable (error) */ GhostAxiom axiom;
+non terminal List<GhostAxiom> axiom_list;
+
+/* hooks */
+
+non terminal Hook hook;
+non terminal HookPattern hook_pattern;
+non terminal StaticSlotPatternElement static_slot_part;
+non terminal StaticSlotPatternElement simple_slot_only_static_slot_part;
+non terminal StaticSlotPattern static_slot_pattern;
+non terminal SlotPattern slot_pattern_break_dots;
+non terminal SlotPattern slot_pattern_nested;
+non terminal SlotPattern slot_pattern;
+
+/* rules */
+
+non terminal Rule rule;
+non terminal MethodParamFiltersMap method_param_filters_or_empty, method_param_filters;
+non terminal Map<String, MethodParamFilterDef> method_param_filters_map;
+non terminal /* Nullable */ String description, goodDescription;
+
+/* commands */
+
+non terminal List<Cmd> block, cmds;
+non terminal Cmd cmd;
+non terminal List<Exp> exp_list_non_singleton;
+non terminal List<TypeOrLhs> lhs_list;
+non terminal List<TypeOrLhs> lhs_list_nonempty;
+non terminal TypeOrLhs lhs;
+non terminal Exp havoc_target;
+non terminal List<Exp> havoc_target_list;
+non terminal List<Exp> opt_args, no_args, args, two_or_more_args, exp_list, exp_list_opt;
+
+/* identifiers */
+
+non terminal /* Nullable (error) */ String non_cast_id;
+non terminal String usable_keywords, id_or_keyword;
+
+/* literals */
+
+non terminal Boolean boolLit;
+non terminal NumberExp number;
+non terminal MethodReferenceExp method_reference;
+non terminal SignatureLiteralExp signature_literal;
+
+/* expressions */
+
+non terminal Exp exp, arrayexp, quantexp, sumexp, condexp, iff, impl, disj, conj, relop;
+non terminal Exp bwor, bwxor, bwand, bwshift;
+non terminal Exp additive, multiplicative, unary, power, setinc, term, field_access;
+
+non terminal UnresolvedApplyExp ambiguous_apply;
+non terminal UnresolvedApplyExp.Annotation apply_annotation, vm_func_apply_annotation;
+
+non terminal VariableExp storage_type;
+
+/* Operator Precedence ****************************************************************************/
+
+precedence right COLON, QUESTION;
+precedence right ELSE;
+precedence nonassoc FORALL, EXISTS;
+precedence nonassoc IFF;
+precedence left UNRESOLVED_LOWERCASE;
+
+/* Top-level AST **********************************************************************************/
+
+cvl ::= import_specs:s import_contracts:c ast_base_blocks:blocks {: RESULT = new Ast(blocks,c,s); :};
+
+sc_opt ::=
+      /* empty */ {: RESULT = false; :}
+    | SC:sc       {: RESULT = true;  :}
+;
+
+storage_opt ::=
+      /* empty */ {: RESULT = false; :}
+    | STORAGE:s       {: RESULT = true;  :}
+;
+
+
+/* Imported specification files *******************************************************************/
+
+import_specs ::=
+    /* empty */                              {: RESULT = emptyList();         :}
+  | import_specs:specs spec_import_decl:spec {: RESULT = append(specs, spec); :}
+;
+
+spec_import_decl ::=
+    IMPORT STRING:path sc_opt:sc {:
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.IMPORT_STATEMENTS);
+        RESULT = new ImportedSpecFile(path);
+    :}
+;
+
+/* Declared contracts *****************************************************************************/
+
+import_contracts ::=
+    /* empty */                          {: RESULT = emptyList();   :}
+  | import_contracts:cs contract_using:c {: RESULT = append(cs, c); :}
+;
+
+contract_using ::=
+    USING:u ID:cname AS ID:i sc_opt:sc {:
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.USING_STATEMENTS);
+        RESULT =  new ImportedContract(i,cname, range(uxleft, ixright));
+    :}
+;
+
+/* Imported Methods *******************************************************************************/
+
+methods_block ::= METHODS LB method_dec_list:f RB {: RESULT = f; :};
+
+flag_list ::=
+    ID:oid ASSIGN boolLit:ob {: Map<String, Boolean> ret = new HashMap<>(); ret.put(oid, ob); RESULT = ret; :}
+  | flag_list:fl COMMA ID:oid ASSIGN boolLit:ob {:
+        if(fl.containsKey(oid)) {
+            reportDuplicateKey(oid, oidxleft, oidxright);
+        }
+        fl.put(oid, ob); RESULT = fl;
+    :}
+;
+
+havoc_summary ::=
+    NONDET:s    resolution:r {: RESULT = new CallSummary.Nondet   (sxleft, rxright, r); :}
+  | HAVOC_ECF:s resolution:r {: RESULT = new CallSummary.HavocECF (sxleft, rxright, r); :}
+  | HAVOC_ALL:s resolution:r {: RESULT = new CallSummary.HavocAll (sxleft, rxright, r); :}
+  | ASSERT_FALSE:s resolution:r {: RESULT = new CallSummary.AssertFalse (sxleft, rxright, r); :}
+;
+
+summary ::=
+    havoc_summary:h                              {: RESULT = h;                                                                 :}
+  | CONSTANT:s                      resolution:r {: RESULT = new CallSummary.Constant          (sxleft, rxright, r);            :}
+  | PER_CALLEE_CONSTANT:s           resolution:r {: RESULT = new CallSummary.PerCalleeConstant (sxleft, rxright, r);            :}
+  | ALWAYS:s LP exp:e RP:rp         resolution:r {: RESULT = new CallSummary.Always            (sxleft, rxright, r, e);         :}
+  | DISPATCHER:s                    resolution:r {: RESULT = new CallSummary.Dispatcher        (sxleft, rxright, r, false, false);     :}
+  | DISPATCHER:s LP optimism_flag:b RP:rp resolution:r {: RESULT = new CallSummary.Dispatcher  (sxleft, rxright, r, b, false);         :}
+  | DISPATCHER:s LP flag_list:fl RP resolution:r {:
+        Boolean optimistic = fl.remove("optimistic");
+        if (optimistic == null) {
+            reportOptimisticFlagRequired(flxleft, flxright);
+        } else {
+            Boolean useFallback = fl.remove("use_fallback");
+            if (useFallback == null) {
+                useFallback = false;
+            }
+            if (fl.size() > 0) {
+                reportUnexpectedSummaryFlags(fl, (String) s, flxleft, flxright);
+            } else {
+                RESULT = new CallSummary.Dispatcher(sxleft, rxright, r, optimistic, useFallback);
+            }
+        }
+        /* check the keys in fl are valid */
+  :}
+  | AUTO:a                          resolution:r {: RESULT = new CallSummary.Auto              (axleft, rxright, r);            :}
+  | exp:e expect_opt:expect         resolution:r {: RESULT = new CallSummary.Expression        (exleft, rxright, r, e, expect); :}
+;
+
+comma_opt ::= COMMA | ;
+
+dispatch_pattern_list_or_empty ::=
+    LSQB RSQB {: RESULT = emptyList(); :}
+  | LSQB dispatch_pattern_list:l comma_opt RSQB {: RESULT = l; :}
+;
+
+dispatch_pattern_list ::=
+    catch_any_method_signature:m                               {: RESULT = singletonList(m); :}
+  | dispatch_pattern_list:l COMMA catch_any_method_signature:m {: RESULT = append(l, m);     :}
+;
+
+unresolved_dynamic_summary ::=
+    DISPATCH:d dispatch_pattern_list_or_empty:l DEFAULT havoc_summary:s {: RESULT = new DispatchList(range(dxleft, sxright), l, s, false); :}
+  | DISPATCH:d LP flag_list:fl RP dispatch_pattern_list_or_empty:l DEFAULT havoc_summary:s {:
+        Boolean useFallback = fl.remove("use_fallback");
+        if (useFallback == null) {
+            useFallback = false;
+        }
+        if (fl.size() > 0) {
+            reportUnexpectedSummaryFlags(fl, (String) d, flxleft, flxright);
+        }
+        RESULT = new DispatchList(range(dxleft, sxright), l, s, useFallback);
+    :}
+;
+
+summary_opt ::=
+    /* empty */       {: RESULT = null; :}
+  | IMPLIES summary:s {: RESULT = s;    :}
+;
+
+with_env_opt ::=
+    /* empty */                   {: RESULT = null; :}
+  | WITH:s cvl_param_list_or_empty:pl {: RESULT = pl;   :}
+;
+
+expect_opt ::=
+    /* empty */                          {: RESULT = new ExpectClause.None();  :}
+  | EXPECT LP unnamed_vm_param_list:t RP {: RESULT = new ExpectClause.Type(t); :}
+  | EXPECT    unnamed_vm_param_list:t    {: RESULT = new ExpectClause.Type(t); :}
+  | EXPECT VOID                          {: RESULT = new ExpectClause.Void();  :}
+;
+
+resolution ::=
+    /* empty */ {: RESULT = null;  :}
+  | UNRESOLVED  {: RESULT = SpecCallSummary.SummarizationMode.UNRESOLVED_ONLY;  :}
+  | ALL         {: RESULT = SpecCallSummary.SummarizationMode.ALL; :}
+  | DELETE      {: RESULT = SpecCallSummary.SummarizationMode.DELETE; :}
+;
+
+optimism_flag ::=
+    boolLit:b {: RESULT = b;     :}
+  | ASSERT    {: RESULT = false; :}
+  | REQUIRE   {: RESULT = true;  :}
+;
+
+method_dec_list ::=
+    /* empty */                        {: RESULT = emptyList();   :}
+  | method_dec_list:fs method_dec:f    {: RESULT = append(fs, f); :}
+;
+
+function_opt ::=
+    /* empty */ {: RESULT = false; :}
+  | FUNCTION    {: RESULT = true; :}
+;
+
+method_dec ::=
+    function_opt:f method_signature:sig with_env_opt:env summary_opt:summ sc_opt:sc {:
+        expectFunction(f,sigxleft,sigxright);
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.METHODS_ENTRIES);
+        RESULT = new ImportedFunction(new CVLRange.Range(fxleft, scxright), sig, sig.methodQualifiers, summ, env, new CVLRange.Range(envxleft,envxright));
+    :}
+  | function_opt:f method_reference:m pre_return_method_dec_flags:preflags post_return_method_dec_flags:postflags IMPLIES summary:s sc_opt:sc {:
+        // catch-all summary - the method_reference must be `ContractName._` and the summary must be `NONDET`.
+        // Both restrictions are checked during kotlinization.
+        expectFunction(f, mxleft, mxright);
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.METHODS_ENTRIES);
+        for (LocatedToken postflag : postflags) {
+            reportInvalidCatchAllFlag(postflag);
+        }
+        RESULT = new CatchAllSummary(range(fxleft, scxright), m, s, preflags);
+    :}
+  | function_opt:f method_reference:m pre_return_method_dec_flags:preflags post_return_method_dec_flags:postflags IMPLIES unresolved_dynamic_summary:dl sc_opt:sc {:
+        expectFunction(f, mxleft, mxright);
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.METHODS_ENTRIES);
+        RESULT = new UnresolvedDynamicSummary(range(fxleft, scxright), m, null, preflags, dl, true);
+    :}
+  | UNRESOLVED_LOWERCASE:u pre_return_method_dec_flags:preflags IN method_reference:m vm_param_list_or_empty:pl IMPLIES unresolved_dynamic_summary:dl sc_opt:sc {:
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.METHODS_ENTRIES);
+        RESULT = new UnresolvedDynamicSummary(range(uxleft, scxright), m, pl, preflags, dl, false);
+   :}
+  | UNRESOLVED_LOWERCASE:u pre_return_method_dec_flags:preflags IN method_reference:m                           IMPLIES unresolved_dynamic_summary:dl sc_opt:sc {:
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.METHODS_ENTRIES);
+        RESULT = new UnresolvedDynamicSummary(range(uxleft, scxright), m, null, preflags, dl, false);
+   :}
+  | error SC
+;
+
+method_signature ::=
+    method_reference:m vm_param_list_or_empty:pl pre_return_method_dec_flags:preflags RETURNS LP unnamed_vm_param_list:respl RP:rp post_return_method_dec_flags:postflags
+        {: RESULT = new MethodSig(range(mxleft, postflagsxright), m, pl, respl,               new MethodQualifiers(range(preflagsxleft, postflagsxright), preflags, postflags)); :}
+
+  | // This one is weird but compatible with current syntax - a tuple of return types not wrapped in parens
+    method_reference:m vm_param_list_or_empty:pl pre_return_method_dec_flags:preflags RETURNS unnamed_vm_param_list:respl post_return_method_dec_flags:postflags
+        {: RESULT = new MethodSig(range(mxleft, postflagsxright), m, pl, respl,               new MethodQualifiers(range(preflagsxleft, postflagsxright), preflags, postflags)); :}
+  | method_reference:m vm_param_list_or_empty:pl pre_return_method_dec_flags:preflags post_return_method_dec_flags:postflags
+        {: RESULT = new MethodSig(range(mxleft, postflagsxright), m, pl,  /* returns */ null, new MethodQualifiers(range(preflagsxleft, postflagsxright), preflags, postflags)); :}
+;
+
+preserved_signature ::=
+    method_reference:m named_vm_param_list_or_empty:pl {: RESULT = new MethodSig(range(mxleft, plxright), m, pl, null); :}
+;
+
+catch_any_method_signature ::=
+    method_reference:m unnamed_vm_param_list_or_empty:pl {:
+        RESULT = new DispatchList.PatternSigParams(new MethodSig(range(mxleft, plxright), m, pl, emptyList()));
+    :}
+  | method_reference:m {:
+        RESULT = new DispatchList.PattenSigWildcardMethod(new MethodSig(range(mxleft, mxright), m, emptyList(), emptyList()));
+  :}
+;
+
+// maybe one day we have more than one flag?.. otherwise this extra non-terminal is useless, of course..
+pre_return_method_dec_flags ::=
+    /* empty */ {: RESULT = emptyList(); :}
+
+  | pre_return_method_dec_flags:res PRE_RETURN_QUALIFIER:i
+      {: RESULT = append(res, new LocatedToken(range(ixleft, ixright), i)); :}
+;
+
+post_return_method_dec_flags ::=
+    /* empty */ {: RESULT = emptyList(); :}
+
+  | post_return_method_dec_flags:res POST_RETURN_QUALIFIER:i
+      {: RESULT = append(res, new LocatedToken(range(ixleft, ixright), i)); :}
+;
+
+/* Parameter Lists ********************************************************************************/
+
+opt_named_vm_param_list ::=
+    /* empty */                     {: RESULT = emptyList(); :}
+  | named_vm_param_list_or_empty:nm {: RESULT = nm;          :}
+;
+
+named_vm_param_list_or_empty ::=
+    LP RP                            {: RESULT = emptyList(); :}
+  | LP named_vm_param_list:nm RP {: RESULT = nm;          :}
+;
+
+named_vm_param_list ::=
+    named_vm_param_no_loc:vp                                 {: RESULT = singletonList(vp); :}
+  | named_vm_param_list:l COMMA named_vm_param_no_loc:vp {: RESULT = append(l, vp);     :}
+;
+
+vm_param_list_or_empty ::=
+    LP RP /* empty */       {: RESULT = emptyList(); :}
+  | LP vm_param_list:vpl RP {: RESULT = vpl;         :}
+;
+
+vm_param_list ::=
+    vm_param:vp                          {: RESULT = singletonList(vp); :}
+  | vm_param_list:rest COMMA vm_param:vp {: RESULT = append(rest, vp);  :};
+
+unnamed_vm_param_list_or_empty ::=
+    LP RP /* empty */              {: RESULT = emptyList(); :}
+  | LP unnamed_vm_param_list:ps RP {: RESULT = ps;          :}
+;
+
+unnamed_vm_param_list ::=
+    unnamed_vm_param:vp                                  {: RESULT = singletonList(vp); :}
+  | unnamed_vm_param_list:rest COMMA unnamed_vm_param:vp {: RESULT = append(rest,vp);   :}
+;
+
+// TODO: cleanup?
+
+cvl_param_list_or_empty ::=
+    LP RP                {: RESULT = emptyList(); :}
+  | LP cvl_param_list:pl RP  {: RESULT = pl; :}
+;
+
+opt_cvl_param_list ::=
+    /* empty */            {: RESULT = emptyList(); :}
+  | cvl_param_list_or_empty:pl {: RESULT = pl;          :}
+;
+
+cvl_param_list ::=
+    cvl_param:p                     {: RESULT = singletonList(p); :}
+  | cvl_param_list:pl COMMA cvl_param:p {: RESULT = append(pl,p);     :}
+;
+
+/* Types and parameters ***************************************************************************/
+
+type_or_lhs ::=
+    ID:i                                                     {: RESULT = new IdLhs(range(ixleft, ixright), i); :}
+  | ID:contract DOT id_or_keyword:type_name                  {: RESULT = new QualifiedTypeReference(contract, type_name, range(contractxleft, type_namexright)); :}
+  | MAPPING:m LP type:key_type IMPLIES type:value_type RP:rp {: RESULT = new MappingType(key_type, value_type, range(mxleft, rpxright)); :}
+  | type:base_type LSQB RSQB:rs                              {: RESULT = new DynamicArrayType(base_type, range(base_typexleft, rsxright)); :}
+  | type:base_type LSQB exp:e RSQB:rs                        {: RESULT = new ArrayLhs(range(base_typexleft, rsxright), base_type, e); :}
+
+  | // 'storage' is parsed as a LOCATION, so we need this:
+    LOCATION:i                                               {: RESULT = new QualifiedTypeReference(null, i, range(ixleft, ixright)); :}
+;
+
+type ::= type_or_lhs:r {: RESULT = r; :};
+
+vm_param ::=
+    named_vm_param_no_loc:p     {: RESULT = p; :}
+  | named_vm_param_with_loc:p   {: RESULT = p; :}
+  | unnamed_vm_param_no_loc:p   {: RESULT = p; :}
+  | unnamed_vm_param_with_loc:p {: RESULT = p; :}
+;
+
+unnamed_vm_param ::=
+    unnamed_vm_param_no_loc:p   {: RESULT = p; :}
+  | unnamed_vm_param_with_loc:p {: RESULT = p; :}
+;
+
+
+unnamed_vm_param_no_loc   ::= type:t                 {: RESULT = new UnnamedVMParam(t, /* location */ null,    range(txleft, txright)); :};
+
+named_vm_param_no_loc     ::= type:t ID:i            {: RESULT = new   NamedVMParam(t, /* location */ null, i, range(txleft, ixright)); :};
+
+unnamed_vm_param_with_loc ::= type:t LOCATION:l      {: RESULT = new UnnamedVMParam(t, l,                      range(txleft, lxright)); :};
+
+named_vm_param_with_loc   ::= type:t LOCATION:l ID:i {: RESULT = new   NamedVMParam(t, l, i,                   range(txleft, ixright)); :};
+
+cvl_param ::= type:t ID:i                            {: RESULT = new   CVLParam(t, i, range(txleft, ixright)); :};
+
+/* Invariants *************************************************************************************/
+
+invariant ::=
+    invariantType:t INVARIANT:in ID:i cvl_param_list_or_empty:pl exp:e sc_opt:sc {:
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.INVARIANTS);
+        RESULT = new Invariant(isImportedFile,range(inxleft, scxright),i,pl,e,MethodParamFiltersMap.NO_METHOD_PARAM_FILTERS,new InvariantProof(emptyList()),t);
+    :}
+
+  | invariantType:t INVARIANT:in ID:i cvl_param_list_or_empty:pl exp:e method_param_filters:mpf sc_opt:sc {:
+        expectNoSemicolon(sc, CVL2IncorrectSemiColonPlacement.ExpectedLocation.INVARIANT_FILTERED);
+        RESULT = new Invariant(isImportedFile,range(inxleft, mpfxright),i,pl,e,mpf,new InvariantProof(emptyList()),t);
+    :}
+
+  | invariantType:t INVARIANT:in ID:i cvl_param_list_or_empty:pl exp:e invariant_proof:pr {:
+        RESULT = new Invariant(isImportedFile,range(inxleft, prxright),i,pl,e,MethodParamFiltersMap.NO_METHOD_PARAM_FILTERS,pr,t);
+    :}
+
+  | invariantType:t INVARIANT:in ID:i cvl_param_list_or_empty:pl exp:e method_param_filters:mpf invariant_proof:pr {:
+        RESULT = new Invariant(isImportedFile,range(inxleft, prxright),i,pl,e,mpf,pr,t);
+    :}
+;
+
+invariantType ::=
+    /* empty */                   {: RESULT = "default"; :}
+  | WEAK:w              {: RESULT = "weak"; :}
+  | STRONG:s {: RESULT = "strong"; :}
+;
+
+invariant_proof ::= LB invariant_proof_items:pi RB {: RESULT = new InvariantProof(pi); :};
+
+invariant_proof_items ::=
+    /* empty */                                         {: RESULT = emptyList();      :}
+  | invariant_proof_items:proofs invariant_proof_item:p {: RESULT = append(proofs,p); :}
+;
+
+invariant_proof_item ::=
+    PRESERVED:i preserved_signature:sig with_env_opt:e block:b
+        {: RESULT = new ExplicitMethodPreserved(range(ixleft, bxright), sig, e, b); :}
+
+  | PRESERVED:i ON_TRANSACTION_BOUNDARY with_env_opt:e block:b {: RESULT = new TransactionBoundaryPreserved(range(ixleft, bxright), e, b); :}
+
+  | PRESERVED:i with_env_opt:e block:b {: RESULT = new GenericPreserved(range(ixleft, bxright), e, b); :}
+
+  | PRESERVED:i FALLBACK LP RP with_env_opt:e block:b
+        {: RESULT = new FallbackPreserved(range(ixleft, bxright), e, b); :}
+;
+
+/* Top-level elements *****************************************************************************/
+
+ast_base_blocks ::=
+    /* empty */                       {: RESULT = new AstBaseBlocks(); :}
+  | ast_base_blocks:b rule:v          {: b.getRules   ().add(v); RESULT = b; :}
+  | ast_base_blocks:b cvl_function:f  {: b.getSubs    ().add(f); RESULT = b; :}
+  | ast_base_blocks:b invariant:i     {: b.getInvs    ().add(i); RESULT = b; :}
+  | ast_base_blocks:b sort_decl:s     {: b.getSorts   ().add(s); RESULT = b; :}
+  | ast_base_blocks:b ghost_decl:g    {: b.getGhosts  ().add(g); RESULT = b; :}
+  | ast_base_blocks:b macro_def:m     {: b.getMacros  ().add(m); RESULT = b; :}
+  | ast_base_blocks:b hook:h          {: b.getHooks   ().add(h); RESULT = b; :}
+  | ast_base_blocks:b use_decl:u      {: b.add(u); RESULT = b; :}
+  | ast_base_blocks:b override_decl:o {: b.add(o); RESULT = b; :}
+  | ast_base_blocks:b methods_block:m {: b.getMethods ().addAll(m); RESULT = b; :}
+  | ast_base_blocks:b error SC        {: RESULT = b; :}
+;
+
+opt_function_return ::=
+    /* empty */          {: RESULT = null; :}
+  | RETURNS type:r       {: RESULT = r; :}
+  | RETURNS tuple_type:t {: RESULT = t; :}
+;
+
+cvl_function ::=
+    FUNCTION:f ID:i opt_cvl_param_list:pl opt_function_return:r block:b
+        {: RESULT = new CVLFunction(range(fxleft, bxright),i,pl,r,b); :}
+  | FUNCTION usable_keywords:i opt_cvl_param_list opt_function_return block
+        {: reportInvalidUsageOfCVLKeyword(i, ixleft, ixright); :}
+;
+
+macro_def ::=
+    DEFINITION:d ID:i opt_cvl_param_list:pl RETURNS type:r ASSIGN exp:e SC:sc
+        {: RESULT = new MacroDefinition(range(dxleft, scxright),i,pl,r,e); :}
+;
+
+sort_decl ::=
+    SORT:s ID:i SC:sc
+        {: RESULT = new UninterpretedSortDecl(range(sxleft, scxright),i); :}
+;
+
+use_decl ::=
+    USE:u RULE ID:i method_param_filters:mpf {:
+        RESULT = new UseDeclaration.ImportedRule(range(uxleft, mpfxright), i, mpf);
+    :}
+
+  | USE:u RULE ID:i sc_opt:sc {:
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.USE_STATEMENTS);
+        RESULT = new UseDeclaration.ImportedRule(range(uxleft, scxright), i, MethodParamFiltersMap.NO_METHOD_PARAM_FILTERS);
+    :}
+
+  | USE:u INVARIANT ID:i sc_opt:sc {:
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.USE_STATEMENTS);
+        RESULT = new UseDeclaration.ImportedInvariant(range(uxleft, scxright), i, new InvariantProof(emptyList()), MethodParamFiltersMap.NO_METHOD_PARAM_FILTERS);
+    :}
+
+  | USE:u INVARIANT ID:i method_param_filters:mpf {:
+        RESULT = new UseDeclaration.ImportedInvariant(range(uxleft, mpfxright), i, new InvariantProof(emptyList()), mpf);
+    :}
+
+  | USE:u INVARIANT ID:i method_param_filters:mpf invariant_proof:pr {:
+        RESULT = new UseDeclaration.ImportedInvariant(range(uxleft, prxright), i, pr, mpf);
+    :}
+
+  | USE:u INVARIANT ID:i invariant_proof:pr {:
+        RESULT = new UseDeclaration.ImportedInvariant(range(uxleft, prxright), i, pr, MethodParamFiltersMap.NO_METHOD_PARAM_FILTERS);
+    :}
+
+  | USE:u BUILTIN RULE ID:i method_param_filters:mpf {:
+        RESULT = new UseDeclaration.BuiltInRule(range(uxleft, mpfxright), i, mpf);
+    :}
+
+  | USE:u BUILTIN RULE ID:i sc_opt:sc {:
+        expectSemicolon(sc, CVL2MissingSemicolon.ExpectedLocation.USE_STATEMENTS);
+        RESULT = new UseDeclaration.BuiltInRule(range(uxleft, scxright), i, MethodParamFiltersMap.NO_METHOD_PARAM_FILTERS);
+    :}
+;
+
+override_decl ::=
+    OVERRIDE macro_def:d                                           {: RESULT = new OverrideDeclaration.MacroDefinition(d); :}
+  | OVERRIDE cvl_function:f                                        {: RESULT = new OverrideDeclaration.CVLFunction(f);     :}
+;
+
+tuple_type ::= LP:l non_singleton_type_list:tt RP:r {: RESULT = new TupleType(tt, new CVLRange.Range(lxleft, rxright)); :};
+
+non_singleton_type_list ::=
+     type:t1 COMMA type:t2                      {: RESULT = append(singletonList(t1), t2); :}
+   | non_singleton_type_list:prev COMMA  type:t {: RESULT = append(prev, t); :}
+;
+
+/* ghosts *****************************************************************************************/
+
+type_list_opt ::=
+    /* empty */  {: RESULT = emptyList(); :}
+  | type_list:tl {: RESULT = tl; :}
+;
+
+type_list ::=
+    type:t                    {: RESULT = singletonList(t);   :}
+  | type_list:tl COMMA type:t {: RESULT = append(tl, t); :}
+;
+
+ghost_decl ::=
+    ghost_decl_no_axioms:g SC                      {: RESULT = g; :}
+  | ghost_decl_no_axioms:g LB axiom_list:axioms RB {: RESULT = g.withAxioms(axioms); :}
+;
+
+ghost_decl_no_axioms ::=
+    GHOST:g ID:i LP type_list_opt:pl RP RETURNS type:r
+        {: RESULT = new GhostFunDecl(range(gxleft, rxright),i, pl, r, false); :}
+
+  | GHOST:g type:t ID:i
+        {: RESULT = new GhostMapDecl(range(gxleft, ixright), t, i, false); :}
+
+  | PERSISTENT GHOST:g ID:i LP type_list_opt:pl RP RETURNS type:r
+          {: RESULT = new GhostFunDecl(range(gxleft, ixright),i, pl, r, true); :}
+
+  | PERSISTENT GHOST:g type:t ID:i
+          {: RESULT = new GhostMapDecl(range(gxleft, ixright), t, i, true); :}
+;
+
+axiom ::=
+    AXIOM exp:e SC {: RESULT = new GhostAxiom(e, GhostAxiom.Type.ALWAYS); :}
+
+  | ID:initial AXIOM exp:e SC {:
+        // TODO: cleanup?
+        if (initial.equals("init_state")) {
+            RESULT = new GhostAxiom(e, GhostAxiom.Type.INITIAL);
+        } else {
+            reportUnexpectedToken(initial, initialxleft, initialxright, singletonList("init_state"));
+        }
+    :}
+;
+
+axiom_list ::=
+    axiom:a                   {: RESULT = singletonList(a); :}
+  | axiom_list:axioms axiom:a {: RESULT = append(axioms,a); :}
+;
+
+/* Hooks ******************************************************************************************/
+
+hook ::=
+    hook_pattern:hp LB cmds:cs RB:rb
+        {: RESULT = new Hook(range(hpxleft, rbxright),hp,cs); :}
+;
+
+// TODO: cleanup?
+hook_pattern ::=
+    HOOK:h SLOAD named_vm_param_no_loc:p slot_pattern:s storage_opt:so
+      {: expectNoStorage(so);
+         RESULT = new HookPattern(range(hxleft, sxright), HookType.SLOAD,p,s);
+       :}
+
+  | HOOK:h SSTORE slot_pattern:s named_vm_param_no_loc:p storage_opt:so
+      {: expectNoStorage(so);
+         RESULT = new HookPattern(range(hxleft, pxright), HookType.SSTORE,p,s);
+       :}
+
+  | HOOK:h SSTORE slot_pattern:s named_vm_param_no_loc:p LP named_vm_param_no_loc:op RP:rp storage_opt:so
+      {: expectNoStorage(so);
+         RESULT = new HookPattern(range(hxleft, rpxright), HookType.SSTORE,p,op,s);
+       :}
+
+  // tload/tsore hooks are currently limited to `(slot N)` patterns
+  | HOOK:h TLOAD named_vm_param_no_loc:p simple_slot_only_static_slot_part:s
+      {:    StaticSlotPattern ssp = new StaticSlotPattern(range(sxleft,sxright)); ssp.add(s);
+            RESULT = new HookPattern(range(hxleft, sxright), HookType.TLOAD, p, ssp);      :}
+
+  | HOOK:h TSTORE simple_slot_only_static_slot_part:s named_vm_param_no_loc:p
+      {:    StaticSlotPattern ssp = new StaticSlotPattern(range(sxleft,sxright)); ssp.add(s);
+            RESULT = new HookPattern(range(hxleft, pxright), HookType.TSTORE,p,ssp);     :}
+
+  | HOOK:h TSTORE simple_slot_only_static_slot_part:s named_vm_param_no_loc:p LP named_vm_param_no_loc:op RP:rp
+      {:    StaticSlotPattern ssp = new StaticSlotPattern(range(sxleft,sxright)); ssp.add(s);
+            RESULT = new HookPattern(range(hxleft, rpxright), HookType.TSTORE,p,op,ssp);  :}
+
+  | HOOK:h CREATE LP named_vm_param_no_loc:p RP:rp
+      {: RESULT = new HookPattern(range(hxleft, rpxright), HookType.CREATE, p);      :}
+
+  | HOOK:h OPCODE:o opt_named_vm_param_list:opl named_vm_param_no_loc:op
+      {: RESULT = new HookPattern(range(hxleft, opxright), o, opl, op);              :}
+
+  | HOOK:h OPCODE:o opt_named_vm_param_list:opl
+      {: RESULT = new HookPattern(range(hxleft, oplxright), o, opl);                 :}
+;
+
+
+/**
+   (slot 2) -> 3rd storage slot
+   (slot 0, offset 8) -> 1st storage slot, variable packed at 8 bytes
+                        [ ... 8 bytes ... (* match! *) ... ? bytes ... | ... slot 2 ... | ... ]
+   (slot 1)[uint key] -> an element of the mapping found at storage slot 1, whose key will be bound to the variable 'key'
+   (slot 1).(offset 64) -> in the struct located in the 2nd slot, the member of the struct located 64 bytes (2 evm words)
+                            from the start of the struct
+                            [ ... 32 bytes ... { ... 64 bytes ... (* match! *) ... } ... ]
+*/
+
+static_slot_part ::=
+    id_or_keyword:id
+      {: RESULT = new StaticSlotPatternNamed(id); :}
+
+  | simple_slot_only_static_slot_part:ssossp
+      {: RESULT = ssossp; :}
+
+  | LP ID:slot_keyword NUMBER:slot COMMA ID:offset_keyword NUMBER:offset RP
+      {: RESULT = new StaticSlotPatternTwoNumbers(slot_keyword, new NumberExp(slot, range(slotxleft, slotxright)), offset_keyword, new NumberExp(offset, range(offsetxleft, offsetxright))); :}
+;
+
+simple_slot_only_static_slot_part ::=
+    LP ID:keyword NUMBER:number RP
+        {: RESULT = new StaticSlotPatternNumber(keyword, new NumberExp(number, range(numberxleft, numberxright))); :}
+;
+
+static_slot_pattern ::=
+    static_slot_part:part
+      {: StaticSlotPattern p = new StaticSlotPattern(range(partxleft,partxright)); p.add(part); RESULT = p; :}
+
+  | static_slot_pattern:pattern DOT static_slot_part:part
+      {: pattern.add(part); RESULT = pattern; :}
+;
+
+// TODO: these `if` statements are weird...maybe clean up?
+
+slot_pattern_break_dots ::=
+  static_slot_pattern:sp LSQB ID:key_or_index named_vm_param_no_loc:p RSQB {:
+      if (key_or_index.equals("KEY")) {
+          RESULT = new MapAccessSlotPattern(sp, p);
+      } else if (key_or_index.equals("INDEX")) {
+          RESULT = new ArrayAccessSlotPattern(sp, p);
+      } else {
+          RESULT = new SlotPatternError(reportUnexpectedToken(key_or_index, key_or_indexxleft, key_or_indexxright, append(append(emptyList(), "KEY"), "INDEX")));
+      }
+  :}
+;
+
+slot_pattern_nested ::=
+    slot_pattern_break_dots:sp {: RESULT = sp; :}
+
+  | slot_pattern_nested:sp LSQB ID:key_or_index named_vm_param_no_loc:p RSQB {:
+        if (key_or_index.equals("KEY")) {
+            RESULT = new MapAccessSlotPattern(sp, p);
+        } else if (key_or_index.equals("INDEX")) {
+            RESULT = new ArrayAccessSlotPattern(sp, p);
+        } else {
+            RESULT = new SlotPatternError(reportUnexpectedToken(key_or_index, key_or_indexxleft, key_or_indexxright, append(append(emptyList(), "KEY"), "INDEX")));
+        }
+    :}
+
+  | slot_pattern_nested:sp DOT id_or_keyword:field
+        {: RESULT = new FieldAccessSlotPattern(sp, field); :}
+
+  | slot_pattern_nested:sp DOT LP ID:offset_keyword NUMBER:offset RP {:
+        if (!offset_keyword.equals("offset")) {
+            reportUnexpectedToken(offset_keyword, offset_keywordxleft, offset_keywordxright, singletonList("offset"));
+        } else {
+            RESULT = new StructAccessSlotPattern(sp, new NumberExp(offset, range(offsetxleft, offsetxright)));
+        }
+    :}
+;
+
+slot_pattern ::=
+    slot_pattern_nested:sp {: RESULT = sp; :}
+  | static_slot_pattern:sp {: RESULT = sp; :}
+;
+
+/* Rules ******************************************************************************************/
+
+rule ::=
+    RULE:r ID:i opt_cvl_param_list:pl method_param_filters_or_empty:mpf description:d goodDescription:gd block:b
+        {: RESULT = new Rule(isImportedFile, range(rxleft,bxright),i,pl,mpf,d,gd,b); :}
+;
+
+method_param_filters_or_empty ::=
+    /* empty */              {: RESULT = MethodParamFiltersMap.NO_METHOD_PARAM_FILTERS; :}
+  | method_param_filters:mpf {: RESULT = mpf; :}
+;
+
+method_param_filters ::=
+    FILTERED:filtered LB method_param_filters_map:mpf RB:br
+        {: RESULT = new MethodParamFiltersMap(range(filteredxleft, brxright), mpf); :}
+;
+
+// TODO: probably better to deduplicate in kotlinization?
+
+method_param_filters_map ::=
+    ID:i MAPSTO exp:e {:
+        Map m = new HashMap<String, MethodParamFilterDef>();
+        m.put(i, new MethodParamFilterDef(range(ixleft, exright), new VariableExp(i, range(ixleft, ixright)), e));
+        RESULT = m;
+    :}
+
+  | method_param_filters_map:m COMMA ID:i MAPSTO exp:e     {:
+        if(m.containsKey(i)) {
+            reportMultipleFiltersSameMethodParam(i, mxleft, exright);
+        } else {
+            m.put(i, new MethodParamFilterDef(range(ixleft, exright), new VariableExp(i, range(ixleft, ixright)), e));
+        }
+        RESULT = m;
+    :}
+;
+
+// TODO: I thought this was removed?
+description ::=
+    /* empty */          {: RESULT = ""; :}
+  | DESCRIPTION STRING:s {: RESULT = s; :}
+;
+
+// TODO: I thought this was removed?
+goodDescription ::=
+    /* empty */              {: RESULT = null; :}
+  | GOODDESCRIPTION STRING:s {: RESULT = s;    :}
+;
+
+/* Commands ***************************************************************************************/
+
+block ::= LB cmds:c RB {: RESULT = c; :};
+
+cmds ::=
+    /* empty */   {: RESULT = emptyList();  :}
+  | cmds:cs cmd:c {: RESULT = append(cs,c); :}
+;
+
+cmd ::=
+    // Declaration
+    type:t ID:i SC:sc {: RESULT = new DeclarationCmd(t,i, range(txleft,scxright)); :}
+  | type:t usable_keywords:i SC:sc {: reportInvalidUsageOfCVLKeyword(i, ixleft, ixright); :}
+
+  | // Definition
+    // TODO: address this comment
+    // apparently type ID ASSIGN exp SC was ambiguous with lhs_list ASSIGN exp SC under the states type ::= ID * LB and lhs ::= ID * LB
+    // I guess this is what you get with an LALR (??) parser
+    // Note, that even though the grammar is "ambiguous" we know in every use site of a type_or_lhs whether or not we want it to be a type or an lhs
+    type:t ID:i ASSIGN exp:e SC:sc                             {: RESULT = new DefinitionCmd(range(txleft,scxright),t,singletonList(new IdLhs(range(txleft,ixright), i)),e); :}
+  | type:t usable_keywords:i ASSIGN exp SC {: reportInvalidUsageOfCVLKeyword(i, ixleft, ixright); :}
+
+  | // Assignment
+    lhs_list:idL ASSIGN exp:e SC:sc                            {: RESULT = new DefinitionCmd(range(idLxleft,scxright),null,idL,e); :}
+  | HAVOC:k havoc_target_list:htl SC:sc                        {: RESULT = new HavocCmd(range(kxleft,scxright),htl); :}
+  | HAVOC:k havoc_target_list:htl ASSUMING exp:e SC:sc         {: RESULT = new HavocCmd(range(kxleft,scxright),htl,e); :}
+  | REQUIRE:k exp:e SC:sc                                      {: RESULT = new AssumeCmd(range(kxleft,scxright),e); :}
+  | REQUIREINVARIANT:r ID:i opt_args:el SC:sc                  {: RESULT = new AssumeInvariantCmd(range(rxleft,scxright),i,el); :}
+  | REQUIREINVARIANT:r LP ID:i opt_args:el RP SC:sc            {: RESULT = new AssumeInvariantCmd(range(rxleft,scxright),i,el); :}
+  | ambiguous_apply:a SC:sc                                    {: RESULT = new ApplyCmd(range(axleft,scxright),a); :}
+  | ID:contract DOT ambiguous_apply:a SC:sc                    {:
+                                                                  /* Update the contract ref - in ambiguous apply it can only be null */
+                                                                  a.base = new VariableExp(contract, range(contractxleft, contractxright));
+                                                                  RESULT = new ApplyCmd(range(contractxleft,scxright),a);
+                                                                 :}
+  | RESET_STORAGE:r exp:i SC:sc                                {: RESULT = new ResetStorageCmd(range(rxleft,scxright),i); :}
+  | IF:k LP exp:e RP cmd:tc ELSE cmd:ec                        {:
+        if (tc != null && ec != null) {
+            RESULT = new IfCmd(range(kxleft,ecxright),e,tc,ec);
+        } else {
+            // the thencmd or elsecmd had a parse error, return an error here too
+            RESULT = null;
+        }
+    :}
+  | IF:k LP exp:e RP cmd:tc                                    {:
+        if (tc != null) {
+            RESULT = new IfCmd(range(kxleft,tcxright),e,tc,null);
+        } else {
+            // the thencmd had a parse error, return an error here too
+            RESULT = null;
+        }
+    :}
+  | LB:k cmds:c RB:rb                                          {: RESULT = new BlockCmd(range(kxleft,rbxright),c); :}
+  | ASSERT:k exp:e SC:sc                                       {: RESULT = new AssertCmd(range(kxleft,scxright),e,null); :}
+  | ASSERT:k exp:e COMMA STRING:s SC:sc                        {: RESULT = new AssertCmd(range(kxleft,scxright),e,s); :}
+  | ASSERT:k LP exp:e COMMA STRING:s RP SC:sc                  {: RESULT = new AssertCmd(range(kxleft,scxright),e,s); :}
+    // Note: exp includes exp ::= (exp), so this covers `assert(exp)`
+  | SATISFY:k exp:e SC:sc                                      {: RESULT = new SatisfyCmd(range(kxleft,scxright),e,null); :}
+  | SATISFY:k exp:e COMMA STRING:s SC:sc                       {: RESULT = new SatisfyCmd(range(kxleft,scxright),e,s); :}
+  | RETURN:k exp:e SC:sc                                       {: RESULT = new ReturnCmd(range(kxleft,scxright),singletonList(e)); :}
+  | RETURN:k LP exp_list_non_singleton:res RP SC:sc            {: RESULT = new ReturnCmd(range(kxleft,scxright),res); :}
+  | RETURN:k SC:sc                                             {: RESULT = new ReturnCmd(range(kxleft,scxright),emptyList()); :}
+  | REVERT:k LP STRING:s RP SC:sc                              {: RESULT = new RevertCmd(range(kxleft,scxright),s); :}
+  | REVERT:k LP RP SC:sc                                       {: RESULT = new RevertCmd(range(kxleft,scxright),null); :}
+  | error:e SC:sc                                              {: RESULT = null; :}
+;
+
+exp_list_non_singleton ::=
+    exp:e1 COMMA exp:e2                   {: RESULT = append(singletonList(e1), e2); :}
+  | exp_list_non_singleton:el COMMA exp:e {: RESULT = append(el, e); :};
+
+lhs_list ::=
+    lhs:i                   {: RESULT = singletonList(i); :}
+  | lhs_list:ll COMMA lhs:l {: RESULT = append(ll,l);     :}
+  | LP lhs_list_nonempty:ll RP {: RESULT = ll; :}
+;
+
+lhs_list_nonempty ::=
+  lhs:l1 COMMA lhs:l2 {: ArrayList<TypeOrLhs> l = new ArrayList<>(); l.add(l1); l.add(l2); RESULT = l; :}
+  | lhs_list_nonempty:prev_list COMMA lhs:l {: prev_list.add(l); RESULT = prev_list; :};
+
+lhs  ::= type_or_lhs:r {: RESULT = r; :};
+
+havoc_target ::=
+  | ID:i                                      {: RESULT = new VariableExp(i, range(ixleft, ixright));         :}
+  | havoc_target:ad LSQB exp:e RSQB:r         {: RESULT = new ArrayDerefExp(ad, e, range(adxleft, rxright));  :}
+  | havoc_target:base DOT id_or_keyword:field {: RESULT = new FieldSelectExp(base,field, range(basexleft, fieldxright)); :}
+;
+
+havoc_target_list ::=
+    havoc_target:ht                                            {: RESULT = singletonList(ht); :}
+  | havoc_target_list:htl COMMA havoc_target:ht                {: RESULT = append(htl, ht); :}
+;
+
+// TODO: standardize opt_args or args_opt
+
+opt_args ::=
+    /* empty */ {: RESULT = emptyList(); :}
+  | args:a      {: RESULT = a; :}
+;
+
+// TODO: cleanup?
+
+no_args          ::= LP RP                         {: RESULT = emptyList();   :};
+two_or_more_args ::= LP exp_list:el COMMA exp:e RP {: RESULT = append(el, e); :};
+
+args ::= LP exp_list_opt:e RP {: RESULT = e; :};
+
+exp_list ::=
+    exp:e                   {: RESULT = singletonList(e); :}
+  | exp_list:el COMMA exp:e {: RESULT = append(el,e);     :}
+;
+
+exp_list_opt ::=
+    /* empty */ {: RESULT = emptyList(); :}
+  | exp_list:el {: RESULT = el;          :}
+;
+
+/* Identifiers ************************************************************************************/
+
+non_cast_id ::=
+    id_or_keyword:id  {: RESULT = id; :}
+  | CAST:c {: reportReservedCastKeywordError(c, cxleft, cxright); RESULT = c.toString(); :}
+;
+
+// TODO: is this (String) cast "right"?
+usable_keywords ::=
+    EXISTS:k      {: RESULT = (String) k; :}
+  | FORALL:k      {: RESULT = (String) k; :}
+  | SUM:k         {: RESULT = (String) k; :}
+  | USUM:k        {: RESULT = (String) k; :}
+  | USING:k       {: RESULT = (String) k; :}
+  | AS:k          {: RESULT = (String) k; :}
+  | IMPORT:k      {: RESULT = (String) k; :}
+  | USE:k         {: RESULT = (String) k; :}
+  | BUILTIN:k     {: RESULT = (String) k; :}
+  | OVERRIDE:k    {: RESULT = (String) k; :}
+  | SIG:k         {: RESULT = (String) k; :}
+  | DESCRIPTION:k {: RESULT = (String) k; :}
+  | INVARIANT:k   {: RESULT = (String) k; :}
+  | PRESERVED:k   {: RESULT = (String) k; :}
+  | WEAK:k        {: RESULT = (String) k; :}
+  | STRONG:k      {: RESULT = (String) k; :}
+  | ON_TRANSACTION_BOUNDARY:k   {: RESULT = (String) k; :}
+  | OLD:k         {: RESULT = (String) k; :}
+  | HOOK:k        {: RESULT = (String) k; :}
+  | UNRESOLVED_LOWERCASE:k {: RESULT = (String) k; :}
+;
+
+id_or_keyword ::=
+    ID:id              {: RESULT = id; :}
+  | usable_keywords:kw {: RESULT = kw; :}
+;
+
+/* Literals ***************************************************************************************/
+
+boolLit ::=
+    TRUE  {: RESULT = true;  :}
+  | FALSE {: RESULT = false; :}
+;
+
+number ::= NUMBER:n {: RESULT = new NumberExp(n, range(nxleft, nxright)); :}
+;
+
+method_reference ::=
+    non_cast_id:id                {: RESULT = new MethodReferenceExp(null,id, range(idxleft, idxright)); :}
+  | ID:contract DOT non_cast_id:m {: RESULT = new MethodReferenceExp(new VariableExp(contract, range(contractxleft, contractxright)),m, range(contractxleft, mxright)); :}
+;
+
+signature_literal ::=
+  method_reference:m unnamed_vm_param_list_or_empty:ty
+      {: RESULT = new SignatureLiteralExp(range(mxleft, tyxright), m, ty); :}
+;
+
+/* Expressions ************************************************************************************/
+
+// See https://solidity.readthedocs.io/en/v0.5.3/miscellaneous.html#cheatsheet for an overview on solidity operator
+// precedence (for comparision).
+
+exp ::= arrayexp:a {: RESULT = a; :};
+
+arrayexp ::=
+    LSQB:ls exp_list_opt:e RSQB:rs   {: RESULT = new ArrayLitExp(e, range(lsxleft, rsxright)); :}
+  | quantexp:e                       {: RESULT = e; :}
+;
+
+// TODO: can we move %prec before body?
+// TODO: standardize %prec usage
+quantexp ::=
+    FORALL:q cvl_param:p DOT exp:body {: RESULT = new QuantifierExp(true, p, body, range(qxleft, bodyxright)); :} %prec FORALL
+  | EXISTS:q cvl_param:p DOT exp:body {: RESULT = new QuantifierExp(false, p, body, range(qxleft, bodyxright)); :} %prec EXISTS
+  | sumexp:c {: RESULT = c; :}
+;
+
+sumexp ::=
+    SUM:s cvl_param_list:p DOT exp:body  {: RESULT = new SumExp(p, body, range(sxleft, bodyxright), false); :}
+  | USUM:s cvl_param_list:p DOT exp:body {: RESULT = new SumExp(p, body, range(sxleft, bodyxright), true); :}
+  | condexp:c {: RESULT = c; :}
+;
+
+// Note: ternary conditional, implication, and iff are right-associative (see e.g. http://intrologic.stanford.edu/dictionary/operator_precedence.html)
+condexp ::=
+    iff:c QUESTION condexp:e1 COLON condexp:e2 {: RESULT = new CondExp(c,e1,e2,range(cxleft, e2xright)); :}
+  | iff:r                                      {: RESULT = r; :}
+;
+
+iff ::=
+    impl:e IFF iff:c    {: RESULT = new IffExp(e,c,range(exleft, cxright)); :}
+  | impl:c              {: RESULT = c; :}
+;
+
+impl ::=
+    disj:e IMPLIES impl:c {: RESULT = new ImpliesExp(e,c,range(exleft, cxright)); :}
+  | disj:c                {: RESULT = c; :}
+;
+
+disj ::=
+    disj:e LOR conj:c {: RESULT = new LorExp(e,c,range(exleft, cxright)); :}
+  | conj:c            {: RESULT = c; :}
+;
+
+conj ::=
+    conj:c LAND relop:n {: RESULT = new LandExp(c,n,range(cxleft, nxright)); :}
+  | relop:n             {: RESULT = n; :}
+;
+
+relop ::=
+    bwor:l RELOP:o bwor:r {: RESULT = new RelopExp(o,l,r,range(lxleft, rxright)); :}
+  | // TODO why do we allow this? isn't this a type error anyway? --> can we drop this line?
+    bwor:a                {: RESULT = a; :}
+;
+
+bwor ::=
+    bwor:l BWOR:o bwxor:r {: RESULT = new BwOrExp(l,r,range(lxleft, rxright)); :}
+  | bwxor:b               {: RESULT = b; :}
+;
+
+bwxor ::=
+    bwxor:l BWXOR:o bwand:r {: RESULT = new BwXOrExp(l,r,range(lxleft, rxright)); :}
+  | bwand:b                 {: RESULT = b; :}
+;
+
+bwand ::=
+    bwand:l BWAND:o bwshift:r {: RESULT = new BwAndExp(l,r,range(lxleft, rxright)); :}
+  | bwshift:b                 {: RESULT = b; :}
+;
+
+bwshift ::=
+    bwshift:l BWLSHIFT:o additive:r       {: RESULT = new BwLeftShiftExp(l,r,range(lxleft, rxright));           :}
+  | bwshift:l BWRSHIFT:o additive:r       {: RESULT = new BwRightShiftExp(l,r,range(lxleft, rxright));          :}
+  | bwshift:l BWRSHIFTWZEROS:o additive:r {: RESULT = new BwRightShiftWithZerosExp(l,r,range(lxleft, rxright)); :}
+  | additive:a                            {: RESULT = a; :}
+;
+
+additive ::=
+    additive:l PLUS multiplicative:r  {: RESULT = new AddExp(l,r,range(lxleft, rxright)); :}
+  | additive:l MINUS multiplicative:r {: RESULT = new SubExp(l,r,range(lxleft, rxright)); :}
+  | multiplicative:m                  {: RESULT = m; :}
+;
+
+// TODO: Do we support Uminus? --> yep, TODO: test it
+
+multiplicative ::=
+    multiplicative:l TIMES unary:r {: RESULT = new MulExp(l,r,range(lxleft, rxright)); :}
+  | multiplicative:l DIV unary:r   {: RESULT = new DivExp(l,r,range(lxleft, rxright)); :}
+  | multiplicative:l MOD unary:r   {: RESULT = new ModExp(l,r,range(lxleft, rxright)); :}
+  | unary:f                        {: RESULT = f; :}
+;
+
+unary ::=
+    NOT:not power:n     {: RESULT = new LNotExp(n, range(notxleft, nxright));     :}
+  | BWNOT:bwnot power:n {: RESULT = new BwNotExp(n, range(bwnotxleft, nxright));  :}
+  | MINUS:minus power:n {: RESULT = new UMinusExp(n, range(minusxleft, nxright)); :}
+    // TODO unary operations not yet implemented: delete, prefix increment, prefix decrement
+  | power:s             {: RESULT = s; :}
+;
+
+power ::=
+    power:b EXPONENT setinc:p {: RESULT = new ExponentExp(b, p, range(bxleft, pxright)); :}
+  | setinc:f                  {: RESULT = f; :}
+;
+
+setinc ::=
+    setinc:s IN term:t {: RESULT = new SetMemExp(s,t, range(sxleft, txright)); :}
+  | term:t             {: RESULT = t; :}
+;
+
+term ::=
+    TRUE:t                    {: RESULT = new BoolExp(true, range(txleft, txright));  :}
+  | FALSE:f                   {: RESULT = new BoolExp(false, range(fxleft, fxright));  :}
+  | number:n                  {: RESULT = n; :}
+  | STRING:s                  {: RESULT = new StringExp(s, range(sxleft, sxright)); :}
+  | LP exp:e RP               {: e.addParens(); RESULT = e; :}
+  | field_access:ad           {: RESULT = ad; :}
+  | CONST_VAL:v               {: RESULT = new NumberExp(v, range(vxleft, vxright)); :}
+  | CAST:c LP exp:e RP:rp     {: RESULT = new CastExpr(c, e, range(cxleft, exright)); :}
+  | CAST:c no_args:e          {: RESULT = reportReservedCastKeywordError(c, cxleft, exright); :}
+  | CAST:c two_or_more_args:e {: RESULT = reportReservedCastKeywordError(c, cxleft, exright); :}
+  | BIF:b args:a              {: RESULT = new BifApplicationExpr(b, a, range(bxleft, axright)); :}
+;
+
+field_access ::=
+    ID:i AMPERSAT OLD:o               {: RESULT = VariableExp.oldVariable(i, range(ixleft, oxright)); :}
+  | ID:i AMPERSAT NEW:n               {: RESULT = VariableExp.newVariable(i, range(ixleft, nxright)); :}
+  | ID:i                              {: RESULT = new VariableExp(i, range(ixleft, ixright));         :}
+  | KEYWORD:k                         {: RESULT = new VariableExp(k, range(kxleft, kxright));         :}
+  | SIG COLON signature_literal:sl    {: RESULT = sl;                                                 :}
+  | field_access:ad LSQB exp:e RSQB:r {: RESULT = new ArrayDerefExp(ad, e, range(adxleft, rxright));  :}
+  | ambiguous_apply:a                 {: RESULT = a; :}
+  | field_access:base DOT id_or_keyword:field {: RESULT = new FieldSelectExp(base,field, range(basexleft, fieldxright)); :}
+
+  | field_access:base DOT id_or_keyword:m apply_annotation:an args:args storage_type:s {:
+        if (base instanceof VariableExp && (((VariableExp) base).isOldVersion() || ((VariableExp) base).isNewVersion())) {
+            RESULT = reportApplyExpWithAtNewOrAtOldBase(basexleft, sxright);
+        } else {
+            RESULT = new UnresolvedApplyExp(base, m, args, an, s, range(basexleft, sxright));
+        }
+    :}
+;
+
+/* This expression allows the application of:
+    - Definitions
+    - Ghost Functions
+    - CVL Functions
+    - Solidity Functions
+*/
+ambiguous_apply ::=
+    ID:m apply_annotation:an args:args storage_type:s
+        {: RESULT = new UnresolvedApplyExp(null,m,args,an,s, range(mxleft, sxright)); :}
+  | usable_keywords:m vm_func_apply_annotation:an args:args storage_type:s
+        {: RESULT = new UnresolvedApplyExp(null,m,args,an,s, range(mxleft, sxright)); :}
+;
+
+vm_func_apply_annotation ::=
+    /* empty */         {: RESULT = UnresolvedApplyExp.Annotation.NONE;       :}
+  | AMPERSAT NOREVERT   {: RESULT = UnresolvedApplyExp.Annotation.NOREVERT;   :}
+  | AMPERSAT WITHREVERT {: RESULT = UnresolvedApplyExp.Annotation.WITHREVERT; :}
+;
+
+apply_annotation ::=
+    /* empty */         {: RESULT = UnresolvedApplyExp.Annotation.NONE;       :}
+  | AMPERSAT OLD        {: RESULT = UnresolvedApplyExp.Annotation.OLD;        :}
+  | AMPERSAT NEW        {: RESULT = UnresolvedApplyExp.Annotation.NEW;        :}
+  | AMPERSAT NOREVERT   {: RESULT = UnresolvedApplyExp.Annotation.NOREVERT;   :}
+  | AMPERSAT WITHREVERT {: RESULT = UnresolvedApplyExp.Annotation.WITHREVERT; :}
+;
+
+storage_type ::=
+    /* empty */ {: RESULT = new VariableExp("lastStorage", new CVLRange.Empty("empty storage type")); :}
+  | AT ID:s     {: RESULT = new VariableExp(s, range(sxleft, sxright));                               :}
+;

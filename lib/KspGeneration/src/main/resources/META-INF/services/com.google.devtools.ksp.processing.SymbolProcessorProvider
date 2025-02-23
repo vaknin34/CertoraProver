@@ -1,0 +1,9 @@
+ksp.dynamicconversion.DynamicConversionProvider
+ksp.classlists.ListClassesProvider
+ksp.remapper.RemapperProvider
+ksp.parser.TACParserGeneratorProvider
+ksp.parser.TACExprPrinterGeneratorProvider
+ksp.parser.TACCmdPrinterGeneratorProvider
+ksp.serialization.SerializersModuleProvider
+ksp.hooks.OpcodeHooksProvider
+ksp.hooks.CVLHookProvider

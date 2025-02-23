@@ -1,0 +1,97 @@
+package vc.data.parser.infix;
+
+/*
+ *     The Certora Prover
+ *     Copyright (C) 2025  Certora Ltd.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, version 3 of the License.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import tac.Tag;
+import vc.data.*;
+import vc.data.parser.*;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.ArrayList;
+
+
+/**
+This parser is used for expressions only, it supports some infix operators and also expressions as function calls
+The variables are not needed to be decleared in typescope, rather it is inlined, and the type is defaulted to bit256.
+It doesn't support meta.
+*/
+
+
+parser code {:
+
+:}
+
+/* Terminals (tokens returned by the scanner). */
+/* symbols*/
+terminal            LBRACE,RBRACE,LP, RP, UNDERSCORE, LSQB,
+                    RSQB, COMMA, COLON, RETURNS, AT, CROSS, ARROW, EQUALS, PLUS, MINUS, DIV, EQUALITY_OP,
+                    LE,LT,GE,GT,NOT;
+/*keywords*/
+terminal            APPLYFN, FORALL, EXISTS, QVARS, UNCONSTRAINED, STRUCTCONSTANT, STRUCTACCESS, GHOSTMAP, UFATTRIBUTE;
+terminal            JSONInExpPrefix;
+
+terminal String BOOL, HEX, IDENTIFIER, BLOCKID;
+terminal String     JSON;
+terminal Integer    NUMBER;
+terminal String     TYPE_TAG;
+terminal String     EXPRESSION_FUNC, COMMAND_NAME;
+terminal String     STRING_LITERAL;
+
+
+nonterminal TACExpr expr;
+nonterminal TACSymbol Symbol;
+nonterminal Tag primitiveTag;
+nonterminal List<TACExpr> expressionList;
+
+/*precendences*/
+//most bottom is the highest precedence
+precedence nonassoc EQUALITY_OP, LT,LE,GT,GE;
+precedence left PLUS, MINUS;
+precedence left CROSS, DIV;
+
+
+start with expr;
+
+expressionList  ::= {:List<TACExpr> l = new ArrayList<>(); RESULT = l;:}
+                    | expressionList:l expr:e {:l.add(e);RESULT = l;:}
+                    ;
+
+expr ::= Symbol:s {:RESULT = TACExpr.Sym.Companion.invoke(s);:}
+        | LP expr:e RP {: RESULT = e;:}
+        | NOT expr:e {: RESULT = TACExprParserKt.parseExprFunction("LNot", List.of(e)); :}
+        | expr:o1 CROSS expr:o2 {:RESULT = TACExprParserKt.parseExprFunction("Mul", List.of(o1,o2)); :}
+        | expr:o1 DIV expr:o2 {:RESULT = TACExprParserKt.parseExprFunction("Div", List.of(o1,o2)); :}
+        | expr:o1 PLUS expr:o2 {:RESULT = TACExprParserKt.parseExprFunction("Add", List.of(o1,o2)); :}
+        | expr:o1 MINUS expr:o2 {:RESULT = TACExprParserKt.parseExprFunction("Sub", List.of(o1,o2)); :}
+        | expr:o1 EQUALITY_OP expr:o2 {:RESULT = TACExprParserKt.parseExprFunction("Eq", List.of(o1,o2)); :}
+        | expr:o1 LE expr:o2 {:RESULT = TACExprParserKt.parseExprFunction("Le", List.of(o1,o2)); :}
+        | expr:o1 LT expr:o2 {:RESULT = TACExprParserKt.parseExprFunction("Lt", List.of(o1,o2)); :}
+        | expr:o1 GE expr:o2 {:RESULT = TACExprParserKt.parseExprFunction("Ge", List.of(o1,o2)); :}
+        | expr:o1 GT expr:o2 {:RESULT = TACExprParserKt.parseExprFunction("Gt", List.of(o1,o2)); :}
+        | EXPRESSION_FUNC:f LP expressionList:l RP {: RESULT = TACExprParserKt.parseExprFunction(f, l); :}
+        ;
+
+primitiveTag       ::= TYPE_TAG:t {:RESULT = TACExprParserKt.getPrimitive(t);:};
+
+Symbol          ::= HEX:h {:RESULT = TACSymbol.Companion.lift(new BigInteger(h.substring(2),16));:}
+                    | BOOL:b {:RESULT = TACSymbol.Companion.lift(Boolean.parseBoolean(b));:}
+                    | IDENTIFIER:id {: RESULT = TACSymbol.Var.Companion.invokeFromJava(id, Tag.Bit256.INSTANCE, 0);:}
+                    | IDENTIFIER:id AT NUMBER:callIdx {: RESULT = TACSymbol.Var.Companion.invokeFromJava(id, Tag.Bit256.INSTANCE, callIdx);:}
+                    | IDENTIFIER:id COLON primitiveTag:t {:RESULT = TACSymbol.Var.Companion.invokeFromJava(id,t,0);:}
+                    | IDENTIFIER:id AT NUMBER:callIdx COLON primitiveTag:t {: RESULT = TACSymbol.Var.Companion.invokeFromJava(id, t, callIdx);:}
+                    ;

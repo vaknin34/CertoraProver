@@ -1,0 +1,30 @@
+{
+	"assertMessages": {
+		"revertInCVLSummary": "Multiple assertions violated. there should be a reverting path - cvlFunctionSummary.spec line 34 there should be a non-reverting path - cvlFunctionSummary.spec line 35"
+	},
+	"rules": {
+		"envfreeFuncsStaticCheck": {
+			"FAIL": [],
+			"SANITY_FAIL": [],
+			"SUCCESS": [
+				"callSummarized(bool)",
+				"callSummarizedInTryCatch(bool)",
+				"callSummarizedWithRevert(bool)",
+				"callDeeperSummarized(bool)",
+				"callDeeperSummarizedWithTryCatch(bool)",
+        "callSummarizedPayable(bool)",
+				"canRevert(bool)"
+			],
+			"TIMEOUT": [],
+			"UNKNOWN": []
+		},
+		"revertInCVLSummary": "SUCCESS",
+		"withoutWithRevertNeverReverts": "SUCCESS",
+		"revertInCVLSummaryInTryCatch": "SUCCESS",
+		"revertInCVLSummaryWithRevert": "SUCCESS",
+		"revertInCVLSummaryDeeplyCalled": "SUCCESS",
+		"revertInCVLSummaryDeeplyCalledInTryCatch": "SUCCESS",
+		"revertInCVLSummaryBalanceCheck": "SUCCESS",
+		"twoRevertingCalls": "SUCCESS"
+	}
+}

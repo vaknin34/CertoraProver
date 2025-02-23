@@ -1,0 +1,22 @@
+{
+  "rules": {
+    "envfreeFuncsStaticCheck": {
+      "FAIL": [],
+      "SANITY_FAIL": [],
+      "SUCCESS": [
+        "callSummarizeMe(bool)",
+        "alwaysRevertContractFun()"
+      ],
+      "TIMEOUT": [],
+      "UNKNOWN": []
+    },
+    "cvlRevertCanRevert": "SUCCESS",
+    "goingThroughSummary": "SUCCESS",
+    "withoutWithRevertCannotRevert": "SUCCESS",
+    "codeAfterRevertIsSkipped": "SUCCESS",
+    "differentRevertReasons": "SUCCESS",
+    "indirectRevert": "SUCCESS",
+    "indirectRevertViaContract": "SUCCESS",
+    "manyRevertPaths": "SUCCESS"
+  }
+}

@@ -1,0 +1,412 @@
+package tac;
+
+/*
+ *     The Certora Prover
+ *     Copyright (C) 2025  Certora Ltd.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, version 3 of the License.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import java_cup.runtime.ComplexSymbolFactory.ComplexSymbol;
+import java_cup.runtime.ComplexSymbolFactory.Location;
+import tac.Tag.UserDefined.Struct;
+import tac.Tag.UserDefined.Struct.Field;
+import vc.data.*;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.function.Function;
+import vc.data.parser.*;
+/**
+*  Full parser for CoreTACProgram. Interdependent with TAC.jflex
+*
+*/
+parser code {:
+
+    Map<String, Tag.UserDefined> userDefinedTypes = new LinkedHashMap<>();
+    Map<String, TACSymbol.Var> idToVar = new LinkedHashMap<>();
+    Map<String, FunctionInScope.Builtin> builtinFuncMap = new LinkedHashMap<>();
+    Map<String, FunctionInScope.UF> ufMap = new LinkedHashMap<>();
+    boolean DEBUG = false;
+
+
+
+    private void Debug(String ... args) {
+        if (DEBUG) {
+          System.out.println("TAC CUPParser: <" + String.join(", ",args) + ">");
+        }
+    }
+
+    private static String symLocationString(ComplexSymbol cs) {
+        Location loc = cs.getLeft();
+        if (loc == null) {
+            loc = cs.getRight();
+            if (loc == null) {
+                return "?";
+            } else {
+                return loc.getLine() + ":" + loc.getColumn();
+            }
+        } else {
+            return loc.getLine() + ":" + loc.getColumn();
+        }
+    }
+
+    private static String symNameString(ComplexSymbol cs) {
+        Object v = cs.value;
+        return cs.getName() + (v == null ? "" : ("(" + v.toString() + ")"));
+    }
+
+    public void report_error(String message, ComplexSymbol cs) {
+        throw new IllegalArgumentException(theFilename + ":" + symLocationString(cs) + ": " + message + " unexpected token near " + symNameString(cs));
+    }
+
+    private String theFilename;
+    public void setFileName(String name) {
+        theFilename = name;
+    }
+
+
+    private <T> T getDeclaredFromScope(String name, Map<String, T> m) {
+        T t = m.get(name);
+        if (t == null) {
+            report_error("undeclared " + name + "before input symbol: ", cur_token);
+        }
+        return t;
+    }
+
+    private FunctionInScope.UF getDeclaredUf(String name) {
+        return getDeclaredFromScope(name, ufMap);
+    }
+
+    private TACBuiltInFunction getDeclaredBif(String name) {
+        return getDeclaredFromScope(name, builtinFuncMap).getTacBif();
+    }
+
+    private TACSymbol.Var getDeclaredVar(String name) {
+       return getDeclaredFromScope(name, idToVar);
+    }
+
+    private void addToScope(List<TACSymbol.Var> vars) {
+        vars.forEach (v -> {
+            if (idToVar.containsKey(v.getSmtRep())) {
+                report_error("var " + v + " redeclared", cur_token);
+            }
+            idToVar.put(v.getSmtRep(), v);
+        });
+    }
+
+
+    private <T> void addToScope(String id, T t, Map<String, T> m) {
+        if (m.containsKey(id)) {
+            report_error(id + " redeclared", cur_token);
+        }
+        m.put(id, t);
+    }
+
+    private void addUfToScope(String ufAlias, FunctionInScope.UF uf) {
+        addToScope(ufAlias, uf, ufMap);
+    }
+
+    private void addBifToScope(String bifAlias, FunctionInScope.Builtin bif) {
+        if (builtinFuncMap.containsKey(bifAlias)) {
+            report_error("bif " + bifAlias + " redeclared", cur_token);
+        }
+        builtinFuncMap.put(bifAlias, bif);
+    }
+
+    private void removeFromScope(List<TACSymbol.Var> vars) {
+        vars.forEach (v -> {
+            if (!idToVar.containsKey(v.getSmtRep())) {
+                report_error("trying to remove var " + v + ", which not exist in scope", cur_token);
+            }
+            idToVar.remove(v.getSmtRep());
+        });
+    }
+
+:}
+/* Preliminaries to set up and use the scanner.  */
+
+/* Terminals (tokens returned by the scanner). */
+//operators and symbols
+terminal            LBRACE,RBRACE,LP, RP, UNDERSCORE, LSQB,
+                    RSQB, COMMA, COLON, RETURNS, AT, CROSS, ARROW, EQUALS;
+//keywords
+terminal            PROGRAM,METAS,META,TACSYMBOLTABLE,AXIOMS,ASSIGNMENT,BLOCK,SUCCESORS, GHOSTMAP,
+                    UNINTERP_SORT, UNINTERP_FUNC, UNINTERP_FUNCTIONS, UNINTERP_LOWER,USERDEFINED, STRUCT, BIF, IMPORT,
+                    BUILTINFUNCS, AXIOM, UFATTRIBUTE,
+                    APPLYFN, FORALL, EXISTS, QVARS, UNCONSTRAINED, STRUCTCONSTANT, STRUCTACCESS, MAPDEFINITION, SIMPLEHASH;
+
+terminal            JSONInExpPrefix;
+
+//symbols:
+terminal String BOOL, HEX, IDENTIFIER, BLOCKID;
+terminal String     JSON;
+terminal Integer    NUMBER;
+terminal String     TYPE_TAG;
+terminal String     EXPRESSION_FUNC, COMMAND_NAME, REVERTCMD;
+terminal String     STRING_LITERAL;
+terminal String     ANNOTATION_EXP;
+
+/* Non terminals */
+non terminal NBId parsedBlockNumber;
+non terminal Tag parsedTag, parsedReturnsTag;
+non terminal TACFile;
+non terminal String metasBlock;
+non terminal List<MetaMap> metaBlockList;
+non terminal Map<String, TACSymbol.Var> typeDictionary;
+non terminal TACSymbol.Var varDecl;
+//program:
+non terminal ProgramCupOutput program, blockList;
+non terminal SimpleEntry<NBId, Set<NBId>> blockDeclaration;
+non terminal List<NBId> successorsList;
+non terminal List<Function<TACCmdParserImplementation,TACCmd.Simple>> blockContent;
+non terminal Function<TACCmdParserImplementation,TACCmd.Simple> command;
+non terminal List<CmdArguments> cmdArgumentsList;
+
+//symbolTable:
+non terminal Set<tac.Tag.UserDefined> userDefinedList, userDefinedBlock;
+non terminal tac.Tag.UserDefined userDefinedDecl;
+non terminal List<Field> structFieldList;
+non terminal TACSymbolTableCupOutput symbolTableBlock;
+non terminal List<Tag> parsedTagList;
+non terminal Map<String, FunctionInScope.Builtin> builtinFuncMap, builtinFuncBlock;
+
+//axioms:
+non terminal UfAxioms axiomsBlock;
+non terminal Map<FunctionInScope.UF, List<TACAxiom>> UfAxioms;
+non terminal List<TACAxiom> axiomsList;
+non terminal TACAxiom axiomDecl;
+
+//expressions
+non terminal TACExpr expression;
+non terminal List<TACExpr> expressionList;
+non terminal TACSymbol Symbol;
+non terminal TACSymbol.Var varName, varWithMetaRef; //pre-declared
+non terminal List<TACSymbol.Var> varDeclList, QVarsList, localVarList;
+non terminal Map<String, TACExpr> fieldToValue;
+
+//uninterpretedFunctions
+non terminal Map<String, FunctionInScope.UF> uninterpretedFunctionsBlock;
+non terminal Map<String, FunctionInScope.UF> uifDeclList;
+non terminal FunctionInScope.UF uifDecl;
+
+//ghostMap:
+non terminal List<Tag> ghostMapParamList;
+non terminal Tag.GhostMap ghostMapDecl;
+
+
+/* Precedences */
+
+
+/* The grammar */
+TACFile         ::= symbolTableBlock:t program:p axiomsBlock:a metasBlock:metasBlock {:RESULT = new CupOutput(p,t,a, metasBlock);:};
+
+//typescope
+symbolTableBlock  ::= TACSYMBOLTABLE LBRACE userDefinedBlock builtinFuncBlock uninterpretedFunctionsBlock typeDictionary RBRACE {:
+                        Set<TACSymbol.Var> tagged = new LinkedHashSet<>(idToVar.values());
+                        RESULT = new TACSymbolTableCupOutput(userDefinedTypes,builtinFuncMap,ufMap,tagged);
+                        :}
+                    ;
+
+
+typeDictionary  ::= {:Debug("typeDictionary"); :}
+                    | typeDictionary:hm varDecl:v {:
+                        if (idToVar.containsKey(v.getSmtRep())) {
+                            report_error("var " + v + " redeclared", cur_token);
+                        }
+                        idToVar.put(v.getSmtRep(),v);
+                    :}
+                    ;
+
+
+varDecl         ::= IDENTIFIER:i COLON parsedTag:t COLON NUMBER:metaRef {: RESULT = TACSerializationToolsKt.varWithMetaRefIndex(TACSymbol.Var.Companion.invokeFromJava(i,t,0), metaRef);:}
+                    | IDENTIFIER:i AT NUMBER:n COLON parsedTag:t COLON NUMBER:metaRef {:RESULT = TACSerializationToolsKt.varWithMetaRefIndex(TACSymbol.Var.Companion.invokeFromJava(i,t,n), metaRef);:}
+                    | IDENTIFIER:i COLON parsedTag:t {: RESULT = TACSymbol.Var.Companion.invokeFromJava(i,t,0);:}
+                    | IDENTIFIER:i AT NUMBER:n COLON parsedTag:t {:RESULT = TACSymbol.Var.Companion.invokeFromJava(i,t,n);:}
+                    ;
+
+builtinFuncBlock ::= BUILTINFUNCS LBRACE builtinFuncMap RBRACE {:Debug("bif block");:};
+
+builtinFuncMap   ::= {:;:}
+                     |  builtinFuncMap IDENTIFIER:i COLON JSON:bifJson {:
+                            TACBuiltInFunction tbif = TACSerializationToolsKt.jsonToTACBif(bifJson);
+                            FunctionInScope.Builtin bif = new FunctionInScope.Builtin(tbif);
+                            addBifToScope(i, bif);
+                        :};
+
+
+uninterpretedFunctionsBlock ::= UNINTERP_FUNCTIONS LBRACE uifDeclList:l RBRACE {:
+                                    ufMap = l;
+                                :};
+uifDeclList ::=  {:Map<String, FunctionInScope.UF> l = new LinkedHashMap<>(); RESULT = l; :}
+                 | uifDeclList:l uifDecl:uif {:l.put(uif.getName(), uif); RESULT = l;:} ;
+
+uifDecl     ::= IDENTIFIER:i COLON JSON:ufJson {:
+                    RESULT = TACSerializationToolsKt.jsonToUF(ufJson);
+                :};
+
+parsedTagList   ::= {:List<Tag> tl = new ArrayList<>(); RESULT = tl;:}
+                    | parsedTag:t {:List<Tag> tl = new ArrayList<>(); tl.add(t); RESULT = tl;:}
+                    | parsedTagList:tl COMMA parsedTag:t  {:tl.add(t); RESULT = tl;:};
+
+
+ghostMapParamList ::= parsedTag:t {:List<Tag> tl = new ArrayList<>(); tl.add(t); RESULT = tl;:}
+                      | ghostMapParamList:gml CROSS parsedTag:t {:gml.add(t); RESULT = gml;:}
+                      ;
+
+ghostMapDecl    ::= GHOSTMAP LP ghostMapParamList:gml ARROW parsedTag:retType RP {:
+                        Tag.GhostMap gm = new Tag.GhostMap(gml,retType);
+                        RESULT = gm;:};
+
+parsedTag       ::= TYPE_TAG:t {:RESULT = TACExprParserKt.getPrimitive(t);:}
+                    | IDENTIFIER:it {:
+                        Tag.UserDefined ud = userDefinedTypes.get(it);
+                            if (ud == null) {
+                                report_fatal_error("Undeclared type " + it + ", in line["+itxleft + "," + itxright+"]", null); //this assumes that the userdefined are first declared than being used
+                            }
+                            RESULT = ud;:}
+                    | ghostMapDecl:gm {: RESULT = gm;:}
+                    ;
+//structs
+userDefinedBlock    ::= USERDEFINED LBRACE userDefinedList RBRACE {:;:};
+userDefinedList     ::= {:;:}
+                        | userDefinedList userDefinedDecl  {:;:};
+userDefinedDecl     ::= STRUCT IDENTIFIER:id LBRACE structFieldList:l RBRACE {:
+                            Struct st = new Struct(id,l);
+                            userDefinedTypes.put(id, st);
+                            RESULT = st;:}
+                        | UNINTERP_SORT IDENTIFIER:i {:Tag.UserDefined.UninterpretedSort uis = new Tag.UserDefined.UninterpretedSort(i);
+                            userDefinedTypes.put(i, uis);
+                            RESULT = uis;:};
+
+structFieldList ::= IDENTIFIER:id COLON parsedTag:t {:Field f = new Field(id,t); List<Field> fl = new ArrayList<>(); fl.add(f); RESULT = fl;:}
+                    | structFieldList:fl COMMA IDENTIFIER:id COLON parsedTag:t {:fl.add(new Field(id,t)); RESULT = fl;:}
+                    ;
+
+//axioms
+axiomsBlock     ::= AXIOMS LBRACE UfAxioms:l RBRACE {:RESULT = new UfAxioms(l);:};
+
+UfAxioms        ::= {:RESULT = new LinkedHashMap<>();:}
+                    | UfAxioms:ufAxioms IDENTIFIER:ufName axiomsList:axiomsList {:
+                        FunctionInScope.UF uf = getDeclaredUf(ufName);
+                        ufAxioms.put(uf, axiomsList); RESULT = ufAxioms ;
+                        :};
+axiomsList      ::= {: RESULT = new ArrayList<>();:}
+                    | axiomsList:l axiomDecl:ad {:l.add(ad); RESULT = l;:}
+                    ;
+
+axiomDecl       ::=  AXIOM expression:e {: RESULT = new TACAxiom(e);:};
+
+
+varDeclList     ::= {: RESULT = new ArrayList<>();:}
+                    | varDeclList:l varDecl:v {:l.add(v); RESULT = l;:}
+                    ;
+
+/**
+*after calling this, need to call to removeFromScope
+*/
+localVarList    ::= varDeclList:l {: addToScope(l); RESULT = l;:};
+
+QVarsList       ::= QVARS LP localVarList:l RP {:RESULT = l;:};
+
+fieldToValue    ::= IDENTIFIER:fieldName expression:value {: Map<String,TACExpr> m = new LinkedHashMap<>(); m.put(fieldName, value); RESULT = m; :}
+                    | fieldToValue:m IDENTIFIER:fieldName expression:value {: m.put(fieldName, value); RESULT = m; :}
+                    ;
+
+expression      ::= Symbol:s {:RESULT = TACExpr.Sym.Companion.invoke(s);:}
+                    | EXPRESSION_FUNC:funcName LP expressionList:el RP {:
+                        Debug("expression function", funcName);
+                        RESULT = TACExprParserKt.parseExprFunction(funcName, el);:}
+                    | APPLYFN LP IDENTIFIER:func COLON BIF expressionList:expList RP {:
+                            RESULT = TACExpr.Apply.Companion.invoke(
+                                getDeclaredBif(func),
+                                expList,
+                                null);:}
+                    | FORALL LP QVarsList:qList expression:e RP {:
+                        removeFromScope(qList);
+                        RESULT = new TACExpr.QuantifiedFormula(true /*forall*/, qList, e, null);:}
+                    | EXISTS LP QVarsList:qList expression:e RP {:
+                        removeFromScope(qList);
+                        RESULT = new TACExpr.QuantifiedFormula(false /*!forall*/, qList, e, null);:}
+                    | UNCONSTRAINED LP parsedTag:t RP {: RESULT = TACExprFactUntyped.INSTANCE.Unconstrained(t); :}
+                    | SIMPLEHASH LP expression:e expressionList:el JSON:hashFamily RP {: RESULT = TACExprFactUntyped.INSTANCE.SimpleHash(e, el,
+                                           TACSerializationToolsKt.jsonToHashFamily(hashFamily)); :}
+                    | MAPDEFINITION:m LP localVarList:l ARROW expression:definition parsedTag:t RP {:
+                        removeFromScope(l);
+                        List<TACExpr.Sym.Var> lVarExp = TACExprParserKt.varListToExpr(l);
+                        RESULT = new TACExpr.MapDefinition(lVarExp, definition, (tac.Tag.Map)t);:}
+                    | ANNOTATION_EXP LP expression:e JSON:json RP {:
+                        RESULT = TACExprParserKt.parseAnnotationExpr(e, json);
+                    :}
+                    ;
+
+expressionList  ::= {:List<TACExpr> l = new ArrayList<>(); RESULT = l;:}
+                    | expressionList:l expression:e {:l.add(e);RESULT = l;:}
+                    ;
+//meta
+metasBlock      ::= METAS JSON:json {:Debug("metas block");RESULT = json;:};
+
+
+//program
+program         ::= PROGRAM LBRACE blockList:bl RBRACE {: RESULT = bl; :};
+blockList       ::= blockDeclaration:bd LBRACE blockContent:bc RBRACE {:
+                        Map<NBId,  List<Function<TACCmdParserImplementation, TACCmd.Simple>>> blocks = new LinkedHashMap<>();
+                        blocks.put(bd.getKey(), bc);
+                        Map<NBId, Set<NBId>> graph = new LinkedHashMap<>(); graph.put(bd.getKey(), bd.getValue());
+                        RESULT = new ProgramCupOutput(blocks, graph); :}
+                    | blockList:bl blockDeclaration:bd LBRACE blockContent:bc RBRACE{: bl.getGraph().put(bd.getKey(), bd.getValue());
+                                                                                        bl.getBlocks().put(bd.getKey(), bc);
+                                                                                        RESULT = bl;:};
+
+parsedBlockNumber     ::=  BLOCKID:block  {: RESULT = tac.NBId.Companion.parseString(block); :};
+
+successorsList  ::= {: List l = new ArrayList<NBId>(); RESULT = l;:}
+                    | parsedBlockNumber:nbid {:List l = new ArrayList<NBId>(); l.add(nbid); RESULT =l; :}
+                    | parsedBlockNumber:nbid COMMA successorsList:l  {:l.add(nbid); RESULT = l;:}
+                    ;
+
+blockDeclaration ::= BLOCK parsedBlockNumber:nbid {:RESULT = new AbstractMap.SimpleEntry(nbid, new HashSet<>());:}
+                     | BLOCK parsedBlockNumber:nbid SUCCESORS LSQB successorsList:s RSQB {:
+                        RESULT = new AbstractMap.SimpleEntry<>(nbid, new HashSet(s));:}
+                     ;
+
+
+blockContent    ::= command:c {: List<Function<TACCmdParserImplementation,TACCmd.Simple>> l = new ArrayList<>(); l.add(c); RESULT = l;:}
+                    | blockContent:bc command:c {: bc.add(c); RESULT=bc; :}
+                    ;
+
+cmdArgumentsList ::=  {:RESULT = new ArrayList<CmdArguments>();:}
+                       | cmdArgumentsList:l expression:e {:l.add(CmdArguments.Companion.lift(e)); RESULT=l;:}
+                       | cmdArgumentsList:l STRING_LITERAL:str {:l.add(CmdArguments.Companion.lift(str)); RESULT=l;:}
+                       | cmdArgumentsList:l parsedBlockNumber:nbid {:l.add(CmdArguments.Companion.lift(nbid)); RESULT=l;:}
+                       | cmdArgumentsList:l JSON:json {:l.add(CmdArguments.Companion.lift(json)); RESULT=l;:}
+                       ;
+
+//var predeclared in type-scope referenced here only by name+ callId
+varName         ::= IDENTIFIER:id {:RESULT = getDeclaredVar(id);:}
+                   | IDENTIFIER:id AT NUMBER:n {:RESULT = getDeclaredVar(id+"@"+n);:};
+
+varWithMetaRef ::=  varName:v {:RESULT = v;:}
+                    | varName:v COLON NUMBER:metaref {:RESULT = TACSerializationToolsKt.varWithMetaRefIndex(v, metaref); :}
+                    ;
+
+
+command         ::= COMMAND_NAME:c cmdArgumentsList:l {:RESULT = tacParserCmd -> tacParserCmd.parseCmd(c, l, null);:}
+                    | COMMAND_NAME:c COLON NUMBER:cmdMetaRef cmdArgumentsList:l {: RESULT = tacParserCmd -> tacParserCmd.parseCmd(c,l,cmdMetaRef);:}
+                    ;
+
+Symbol          ::= HEX:h {:RESULT = TACSymbol.Companion.lift(new BigInteger(h.substring(2),16));:}
+                    | HEX:h LP parsedTag:t RP {:RESULT = new TACSymbol.Const(new BigInteger(h.substring(2),16), t);:}
+                    | BOOL:b {:RESULT = TACSymbol.Companion.lift(Boolean.parseBoolean(b));:}
+                    | varWithMetaRef:v {:RESULT = v;:}
+                    ;

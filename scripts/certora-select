@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+
+import sys
+import subprocess
+
+"""
+Uninstall all pre-existing certora-cli* versions and installs the requested version of certora-cli-beta-mirror if
+it exists.
+"""
+
+
+CERTORA_CLI_BETA_MIRROR = "certora-cli-beta-mirror"
+
+def run_pip_command(command):
+    """Run a pip command using subprocess, showing only errors and returning the result."""
+    result = subprocess.run(
+        [sys.executable, "-m", "pip"] + command,
+        stdout=subprocess.PIPE,   # Capture standard output
+        stderr=subprocess.PIPE,   # Capture standard error
+        text=True                 # Get output as text
+    )
+    if result.returncode != 0:
+        # Print error message if command failed
+        print(f"Error running pip command: {result.stderr}")
+        sys.exit(result.returncode)
+    return result.stdout.strip()  # Return the standard output of the command
+
+def uninstall_other_certora_cli_packages(keep_version, installed_packages):
+    # Find all packages that start with 'certora-cli' but exclude the correct version of certora-cli-beta-mirror
+    certora_packages = [
+        pkg.split('==')[0]
+        for pkg in installed_packages.splitlines()
+        if pkg.startswith('certora-cli') and pkg != f'{CERTORA_CLI_BETA_MIRROR}=={keep_version}'
+    ]
+
+    if certora_packages:
+        for package in certora_packages:
+            print(f"Uninstalling {package}...")
+            run_pip_command(['uninstall', '-y', package])
+        print("Successfully uninstalled all other certora-cli packages.")
+    else:
+        print("No other certora-cli packages are currently installed.")
+
+def install_version(version):
+    """Install the specified version of certora-cli-beta-mirror."""
+    print(f"Installing {CERTORA_CLI_BETA_MIRROR} version {version}...")
+    run_pip_command(['install', f'{CERTORA_CLI_BETA_MIRROR}=={version}'])
+    print(f"Successfully installed {CERTORA_CLI_BETA_MIRROR} version {version}.")
+
+def certora_select(version):
+    """Ensure only the specified version of certora-cli-beta-mirror is installed."""
+    installed_packages = run_pip_command(['freeze'])
+
+    # Uninstall other certora-cli packages but keep the correct version of certora-cli-beta-mirror
+    uninstall_other_certora_cli_packages(version, installed_packages)
+
+    # no one will run pip in the background... why is chat so obsessive about it...
+
+    # Check if the desired version of certora-cli-beta-mirror is installed
+    if f'{CERTORA_CLI_BETA_MIRROR}=={version}' in installed_packages:
+        print(f"{CERTORA_CLI_BETA_MIRROR} version {version} is already installed.")
+    else:
+        print(f"{CERTORA_CLI_BETA_MIRROR} version {version} is not installed. Installing now...")
+        install_version(version)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: certora-select <version>")
+        sys.exit(1)
+
+    version = sys.argv[1]
+    certora_select(version)

@@ -1,0 +1,4 @@
+Refusing to allow delegation from WithCollision into DelegateStorage
+Allowing delegation from Test into DelegateStorage
+Allowing delegation from Test into DelegateMixin1
+Allowing delegation from Test into DelegateMixin2

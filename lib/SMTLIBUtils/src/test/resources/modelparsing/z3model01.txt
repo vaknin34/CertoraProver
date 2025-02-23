@@ -1,0 +1,112 @@
+(model
+  (define-fun L1019@11_2 () Int
+    38)
+  (define-fun certoraInput_1 () Int
+    1290822592622052280552246370112501479342985393472958578317902134200590409255)
+  (define-fun certoraAndSmallPart11 () Int
+    47879271)
+  (define-fun i_0 () Int
+    0)
+  (define-fun avLHScertFunRes343_0 () Int
+    0)
+  (define-fun tacCalldatasize@11_0 () Int
+    36)
+  (define-fun avLHScertFunRes392_0 () Int
+    34)
+  (define-fun L1024@11_2 () Int
+    1290822592622052280552246370112501479342985393472958578317902134200590409255)
+  (define-fun certoraAndSmallPart22 () Int
+    47879271)
+  (define-fun pos_0 () Int
+    38)
+  (define-fun L1021@11_1 () Int
+    32)
+  (define-fun L1024@11_3 () Int
+    47879271)
+  (define-fun certoraTmp_1 () Bool
+    true)
+  (define-fun tacTmp_1 () Bool
+    true)
+  (define-fun lastMsgSig_1 () Int
+    1290822592622052280552246370112501479342985393472958578317902134200590409255)
+  (define-fun tmpLastMsgSig_1 () Bool
+    true)
+  (define-fun certoraInput_2 () Int
+    47879271)
+  (define-fun certoraIsMethod_1 () Bool
+    true)
+  (define-fun certoraParam0_1 () Int
+    38)
+  (define-fun certoraEqParam_1 () Bool
+    true)
+  (define-fun tacAddress@11_0 () Int
+    0)
+  (define-fun tacTmp@11_2 () Bool
+    true)
+  (define-fun tacCallvalue@11_0 () Int
+    0)
+  (define-fun L1023@11_2 () Bool
+    true)
+  (define-fun L1020@11_2 () Bool
+    true)
+  (define-fun L1020@11_1 () Bool
+    false)
+  (define-fun L1023@11_1 () Bool
+    true)
+  (define-fun OK_77_0_0_0_0_0_0_0 () Bool
+    false)
+  (define-fun certoraAssume_1 () Bool
+    true)
+  (define-fun OK_0_0_0_0_0_0_0_0 () Bool
+    false)
+  (define-fun certoraAssert_4_1 () Bool
+    false)
+  (define-fun datasizeCheck_1 () Bool
+    false)
+  (define-fun OK_0_0_0_0_11_0_51_0 () Bool
+    false)
+  (define-fun ReachabilityCertora77_0_0_0_0_0_0_0_0 () Bool
+    true)
+  (define-fun ReachabilityCertora0_0_0_0_11_0_51_0_0 () Bool
+    true)
+  (define-fun ReachabilityCertora0_0_0_0_0_0_0_0_0 () Bool
+    true)
+  (define-fun uninterp_mul ((x!0 Int) (x!1 Int)) Int
+    (ite (and (= x!0 3) (= x!1 3)) 9
+    (ite (and (= x!0 9) (= x!1 3)) 27
+    (ite (and (= x!0 47879271)
+              (= x!1
+                 26959946667150639794667015087019630673637144422540572481103610249216))
+      0
+      81))))
+  (define-fun uninterp_div ((x!0 Int) (x!1 Int)) Int
+    47879271)
+  (define-fun slct_tacCalldatabuf@11_0 ((x!0 Int)) Int
+    (ite (= x!0 4) 38
+      1290822592622052280552246370112501479342985393472958578317902134200590409255))
+  (define-fun uninterp_bwand ((x!0 Int) (x!1 Int)) Int
+    7719)
+  (define-fun slct_tacS!0_1 ((x!0 Int)) Int
+    (ite (= x!0
+            1852673427797059126777135760139006525652319754650249024631321344126610074239584)
+      11
+      12))
+  (define-fun uninterp_bwlshr ((x!0 Int) (x!1 Int)) Int
+    47879271)
+  (define-fun hash2linear ((x!0 Int) (x!1 Int)) Int
+    (ite (and (= x!0 38) (= x!1 0))
+      1852673427797059126777135760139006525652319754650249024631321344126610074239584
+    (ite (and (= x!0 37) (= x!1 0))
+      1852673427797059126777135760139006525652319754650249024631321344126610074239568
+    (ite (and (= x!0 39) (= x!1 0))
+      1852673427797059126777135760139006525652319754650249024631321344126610074239600
+    (ite (and (= x!0 34) (= x!1 0))
+      1852673427797059126777135760139006525652319754650249024631321344126610074239520
+      (+ 1852673427797059126777135760139006525652319754650249024631321344126610074238976
+         (* 16 x!0)))))))
+  (define-fun slct_tacS!0_0 ((x!0 Int)) Int
+    (ite (= x!0
+            1852673427797059126777135760139006525652319754650249024631321344126610074239584)
+      13
+      12))
+)

@@ -1,0 +1,37 @@
+# http://editorconfig.org
+
+[*]
+charset = utf-8
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+max_line_length = 120
+tab_width = 4
+trim_trailing_whitespace = true
+curly_bracket_next_line = false
+
+[{*.kt,*.kts}]
+ij_kotlin_packages_to_use_import_on_demand = java.util.*,datastructures.stdcollections.*,com.certora.collect.*,log.*,utils.*
+
+[{*.bash,*.sh,*.zsh}]
+indent_size = 2
+tab_width = 2
+
+[{*.json,*.yaml,*.yml}]
+indent_size = 2
+
+# Not sure why, but our build.gradle.kts files have tabs, not spaces.
+[build.gradle.kts]
+indent_style = tab
+
+# We enforce python formatting in CI; calling these settings out separately so they remain constant even if we
+# change things above
+[*.py]
+charset = utf-8
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+max_line_length = 120
+tab_width = 4
+trim_trailing_whitespace = true
+curly_bracket_next_line = false

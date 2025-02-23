@@ -1,0 +1,19 @@
+{
+	"assertMessages": {},
+	"rules": {
+		"envfreeFuncsStaticCheck": {
+			"FAIL": [],
+			"SANITY_FAIL": [],
+			"SUCCESS": [
+				"bar()",
+				"baz()",
+				"foo()"
+			],
+			"TIMEOUT": [],
+			"UNKNOWN": []
+		},
+		"r": "UNKNOWN",
+		"r2": "UNKNOWN",
+		"r3": "UNKNOWN"
+	}
+}

@@ -1,0 +1,3 @@
+# hide CallTraceTest artifacts from github diff by default
+**/*.json   linguist-generated
+**/*.tac    linguist-generated

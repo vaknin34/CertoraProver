@@ -1,0 +1,27 @@
+{
+  "rules": {
+    "envfreeFuncsStaticCheck": {
+      "FAIL": [],
+      "SANITY_FAIL": [],
+      "SUCCESS": [
+        "foo(bool)",
+        "callFooFromContract(bool)",
+        "canRevert(bool)",
+        "callSummarizeMe(bool)"
+      ],
+      "TIMEOUT": [],
+      "UNKNOWN": []
+    },
+    "withRevertCanRevert": "SUCCESS",
+    "codeAfterNonRevertingCallUnreachable": "SUCCESS",
+    "withRevertAlwaysReverts": "FAIL",
+    "contractFunctionVersionForComparison": "SUCCESS",
+    "withRevertRevertsInCorrectCase": "SUCCESS",
+    "deeperWithRevertCanRevert": "SUCCESS",
+    "deeperWithRevertRevertsInCorrectCase": "SUCCESS",
+    "deeperWithRevertContractFun": "SUCCESS",
+    "moreIndirectRevertCanRevert": "SUCCESS",
+    "moreIndirectRevertRevertsCorrectly": "SUCCESS",
+    "callAsArgInSummary": "SUCCESS"
+  }
+}
