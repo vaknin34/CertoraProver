@@ -1,4 +1,0 @@
-(
-  (foo (lambda ((_arg_1 Int)) (ite (= _arg_1 12) (- 1) 0)))
-  (bar (lambda ((BOUND_VARIABLE_405 Int)) 0))
-)

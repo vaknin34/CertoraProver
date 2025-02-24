@@ -1,1 +1,0 @@
-This directory contains regression tests for the Prover.

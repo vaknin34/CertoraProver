@@ -1,2 +1,0 @@
-Had an exception while verifying the rule 'r':
-`returnsBool()` is a non-void function, yet it  was summarized with the void summary `voidCVL()`. Summaries of non-void functions must return the same type of value(s) as the functions they summarize.

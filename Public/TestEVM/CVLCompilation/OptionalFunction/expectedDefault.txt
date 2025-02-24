@@ -1,6 +1,0 @@
-Had an exception while verifying the rule 'r':
-The function `nonExisting` was marked `optional` in the spec file, yet this rule tried to inline it (perhaps within some function summary?), so this rule cannot run.
-Had an exception while verifying the rule 'r2':
-The function `nonExisting` was marked `optional` in the spec file, yet this rule tried to inline it (perhaps within some function summary?), so this rule cannot run.
-Had an exception while verifying the rule 'r3':
-The function `nonExistingMultipleReturn` was marked `optional` in the spec file, yet this rule tried to inline it (perhaps within some function summary?), so this rule cannot run.

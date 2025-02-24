@@ -1,8 +1,0 @@
-(set-logic AUFLIA)
-(declare-const b Bool)
-(declare-const arr (Array Int Int))
-(declare-const c Int)
-(declare-const i Int)
-(assert (= c ((as ite Int) b c c)))
-(assert (= c ((as select Int) arr i)))
-(check-sat)

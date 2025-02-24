@@ -1,3 +1,0 @@
-rule hasDelegateCalls() {
-    assert false;
-}

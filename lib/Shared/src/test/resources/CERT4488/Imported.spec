@@ -1,1 +1,0 @@
-using ContractA as A;

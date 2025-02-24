@@ -1,8 +1,0 @@
-{
-	"assertMessages": {},
-	"rules": {
-		"callAddressArray": "SUCCESS",
-		"callIntArray": "SUCCESS",
-		"callNestedArray": "SUCCESS"
-	}
-}
